@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus | Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navigation">
+        <div class="logo-area">
+            <div class="logo"></div>
+            <span class="site-title">FOCUS</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" class="nav-link active">DASHBOARD</a>
+            <a href="tools.html" class="nav-link">TOOLS</a>
+            <a href="modules.html" class="nav-link">MODULE</a>
+            <a href="quiz.html" class="nav-link">QUIZ</a>
+            <a href="community.html" class="nav-link">COMMUNITY</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+        
+        <section class="main-content">
+
+            <div class="hero-section slideshow-container">
+                
+                <div class="slide fade" style="display: block;">
+                    <h2 class="slide-title">Prioritize Better: The 80/20 Principle 🔑</h2>
+                    <p class="slide-text">Focus 80% of your effort on the 20% of tasks that produce the most significant results (your high-value assignments).</p>
+                </div>
+
+                <div class="slide fade">
+                    <h2 class="slide-title">Combat Burnout: Schedule a Digital Detox 🧘</h2>
+                    <p class="slide-text">Mental health check: Dedicate at least 30 minutes a day to screen-free activities (reading, walking, stretching). Your brain needs rest!</p>
+                </div>
+                
+                <div class="slide fade">
+                    <h2 class="slide-title">Master Your Time: The Two-Minute Rule ⏱️</h2>
+                    <p class="slide-text">If a task takes less than two minutes to complete, do it immediately! Don't let small tasks clutter your to-do list.</p>
+                </div>
+                
+                <div style="text-align:center" class="slide-dots-container">
+                    </div>
+
+            </div>
+            
+            <h2 class="section-title">Your personalized path</h2>
+            
+            <section class="interactive-section">
+                
+                <div class="quiz-card">
+                    <div class="quiz-info">
+                        <img src="quiz_icon.png" alt="Quiz Icon" class="quiz-illustration"> 
+                        <div class="quiz-text">
+                            <h3>Diagnosed Quiz</h3>
+                            <p>Find your focus style</p>
+                        </div>
+                    </div>
+                    <a href="quiz.html" class="btn btn-explore">Explore</a>
+                </div>
+                
+            </section>
+            
+            <div class="module-links">
+                <div class="module-btn">
+                    <p>Time Management</p>
+                    <a href="modules.html#pomodoro-technique" class="btn btn-go">Go</a>
+                </div>
+                <div class="module-btn">
+                    <p>Focus Methods</p>
+                    <a href="modules.html#eat-the-frog" class="btn btn-go">Go</a>
+                </div>
+                <div class="module-btn">
+                    <p>Study Methods</p>
+                    <a href="modules.html#active-recall" class="btn btn-go">Go</a>
+                </div>
+            </div>
+
+        </section>
+
+        <aside class="sidebar">
+            
+            <div class="sidebar-box date-time-box">
+                <p id="current-date-time">Loading Date & Time...</p>
+            </div>
+
+            <div class="sidebar-box daily-planner-box">
+                <h3 class="box-title">Daily Planner</h3>
+                <div class="planner-summary">
+                    <p>Total Assignments: <span id="dashboardAssignCount">0</span></p>
+                    <p>Total Tests/Quizzes: <span id="dashboardTestCount">0</span></p>
+                </div>
+            </div>
+
+            <div class="sidebar-box task-list-box">
+                <h3 class="box-title">Task List</h3>
+                <ul id="task-list">
+                    </ul>
+            </div>
+            
+            <div class="sidebar-box productivity-tools-box">
+                <h3 class="box-title">Productivity Tools</h3>
+                <div class="productivity-icons">
+                    
+                    <a href="tools.html" style="text-decoration: none; color: inherit;">
+                        <div class="tool-item">
+                            <img src="timer.png" alt="Pomodoro Timer" class="tool-icon">
+                            <p>Pomodoro Timer</p>
+                        </div>
+                    </a>
+                    
+                    <a href="tools.html" style="text-decoration: none; color: inherit;">
+			<div class="tool-item">
+                        <img src="blocker.png" alt="Distraction Blocker" class="tool-icon">
+                        <p>Distraction Blocker</p>
+                    </div>
+		<a href="time_management.html" style="text-decoration: none; color: inherit;">
+                    <div class="tool-item">
+                        <img src="goal_tracker.png" alt="Goal Tracker" class="tool-icon">
+                        <p>Goal Tracker</p>
+                    </div>
+                </div>
+               </div>
+
+        </aside>
+
+    </main>
+
+    <script>
+        function loadPlannerSummary() {
+            // Retrieve the counts stored by the Time Management planner
+            // They will be loaded as 0 if the time_management page hasn't saved data yet
+            const assignCount = localStorage.getItem('globalAssignCount') || 0;
+            const testCount = localStorage.getItem('globalTestCount') || 0;
+
+            // Update the dashboard elements
+            const assignEl = document.getElementById('dashboardAssignCount');
+            const testEl = document.getElementById('dashboardTestCount');
+
+            if (assignEl) assignEl.textContent = assignCount;
+            if (testEl) testEl.textContent = testCount;
+        }
+
+        // Run the function when the dashboard loads
+        loadPlannerSummary();
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

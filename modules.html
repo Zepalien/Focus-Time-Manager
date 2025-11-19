@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus | Methods Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Define custom styles based on the user's color scheme from images */
+        :root {
+            --dark-blue: #2F3E50;       /* Main background color */
+            --mid-blue: #3E536E;        /* Card/Content background color (used for dashboard) */
+            --accent-teal: #49B2AA;     /* Primary Accent color / Content blocks in explorer */
+            --explorer-bg: #273A53;     /* Darker blue for the main content area */
+            --text-light: #F0F0F0;
+            --accent-yellow: #FFC300;
+        }
+
+        /* Set Poppins and primary background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-blue);
+        }
+
+        /* 1. Side Panel Styling */
+        .sidebar-panel {
+            background-color: var(--accent-teal);
+            width: 300px;
+            min-width: 250px;
+            flex-shrink: 0;
+            padding: 20px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Styling for the main Module Categories */
+        .module-category-button {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 15px 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: 700; /* Bolder for main categories */
+            text-align: left;
+            transition: background-color 0.2s, transform 0.1s;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
+        }
+
+        .module-category-button:hover {
+            background-color: #3E536E; /* mid-blue */
+        }
+        
+        .module-category-button.active {
+            background-color: var(--accent-yellow);
+            color: var(--dark-blue);
+            font-weight: 800;
+        }
+
+        /* Styling for the Focus Methods (sub-buttons) */
+        .method-button {
+            background-color: var(--mid-blue); /* Lighter dark blue */
+            color: var(--text-light);
+            padding: 10px 15px 10px 30px; /* Indent slightly */
+            margin-bottom: 8px;
+            border-radius: 6mm;
+            font-weight: 500;
+            text-align: left;
+            transition: background-color 0.2s, transform 0.1s;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .method-button:hover {
+            background-color: #4A607C; /* Slightly lighter mid-blue */
+        }
+        
+        .method-button.active {
+            background-color: var(--accent-yellow);
+            color: var(--dark-blue);
+            font-weight: 700;
+        }
+        
+        .explore-btn {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .explore-btn:hover {
+            background-color: var(--mid-blue);
+        }
+
+        /* 2. Content Grid Styling - NEW STRUCTURE */
+        .content-grid {
+            background-color: var(--explorer-bg);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        /* Main area title */
+        #method-content-grid h1 {
+            color: var(--accent-yellow);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+
+        /* 3. Content Cards */
+        .info-card, .video-card, .template-card, .animation-card, .module-welcome-card {
+            color: var(--dark-blue);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Specific card color overrides for visual flair */
+        .info-card { background-color: white; }
+        .video-card { background-color: #E0F2F1; } 
+        .template-card { background-color: #FFFBEB; } 
+        .animation-card { background-color: #F3E5F5; } 
+        /* Styling for the large welcome modules shown in the diagram */
+        .module-welcome-card { 
+            background-color: var(--accent-teal); 
+            color: var(--dark-blue);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .module-welcome-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        /* Custom welcome page styling */
+        .general-welcome-card {
+            background-color: var(--accent-teal);
+            color: var(--dark-blue);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        .general-welcome-card h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .general-welcome-card p {
+            font-size: 1.25rem;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        .general-welcome-card .module-link-block {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        .general-welcome-card .module-link-block:hover {
+            background-color: var(--mid-blue);
+        }
+
+
+        .card-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent-teal);
+            border-bottom: 2px solid rgba(73, 178, 170, 0.2);
+            padding-bottom: 5px;
+        }
+        .card-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* New Styling for Engaging Content */
+        .takeaway-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        
+        /* NEW STYLING FOR TEMPLATE LIST */
+        .template-list {
+            background-color: rgba(255, 195, 0, 0.1);
+            padding: 10px 10px 10px 20px; 
+            border-radius: 4px;
+            list-style-type: decimal; 
+            font-size: 0.95rem;
+        }
+        .template-list li {
+            margin-bottom: 8px;
+        }
+        
+        /* Styling for the Video Link */
+        .video-card a.video-link-content {
+            background-color: white; 
+            border: 2px solid var(--accent-teal);
+        }
+        .video-card a.video-link-content:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+
+        /* 4. Responsive Layout */
+        @media (min-width: 1024px) {
+            .main-layout {
+                display: flex;
+                min-height: calc(100vh - 70px); 
+            }
+            /* Grid for Method Content: 2 columns */
+            .main-content-area {
+                display: grid;
+                grid-template-columns: 2fr 1fr; 
+                gap: 20px;
+            }
+            .main-info-section {
+                grid-column: 1 / 2; 
+            }
+            .side-tools-section {
+                grid-column: 2 / 3; 
+            }
+            
+            /* Grid for Welcome Content: matches the user diagram */
+            .welcome-content-area {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: auto 1fr;
+                gap: 20px;
+                min-height: 70vh;
+            }
+            .welcome-content-area .video-carousel-placeholder {
+                grid-column: span 1;
+                height: 150px;
+            }
+            .welcome-content-area .animation-placeholder {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+                height: 250px;
+            }
+            .welcome-content-area .info-content-placeholder {
+                grid-column: 2 / 4;
+                grid-row: 2 / 3;
+            }
+            .welcome-content-area .info-content-placeholder h3 {
+                color: var(--dark-blue);
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            .sidebar-panel {
+                width: 100%;
+                padding: 20px;
+            }
+            .content-grid {
+                padding: 20px;
+            }
+            /* Horizontal scrolling for button lists on mobile */
+            .button-list {
+                display: flex;
+                overflow-x: auto;
+                gap: 10px;
+                padding-bottom: 10px;
+            }
+            .module-category-button, .method-button {
+                flex-shrink: 0;
+                width: auto;
+                margin-bottom: 0;
+            }
+            .main-content-area, .welcome-content-area {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            .welcome-content-area .video-carousel-placeholder, 
+            .welcome-content-area .animation-placeholder, 
+            .welcome-content-area .info-content-placeholder {
+                min-height: 150px; /* Ensure visibility on mobile */
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark-blue">
+
+    <!-- 1. NAVIGATION BAR -->
+    <header class="flex justify-between items-center px-4 md:px-10 py-4 shadow-lg sticky top-0 z-50" style="background-color: var(--dark-blue);">
+        <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full mr-2" style="background-color: var(--accent-teal);"></div>
+            <span class="text-xl font-bold tracking-wider" style="color: var(--text-light);">FOCUS</span>
+        </div>
+        <nav class="flex space-x-4 md:space-x-8">
+            <a href="index.html" class="text-gray-300 hover:text-yellow-400 text-sm md:text-base">DASHBOARD</a>
+            <a href="tools.html" class="text-gray-300 hover:text-yellow-400 text-sm md:text-base">TOOLS</a>
+            <a href="modules.html" class="text-yellow-400 font-semibold text-sm md:text-base">MODULE</a>
+            <a href="quiz.html" class="text-gray-300 hover:text-yellow-400 text-sm md:text-base">QUIZ</a>
+            <a href="community.html" class="text-gray-300 hover:text-yellow-400 text-sm md:text-base">COMMUNITY</a>
+        </nav>
+    </header>
+
+    <!-- 2. MAIN LAYOUT CONTAINER (Sidebar + Content) -->
+    <div class="main-layout">
+
+        <!-- LEFT SIDEBAR: Module/Method Buttons -->
+        <aside class="sidebar-panel">
+            <h2 class="text-2xl font-bold mb-5" style="color: var(--text-light);" id="sidebar-title">FOCUS'S MODULES</h2>
+            
+            <div id="module-list" class="button-list flex flex-col">
+                <!-- Buttons generated by JS -->
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-dark-blue/20">
+                <p class="text-xs text-dark-blue mb-2 font-medium">Want a tailored recommendation?</p>
+                <!-- Links directly to the quiz page -->
+                <a href="quiz.html" class="explore-btn text-center block" id="explore-mine-btn">
+                    Explore Mine
+                </a>
+            </div>
+        </aside>
+
+        <!-- RIGHT MAIN AREA: Dynamic Content Grid -->
+        <main class="flex-1 p-5 md:p-10">
+            <div id="method-content-grid" class="content-grid min-h-full">
+                <!-- Content injected here -->
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        // --- 3. JAVASCRIPT LOGIC ---
+
+        /**
+         * Helper function to extract YouTube Video ID from any URL format.
+         */
+        function getYouTubeVideoId(url) {
+            if (!url) return '';
+            const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+            return match ? match[1] : '';
+        }
+
+        /**
+         * Helper function to construct the standard YouTube watch URL.
+         */
+        function getWatchUrl(embedUrl) {
+            const videoId = getYouTubeVideoId(embedUrl);
+            return `https://www.youtube.com/watch?v=${videoId}`;
+        }
+
+        // --- DATA STRUCTURE: Modularized Content ---
+
+        // Specific Focus Method details (These are the actual content pages)
+        const methodsData = {
+            // --- TIME MANAGEMENT PLANNER METHODS ---
+            'pomodoro-technique': {
+                name: "Pomodoro Technique",
+                category: 'time-management',
+                infoTitle: "The Power of Timeboxing",
+                infoText: `The Pomodoro Technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks (5 minutes). This systematic approach helps maintain focus and prevent burnout. After four "pomodoros," you take a longer break (15-30 minutes). This method conditions your brain to treat the timeboxed periods as high-intensity, distraction-free sprints.`,
+                keyTakeaway: "🔑 **Structured Sprints:** Work for 25 minutes, then break for 5 minutes. This rhythm is crucial. The key isn't just the timer; it's the commitment to *only* the task during the work period and *only* resting during the break period.  ",
+                template: 
+                    `// 4-Pomodoro Cycle Template
+                    <ul class="template-list">
+                        <li><strong>Pomodoro 1:</strong> [Task A] (25 min) &rarr; Short Break (5 min)</li>
+                        <li><strong>Pomodoro 2:</strong> [Task B] (25 min) &rarr; Short Break (5 min)</li>
+                        <li><strong>Pomodoro 3:</strong> [Task C] (25 min) &rarr; Short Break (5 min)</li>
+                        <li><strong>Pomodoro 4:</strong> [Task D] (25 min) &rarr; Long Break (25-30 min)</li>
+                    </ul>`,
+                videoTitle: "The Pomodoro Technique Explained",
+                videoUrl: "https://www.youtube.com/embed/H0C55R5B7Gk" 
+            },
+            'eisenhower-matrix': {
+                name: "Eisenhower Matrix (Urgency-Importance)",
+                category: 'time-management',
+                infoTitle: "Prioritizing with Precision",
+                infoText: `The Eisenhower Matrix, or Urgent-Important Matrix, helps you prioritize tasks by sorting them into four quadrants: **Urgent/Important (Do It Now), Not Urgent/Important (Schedule It), Urgent/Not Important (Delegate It), and Not Urgent/Not Important (Eliminate It).** This method forces you to distinguish between genuine productivity (Important tasks) and simple busyness (Urgent but Not Important tasks). `,
+                keyTakeaway: "🔑 **Stop Being Busy, Start Being Productive:** Most people spend too much time in the Urgent/Not Important quadrant (answering emails, reacting to messages). Move your focus to the **Not Urgent/Important** quadrant—this is where strategic planning, skill development, and Deep Work happen.",
+                template: 
+                    `// Matrix Application Template
+                    <ul class="template-list">
+                        <li><strong>Q1 (Do Now):</strong> [Project Deadline]</li>
+                        <li><strong>Q2 (Schedule):</strong> [Exercise, Learn New Skill]</li>
+                        <li><strong>Q3 (Delegate/Minimize):</strong> [Unnecessary Meeting, Interruptions]</li>
+                        <li><strong>Q4 (Eliminate):</strong> [Excessive Social Media, Trivial Tasks]</li>
+                    </ul>`,
+                videoTitle: "The Eisenhower Matrix: How to be Super Productive",
+                videoUrl: "https://www.youtube.com/embed/v9qXy72tP0Y"
+            },
+            
+            // --- FOCUS METHOD METHODS (CORRECTED) ---
+            'eat-the-frog': {
+                name: "Eat the Frog",
+                category: 'focus-method', 
+                infoTitle: "Eliminate Procrastination Instantly",
+                infoText: `The "Eat the Frog" method is based on a quote attributed to Mark Twain: "Eat a live frog first thing in the morning and nothing worse will happen to you the rest of the day." The frog is your biggest, most important task—the one you are most likely to put off. By tackling it first, you build incredible momentum and eliminate the psychological stress of having that difficult task hanging over your head.`,
+                keyTakeaway: "🔑 **Kill Your Procrastination:** If it's hard, do it first. Every day, identify that one high-impact, difficult task and tackle it before you check email, messages, or social media. That single win powers your entire day.",
+                template: 
+                    `// Set your daily Frog (High-Impact Task)
+                    <ul class="template-list">
+                        <li><strong>Frog:</strong> [Drafting Thesis Abstract]</li>
+                        <li><strong>Timebox:</strong> [8:00 AM - 10:00 AM]</li>
+                        <li><strong>Rule:</strong> Nothing else happens until the Frog is eaten.</li>
+                    </ul>`,
+                videoTitle: "Eat The Frog: How to Stop Procrastinating (Animated)",
+                videoUrl: "https://www.youtube.com/embed/j7sT3J6U4S0" 
+            },
+            'deep-work': {
+                name: "Deep Work",
+                category: 'focus-method', 
+                infoTitle: "Master Focus, Master Complexity",
+                infoText: `Deep Work, coined by Cal Newport, refers to the ability to focus without distraction on a cognitively demanding task. It’s a skill that allows you to quickly master complicated information and produce better results in less time. This method requires establishing strict boundaries: no internet, no notifications, and a dedicated time block (often 90-120 minutes).`,
+                keyTakeaway: "🔑 **Maximize Output Quality:** The modern world is distracting. Deep Work is your superpower to produce elite results. You're not just working longer; you're working at the highest level of cognitive intensity, making genuine progress.",
+                template: 
+                    `// Schedule your Deep Dive Session
+                    <ul class="template-list">
+                        <li><strong>Duration:</strong> 120 Minutes (Uninterrupted)</li>
+                        <li><strong>Task:</strong> [Analyze Data Set for Report]</li>
+                        <li><strong>Environment Lock:</strong> Phone in airplane mode, email closed, door shut. Treat it like a creative sprint.</li>
+                    </ul>`,
+                videoTitle: "Deep Work - Short Explanation",
+                videoUrl: "https://www.youtube.com/embed/GBH-QVS6Mtc" 
+            },
+            'the-golden-hour': {
+                name: "The Golden Hour",
+                category: 'focus-method', 
+                infoTitle: "Optimize Work with Your Bio-Rhythm",
+                infoText: `The Golden Hour (or 'Peak Hour') strategy involves identifying the time of day when your mental energy is naturally highest (usually 1-3 hours after waking). You reserve this time exclusively for your most difficult, highest-impact creative or analytical work. By matching the difficulty of the task to your peak energy levels, you maximize efficiency and minimize effort.`,
+                keyTakeaway: "🔑 **Work Smarter, Not Harder:** Don't waste your peak mental energy on low-value tasks like email. Protect the 60-90 minutes when your brain is naturally sharpest and dedicate it *only* to creative problem-solving or deep thinking.",
+                template: 
+                    `// Align task difficulty with energy levels
+                    <ul class="template-list">
+                        <li><strong>Peak Time (Golden Hour):</strong> [7:30 AM - 9:00 AM] &rarr; Task: [Concept Generation]</li>
+                        <li><strong>Trough Time (Post-Lunch):</strong> [2:00 PM - 3:00 PM] &rarr; Task: [Filing/Scheduling/Emails]</li>
+                        <li><strong>Monitor:</strong> Did your energy match the task today? Adjust tomorrow.</li>
+                    </ul>`,
+                videoTitle: "Discover Your PEAK Productivity Hours in 2025!",
+                videoUrl: "https://www.youtube.com/embed/JjvXDVCt7u8"
+            },
+            
+            // --- STUDY METHOD METHODS ---
+            'active-recall': {
+                name: "Active Recall",
+                category: 'study-method',
+                infoTitle: "Active Recall Method",
+                infoText: `Active Recall involves actively retrieving information from your memory rather than passively rereading material. Instead of highlighting, ask yourself questions and try to answer them without looking at your notes. This process strengthens memory pathways and highlights areas where your understanding is weak.`,
+                keyTakeaway: "🔑 **Test Yourself Constantly:** Don't just read the book; interrogate it. Turn every heading and bolded term into a question (e.g., 'What are the three stages of mitosis?'). Answering from memory is the most effective way to transfer knowledge to long-term memory.",
+                template: 
+                    `// Active Recall Study Session
+                    <ul class="template-list">
+                        <li><strong>Phase 1 (Read):</strong> Read a chapter/section actively (15 min).</li>
+                        <li><strong>Phase 2 (Recall):</strong> Close the book/notes and write down everything you remember (5 min).</li>
+                        <li><strong>Phase 3 (Check):</strong> Open the material and compare your notes, focusing on missing gaps (5 min).</li>
+                    </ul>`,
+                videoTitle: "Active Recall: Proven Study Technique",
+                videoUrl: "https://www.youtube.com/embed/Z-Jg_M8l4_g"
+            },
+            'spaced-repetition': {
+                name: "Spaced Repetition",
+                category: 'study-method',
+                infoTitle: "The Science of Remembering",
+                infoText: `Spaced Repetition is an evidence-based learning technique that involves reviewing information at increasing intervals of time. Instead of cramming, you spread out your study sessions. The algorithm presents information right before you are about to forget it, optimizing the timing for maximum memory retention.`,
+                keyTakeaway: "🔑 **Outsmart the Forgetting Curve:** Don't review immediately—review when your memory is challenged. If you learn something today, review it tomorrow, then in 3 days, then 7 days, then 14 days. This forces your brain to work harder and lock the information in.",
+                template: 
+                    `// Spaced Repetition Review Schedule
+                    <ul class="template-list">
+                        <li><strong>New Material:</strong> Day 0 (Today)</li>
+                        <li><strong>1st Review:</strong> Day 1 (Tomorrow)</li>
+                        <li><strong>2nd Review:</strong> Day 4</li>
+                        <li><strong>3rd Review:</strong> Day 10</li>
+                        <li><strong>4th Review:</strong> Day 25 (Adapt based on difficulty)</li>
+                    </ul>`,
+                videoTitle: "How to use Spaced Repetition to ace your exams",
+                videoUrl: "https://www.youtube.com/embed/Z-Jg_M8l4_g"
+            }
+        };
+
+        // Main Modules (Categories) - MODIFIED HERE!
+        const modulesConfig = {
+            'time-management': {
+                name: "Time Management Planner",
+                subMethods: ['pomodoro-technique', 'eisenhower-matrix']
+            },
+            'focus-method': { // The Focus Method category now correctly holds its methods
+                name: "Focus Method",
+                subMethods: ['eat-the-frog', 'deep-work', 'the-golden-hour'] 
+            },
+            'study-method': {
+                name: "Study Method",
+                subMethods: ['active-recall', 'spaced-repetition'] // Study methods remain here
+            }
+        };
+
+        const moduleListElement = document.getElementById('module-list');
+        const contentGridElement = document.getElementById('method-content-grid');
+        const sidebarTitle = document.getElementById('sidebar-title');
+
+        let currentActiveCategory = null; 
+
+        // --- Core Rendering Functions ---
+        
+        /** Clears all active states from module and method buttons. */
+        function clearAllActiveStates() {
+            document.querySelectorAll('.module-category-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.method-button').forEach(btn => btn.classList.remove('active'));
+        }
+
+        /**
+         * Renders the dynamic content area for a specific Focus Method (Pic 3 content).
+         */
+        function renderMethodContent(methodId, skipPushState = false) {
+            const data = methodsData[methodId];
+            if (!data) return; 
+            
+            // 1. Update URL Hash for deep linking
+            if (!skipPushState) {
+                history.pushState(null, '', `#${methodId}`);
+            }
+
+            // 2. Clear any old active states first
+            clearAllActiveStates();
+
+            // 3. Find the correct parent category ID from the updated modulesConfig
+            let parentCategory = Object.keys(modulesConfig).find(key => modulesConfig[key].subMethods.includes(methodId));
+            currentActiveCategory = parentCategory;
+            
+            // 4. Re-render sidebar to include sub-methods for this category
+            renderSidebar(currentActiveCategory); 
+            
+            // 5. Update the main content grid 
+            contentGridElement.innerHTML = `
+                <h1 id="current-method-title">${data.name}</h1>
+
+                <div class="main-content-area">
+                    
+                    <!-- LEFT/MAIN COLUMN -->
+                    <div class="main-info-section space-y-5">
+                        
+                        <!-- 1. Core Information Card -->
+                        <div class="info-card">
+                            <h3 class="card-header">CORE PRINCIPLE</h3>
+                            <div class="card-body">
+                                <p>${data.infoText}</p>
+                            </div>
+                        </div>
+
+                        <!-- 2. Actionable Key Takeaway Card (More engaging) -->
+                        <div class="animation-card">
+                            <h3 class="card-header">ACTIONABLE CHEAT SHEET</h3>
+                            <div class="card-body takeaway-text">
+                                ${data.keyTakeaway}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- RIGHT/SIDE COLUMN -->
+                    <div class="side-tools-section space-y-5">
+                        
+                        <!-- 3. Practical Template Card (Styled as a clean list) -->
+                        <div class="template-card">
+                            <h3 class="card-header">PRACTICAL TEMPLATE</h3>
+                            <div class="card-body">
+                                <p class="mb-2">// Set your daily Focus Plan:</p>
+                                ${data.template}
+                            </div>
+                        </div>
+                        
+                        <!-- 4. Video Resource Card - External Link -->
+                        <div class="video-card">
+                            <h3 class="card-header">Video Resource</h3>
+                            <div class="card-body p-0">
+                                <a href="${getWatchUrl(data.videoUrl)}" 
+                                    target="_blank" 
+                                    class="video-link-content block p-4 rounded-lg transition duration-150 ease-in-out text-dark-blue font-semibold flex items-center justify-between"
+                                    style="background-color: white;">
+                                    
+                                    <span class="flex items-center text-sm md:text-base">
+                                        <!-- Play Button Icon (Circle with triangle) -->
+                                        <svg class="w-6 h-6 mr-3 text-red-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        
+                                        ${data.videoTitle}
+                                    </span>
+                                    <!-- External Link Icon -->
+                                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                                <p class="text-xs text-gray-600 mt-2 px-2">Click to open this video resource in a new browser tab.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 6. Update button active state
+            const activeMethodButton = document.querySelector(`.method-button[data-method-id="${methodId}"]`);
+            if(activeMethodButton) {
+                activeMethodButton.classList.add('active');
+            }
+        }
+        
+        /**
+         * Renders the welcome/landing page content for a main category (like Focus Method).
+         */
+        function renderCategoryContent(categoryId) {
+            const module = modulesConfig[categoryId];
+            if (!module) return;
+
+            // Set active category and re-render sidebar
+            currentActiveCategory = categoryId; 
+            renderSidebar(categoryId);
+            
+            // Clear hash when viewing category overview
+            history.pushState(null, '', `#`);
+
+
+            // AUTO-LOAD: When a category is clicked, jump straight to the first method's content 
+            if (module.subMethods.length > 0) {
+                 const initialMethodId = module.subMethods[0];
+                 renderMethodContent(initialMethodId);
+            } else {
+                 // Fallback if a category is empty - show the category welcome screen
+                 const subMethodList = module.subMethods.map(id => {
+                    const method = methodsData[id];
+                    if (method) {
+                        return `<li class="font-semibold text-base mb-2"><a href="#${id}" onclick="renderMethodContent('${id}'); return false;" class="text-yellow-500 hover:text-yellow-600">${method.name}</a></li>`;
+                    }
+                    // Handle placeholder modules with just their ID
+                    return `<li class="font-semibold text-base mb-2 text-gray-700">${id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} (Content Not Found)</li>`;
+                }).join('');
+
+                contentGridElement.innerHTML = `
+                    <h1 id="current-method-title">${module.name} Explorer</h1>
+                    
+                    <div class="welcome-content-area">
+                        
+                        <!-- Placeholder cards for visual alignment -->
+                        <div class="video-carousel-placeholder module-welcome-card">
+                            <h3>Tips & Best Practices</h3>
+                        </div>
+                        <div class="video-carousel-placeholder module-welcome-card">
+                            <h3>Self-Assessment</h3>
+                        </div>
+                        <div class="video-carousel-placeholder module-welcome-card">
+                            <h3>Related Tools</h3>
+                        </div>
+                        
+                        <!-- Bottom Left: Animation Placeholder -->
+                        <div class="animation-placeholder module-welcome-card">
+                            <h3>Visual Overview</h3>
+                        </div>
+                        
+                        <!-- Bottom Right: Main Information Content -->
+                        <div class="info-content-placeholder module-welcome-card p-6">
+                            <div class="text-left">
+                                <h3 class="text-3xl font-extrabold mb-4">${module.name} Overview</h3>
+                                <p class="text-base leading-relaxed">
+                                    This module contains a powerful set of techniques designed to help you **master your ${module.name.toLowerCase()}**.
+                                </p>
+                                <p class="text-base leading-relaxed mt-3 font-semibold text-dark-blue">
+                                    **Available Methods:**
+                                </p>
+                                <ul class="list-disc ml-5 text-dark-blue mt-2">
+                                    ${subMethodList}
+                                </ul>
+                                <p class="text-base leading-relaxed mt-4 font-semibold text-yellow-500">
+                                    💡 Select a method from the sidebar to dive into the core principles, templates, and video resources!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        /**
+         * Renders the general landing page content (Pic 2 flow).
+         */
+        function renderModuleWelcomePage() {
+            currentActiveCategory = null;
+            renderSidebar(null); // Clear all active states in sidebar
+            history.pushState(null, '', `#`); // Clear hash
+
+            contentGridElement.innerHTML = `
+                <div class="general-welcome-card">
+                    <h2 class="text-white">Welcome to the FOCUS Module Explorer</h2>
+                    <p class="text-gray-200">
+                        Select a category on the left to discover powerful techniques and strategies to boost your productivity, manage your time, and enhance your study habits.
+                    </p>
+                    <h3 class="text-white text-2xl font-bold mt-8 mb-4">Explore Our Core Modules:</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        ${Object.keys(modulesConfig).map(categoryId => {
+                            const data = modulesConfig[categoryId];
+                            return `
+                                <a href="#" onclick="renderCategoryContent('${categoryId}'); return false;">
+                                    <div class="module-link-block">
+                                        <div class="text-2xl font-extrabold">${data.name}</div>
+                                        <p class="text-sm mt-1 opacity-80">${data.subMethods.length} Methods Available</p>
+                                    </div>
+                                </a>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        
+        /**
+         * Renders the sidebar based on the currently active category.
+         */
+        function renderSidebar(activeCategoryId) {
+            moduleListElement.innerHTML = '';
+            
+            // 1. Render all main Module Category Buttons
+            Object.keys(modulesConfig).forEach((categoryId) => {
+                const data = modulesConfig[categoryId];
+                const button = document.createElement('button');
+                button.className = 'module-category-button w-full block';
+                button.setAttribute('data-category-id', categoryId);
+                button.textContent = data.name;
+
+                button.addEventListener('click', () => {
+                    renderCategoryContent(categoryId);
+                });
+                
+                // Set the main category button active if it matches the current category
+                if (categoryId === activeCategoryId) {
+                    button.classList.add('active');
+                }
+
+                moduleListElement.appendChild(button);
+            });
+            
+            // 2. Render sub-method buttons for the active category
+            const activeModule = modulesConfig[activeCategoryId];
+            if (activeModule) {
+                activeModule.subMethods.forEach((methodId) => {
+                    const method = methodsData[methodId];
+                    if (method) {
+                        const button = document.createElement('button');
+                        button.className = 'method-button w-full block';
+                        button.setAttribute('data-method-id', methodId);
+                        // Add href for deep linking if user right-clicks/copies link
+                        button.setAttribute('onclick', `renderMethodContent('${methodId}'); return false;`); 
+                        button.textContent = method.name;
+
+                        moduleListElement.appendChild(button);
+                    }
+                });
+            }
+        }
+        
+        /**
+         * Checks the URL hash on load and popstate (back/forward) to load the correct content.
+         */
+        function handleUrlHash() {
+            const hash = window.location.hash.substring(1); // Get hash without '#'
+            const methodIds = Object.keys(methodsData);
+
+            if (hash && methodIds.includes(hash)) {
+                // If a valid method is in the hash, load its content without pushing state again
+                renderMethodContent(hash, true); 
+            } else {
+                // Otherwise, load the general welcome page
+                renderModuleWelcomePage();
+            }
+        }
+
+
+        /**
+         * Initializes the sidebar buttons and event listeners.
+         */
+        function initializeSidebar() {
+            // STEP 1: Listen for browser back/forward buttons
+            window.addEventListener('popstate', handleUrlHash);
+
+            // STEP 2: Handle initial load based on URL hash
+            handleUrlHash();
+        }
+        
+        // --- Initial setup on page load ---
+        window.onload = initializeSidebar;
+    </script>
+</body>
+</html>

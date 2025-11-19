@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <!-- We will replicate the dark theme styling using standard CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Define Color Variables based on the dashboard theme */
+        :root {
+            --dark-blue: #2F3E50;
+            --mid-blue: #3E536E;
+            --accent-teal: #49B2AA;
+            --accent-yellow: #FFC300;
+            --text-light: #F0F0F0;
+            --text-dark: #222222;
+            --card-light: #FFFFFF;
+            --break-red: #E74C3C;
+        }
+
+        body {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--mid-blue);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: var(--accent-yellow);
+            margin-bottom: 25px;
+        }
+
+        /* Cycle Status Display */
+        #cycle-status {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: var(--text-dark);
+            background-color: var(--accent-teal);
+            transition: background-color 0.5s;
+        }
+
+        .status-work {
+            background-color: var(--accent-teal);
+        }
+
+        .status-break {
+            background-color: var(--break-red);
+            color: var(--card-light);
+        }
+
+        /* Timer Display */
+        #timer-display {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4em;
+            font-weight: 800;
+            color: var(--card-light);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Control Buttons */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .btn {
+            background-color: var(--accent-yellow);
+            color: var(--text-dark);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #ffd740; /* Lighter yellow on hover */
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-reset {
+            background-color: var(--accent-teal);
+            color: var(--card-light);
+        }
+
+        .btn-reset:hover {
+            background-color: #63c0b8;
+        }
+
+        /* Settings/Stats */
+        .settings-stats {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-stats p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Pomodoro Timer</h1>
+
+    <div id="cycle-status" class="status-work">Work Time</div>
+    
+    <div id="timer-display">25:00</div>
+
+    <div class="controls">
+        <button id="start-pause-btn" class="btn">Start</button>
+        <button id="reset-btn" class="btn btn-reset">Reset</button>
+    </div>
+
+    <div class="settings-stats">
+        <p>Pomodoros Completed: <span id="pomodoros-completed">0</span></p>
+        <p>Work Duration: 25 min</p>
+        <p>Break Duration: 5 min</p>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const timerDisplay = document.getElementById('timer-display');
+        const startPauseBtn = document.getElementById('start-pause-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const cycleStatus = document.getElementById('cycle-status');
+        const pomodorosCompletedSpan = document.getElementById('pomodoros-completed');
+
+        // Initial settings in seconds
+        const WORK_TIME = 25 * 60; 
+        const BREAK_TIME = 5 * 60;
+        
+        let totalSeconds = WORK_TIME;
+        let isRunning = false;
+        let isWorkCycle = true;
+        let timerInterval = null;
+        let pomodorosCompleted = 0;
+
+        // --- Utility Functions ---
+
+        function formatTime(seconds) {
+            const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const sec = String(seconds % 60).padStart(2, '0');
+            return `${min}:${sec}`;
+        }
+
+        function updateDisplay(seconds) {
+            timerDisplay.textContent = formatTime(seconds);
+            document.title = `${formatTime(seconds)} - ${isWorkCycle ? 'Work' : 'Break'}`;
+        }
+
+        function setCycle(isWork) {
+            isWorkCycle = isWork;
+            totalSeconds = isWork ? WORK_TIME : BREAK_TIME;
+            
+            cycleStatus.textContent = isWork ? 'Work Time' : 'Break Time';
+            cycleStatus.className = isWork ? 'status-work' : 'status-break';
+            
+            updateDisplay(totalSeconds);
+        }
+
+        function playDing() {
+            // Using Tone.js (via inline script tag) for sound effects
+            // Since we can't load external libraries here, we'll use the browser's native Audio API instead.
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                // Setup sound
+                oscillator.type = 'sine'; // Sine wave for a soft tone
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.5, audioContext.currentTime + 0.05);
+                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1.0);
+
+                // Start and stop
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 1);
+
+            } catch (e) {
+                console.error("Audio playback error:", e);
+                // Simple fallback for environments where AudioContext is restricted
+                // We'll use a simple alert replacement for feedback
+                showNotification("Time's up! Starting next cycle.");
+            }
+        }
+        
+        function showNotification(message) {
+             const messageBox = document.createElement('div');
+             messageBox.style.cssText = `
+                position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                background-color: var(--accent-teal); color: var(--card-light);
+                padding: 15px 25px; border-radius: 8px; font-weight: 600;
+                z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+             `;
+             messageBox.textContent = message;
+             document.body.appendChild(messageBox);
+             setTimeout(() => {
+                 messageBox.remove();
+             }, 3000);
+        }
+
+        // --- Core Logic ---
+
+        function toggleTimer() {
+            if (isRunning) {
+                // Pause
+                clearInterval(timerInterval);
+                startPauseBtn.textContent = 'Resume';
+            } else {
+                // Start/Resume
+                startPauseBtn.textContent = 'Pause';
+                timerInterval = setInterval(tick, 1000);
+            }
+            isRunning = !isRunning;
+        }
+
+        function tick() {
+            if (totalSeconds > 0) {
+                totalSeconds--;
+                updateDisplay(totalSeconds);
+            } else {
+                // Time's up!
+                clearInterval(timerInterval);
+                isRunning = false;
+                
+                playDing();
+
+                if (isWorkCycle) {
+                    // Switch to Break
+                    pomodorosCompleted++;
+                    pomodorosCompletedSpan.textContent = pomodorosCompleted;
+                    showNotification("Work cycle finished! Enjoy your 5-minute break.");
+                    setCycle(false);
+                } else {
+                    // Switch back to Work
+                    showNotification("Break finished! Time to focus on your next task.");
+                    setCycle(true);
+                }
+                
+                // Automatically start the next cycle after notification delay (1.5 seconds)
+                setTimeout(() => {
+                    toggleTimer();
+                }, 1500);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            startPauseBtn.textContent = 'Start';
+            setCycle(true); // Reset to default Work cycle
+            pomodorosCompleted = 0;
+            pomodorosCompletedSpan.textContent = '0';
+            updateDisplay(WORK_TIME); // Ensure display is 25:00
+            document.title = "Pomodoro Timer"; // Reset document title
+        }
+
+        // --- Event Listeners and Initialization ---
+        
+        startPauseBtn.addEventListener('click', toggleTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        // Initial setup
+        updateDisplay(WORK_TIME); 
+    });
+</script>
+</body>
+</html>
