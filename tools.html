@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Pop Edition</title>
+    <title>Focus | High Pop Design</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -12,136 +12,91 @@
         * { font-family: 'Quicksand', sans-serif; }
         
         body {
-            /* Slightly darker pastel background to make white cards pop */
-            background: #E0E7FF; 
+            background: #F0F2F9; /* Muted background makes white cards "Pop" more */
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* The "Floating" Card Logic */
+        /* --- THE POP EFFECT --- */
         .cute-card {
             background: white;
-            border-radius: 45px;
-            border: 4px solid #FFFFFF;
-            /* Layered shadows create a 3D "Pop" effect */
+            border-radius: 50px;
+            border: 6px solid #FFFFFF;
+            /* Multi-layer shadow for maximum "lift" */
             box-shadow: 
-                0 30px 60px -12px rgba(50, 50, 93, 0.25), 
-                0 18px 36px -18px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                0 15px 35px rgba(0, 0, 0, 0.05), 
+                0 30px 60px rgba(157, 161, 203, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
         .cute-card:hover {
-            transform: translateY(-20px);
-            box-shadow: 0 50px 80px -20px rgba(90, 103, 216, 0.4);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 45px 80px rgba(157, 161, 203, 0.35);
+            z-index: 10;
         }
 
-        /* 3D Button Style */
-        .btn-3d {
+        /* 3D Bubbly Button */
+        .btn-pop {
             transition: all 0.2s ease;
-            position: relative;
-            top: 0;
-            box-shadow: 0 8px 0px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 0px rgba(0,0,0,0.1);
         }
-
-        .btn-3d:active {
-            top: 4px;
+        .btn-pop:active {
+            transform: translateY(4px);
             box-shadow: 0 2px 0px rgba(0,0,0,0.1);
         }
 
-        .btn-mint { background: #4ADE80; border-bottom: 6px solid #16A34A; color: white; }
+        .btn-mint { background: #6EE7B7; border-bottom: 6px solid #059669; color: white; }
         .btn-pink { background: #F472B6; border-bottom: 6px solid #DB2777; color: white; }
-        .btn-amber { background: #FBBF24; border-bottom: 6px solid #D97706; color: white; }
-
-        /* Animation Keyframes */
-        @keyframes pulse-ring {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-        }
-        .active-pulse { animation: pulse-ring 2s infinite; }
+        .btn-amber { background: #FCD34D; border-bottom: 6px solid #D97706; color: white; }
     </style>
 </head>
-<body class="p-6 md:p-12">
+<body class="p-8">
 
-    <header class="max-w-6xl mx-auto w-full flex justify-between items-center mb-16">
-        <div class="text-3xl font-black text-indigo-600 tracking-tighter">FOCUS ✨</div>
-        <nav class="flex space-x-8 font-bold text-indigo-400">
-            <a href="#" class="hover:text-indigo-600">DASHBOARD</a>
-            <a href="#" class="text-indigo-600 border-b-4 border-indigo-600">TOOLS</a>
-            <a href="#" class="hover:text-indigo-600">MODULE</a>
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-16">
+        <div class="text-3xl font-black text-indigo-500">FOCUS ✨</div>
+        <nav class="flex space-x-8 font-bold text-gray-400">
+            <a href="#" class="hover:text-pink-500">DASHBOARD</a>
+            <a href="#" class="text-pink-500 border-b-4 border-pink-400">TOOLS</a>
+            <a href="#" class="hover:text-pink-500">MODULE</a>
         </nav>
     </header>
 
     <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12">
 
         <div class="cute-card p-10 flex flex-col items-center">
-            <h2 class="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6">Pomodoro</h2>
-            
-            <div id="timer-box" class="relative w-56 h-56 flex items-center justify-center rounded-full bg-indigo-50 mb-8 transition-all">
-                <div id="timer-display" class="text-6xl font-black text-indigo-900 tracking-tighter">25:00</div>
+            <div class="flex gap-3 mb-8">
+                <button class="px-4 py-1 rounded-full text-[10px] font-black btn-mint">FOCUS</button>
+                <button class="px-4 py-1 rounded-full text-[10px] font-black bg-gray-100 text-gray-400">BREAK</button>
             </div>
-
-            <div class="flex gap-4 w-full mb-4">
-                <button id="start-btn" class="flex-1 py-4 rounded-2xl btn-3d btn-mint font-black text-lg">START</button>
-                <button id="break-btn" class="px-6 py-4 rounded-2xl btn-3d bg-indigo-100 text-indigo-400 font-bold">☕</button>
+            <div class="w-52 h-52 rounded-full border-[12px] border-emerald-50 flex items-center justify-center mb-8 shadow-inner">
+                <span class="text-5xl font-black text-gray-700">25:00</span>
             </div>
-            <button id="reset-btn" class="text-gray-300 font-bold text-xs uppercase hover:text-indigo-400">reset timer</button>
+            <button class="w-full py-4 rounded-3xl btn-mint btn-pop font-black text-xl mb-4">START</button>
+            <span class="text-gray-300 text-xs font-bold">↺ reset timer</span>
         </div>
 
         <div class="cute-card p-10 flex flex-col items-center justify-center text-center">
-            <div class="w-32 h-32 bg-amber-50 rounded-full flex items-center justify-center text-6xl mb-6 shadow-inner">📅</div>
-            <h2 class="text-2xl font-black text-gray-800 mb-2">Daily Planner</h2>
-            <p class="text-gray-400 text-sm mb-8 leading-relaxed">Turn your big dreams into <br> tiny, happy habits! ✨</p>
-            <button class="w-full py-5 rounded-3xl btn-3d btn-amber font-black text-xl">GO TO PLANNER</button>
+            <div class="text-7xl mb-6">📅</div>
+            <h2 class="text-2xl font-black text-gray-700 mb-2">PLANNER</h2>
+            <p class="text-gray-400 text-sm mb-10 leading-relaxed">Organize your dreams into <br> tiny, happy steps! ✨</p>
+            <button class="w-full py-4 rounded-3xl btn-amber btn-pop font-black text-xl">OPEN</button>
         </div>
 
         <div class="cute-card p-10 flex flex-col items-center">
-            <div class="w-20 h-20 bg-pink-50 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner">🛡️</div>
-            <h2 class="text-xl font-black text-pink-500 mb-6 tracking-tight">FOCUS SHIELD</h2>
-            
+            <div class="text-5xl mb-6">🛡️</div>
+            <h2 class="text-2xl font-black text-pink-500 mb-8">SHIELD</h2>
             <div class="w-full space-y-4">
                 <div class="relative">
-                    <input type="text" placeholder="Block a site..." class="w-full bg-gray-50 border-2 border-gray-100 p-4 rounded-2xl outline-none focus:border-pink-300 transition-all">
-                    <button class="absolute right-2 top-2 bottom-2 px-4 rounded-xl btn-3d btn-pink font-bold">+</button>
+                    <input type="text" class="w-full bg-gray-50 border-4 border-pink-50 p-4 rounded-3xl text-sm outline-none">
+                    <button class="absolute right-2 top-2 bottom-2 px-5 rounded-2xl btn-pink btn-pop font-bold">+</button>
                 </div>
-                <div class="h-32 bg-gray-50/50 rounded-2xl border-2 border-dashed border-gray-200 flex items-center justify-center">
-                    <span class="text-gray-300 text-xs font-bold italic">No distractions yet!</span>
+                <div class="h-28 bg-pink-50/30 border-4 border-dashed border-pink-50 rounded-[2.5rem] flex items-center justify-center text-pink-200 text-xs italic">
+                    Shield is empty!
                 </div>
             </div>
         </div>
 
     </main>
 
-    <script>
-        // Simple timer logic to show the "Pop"
-        let timeLeft = 25 * 60;
-        let isRunning = false;
-        let timerId;
-
-        const startBtn = document.getElementById('start-btn');
-        const timerBox = document.getElementById('timer-box');
-        const display = document.getElementById('timer-display');
-
-        startBtn.onclick = () => {
-            if (!isRunning) {
-                isRunning = true;
-                startBtn.textContent = "PAUSE";
-                timerBox.classList.add('active-pulse');
-                timerId = setInterval(() => {
-                    timeLeft--;
-                    let mins = Math.floor(timeLeft / 60);
-                    let secs = timeLeft % 60;
-                    display.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                    if (timeLeft <= 0) clearInterval(timerId);
-                }, 1000);
-            } else {
-                isRunning = false;
-                startBtn.textContent = "RESUME";
-                timerBox.classList.remove('active-pulse');
-                clearInterval(timerId);
-            }
-        };
-    </script>
 </body>
 </html>
