@@ -5,744 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Focus | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- 0.1. RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --dark-blue: #2F3E50;
+            --mid-blue: #3E536E;
+            --accent-teal: #49B2AA;
+            --accent-yellow: #FFC300;
+            --text-light: #F0F0F0;
+            --text-dark: #222222;
+            --card-light: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* --- 1. NAVIGATION --- */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: var(--dark-blue);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-area { display: flex; align-items: center; }
+        .logo { width: 30px; height: 30px; background-color: var(--accent-teal); border-radius: 50%; margin-right: 10px; }
+        .site-title { font-size: 1.5em; font-weight: 700; letter-spacing: 1px; }
+        .nav a { color: var(--text-light); text-decoration: none; margin-left: 25px; font-weight: 500; }
+        .nav a.active { color: var(--accent-yellow); }
+
+        /* --- 2. DASHBOARD LAYOUT --- */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 20px;
+            padding: 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- 3. SLIDESHOW --- */
+        .slideshow-container {
+            position: relative;
+            background-color: var(--mid-blue);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 40px;
+            min-height: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .slide { display: none; } /* Hidden by default */
+        
+        .fade {
+            animation: fadeAnim 1.5s;
+        }
+
+        @keyframes fadeAnim {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        .slide-title { font-size: 2em; font-weight: 800; color: var(--accent-yellow); margin-bottom: 10px; }
+        .slide-text { font-size: 1.1em; max-width: 80%; }
+
+        .dot-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            height: 10px; width: 10px; margin: 0 5px;
+            background-color: #bbb; border-radius: 50%;
+            display: inline-block; transition: 0.6s ease;
+        }
+
+        .active-dot { background-color: var(--accent-teal); }
+
+        /* --- 4. CARDS & SIDEBAR --- */
+        .quiz-card {
+            background-color: var(--card-light);
+            color: var(--text-dark);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-box {
+            background-color: var(--mid-blue);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-explore { background: var(--accent-yellow); color: var(--text-dark); }
+        .btn-go { background: var(--accent-teal); color: white; margin-top: 10px; width: 100%; text-align: center; }
+
+        .module-links { display: flex; gap: 15px; }
+        .module-btn { background: white; color: black; padding: 15px; border-radius: 8px; flex: 1; text-align: center; }
+
+        @media (max-width: 900px) {
+            .dashboard-container { grid-template-columns: 1fr; }
+            .module-links { flex-direction: column; }
+        }
+    </style>
 </head>
-<style>
-	{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* --- 0.2. COLOR VARIABLES --- */
-:root {
-    --dark-blue: #2F3E50;       /* Main background color */
-    --mid-blue: #3E536E;        /* Hero/Secondary box color */
-    --accent-teal: #49B2AA;     /* Primary Accent color */
-    --accent-yellow: #FFC300;   /* Secondary Accent color */
-    --text-light: #F0F0F0;
-    --text-dark: #222222;
-    --card-light: #FFFFFF;
-}
-
-/* --- 0.3. BASE BODY STYLES --- */
-body {
-    background-color: var(--dark-blue);
-    color: var(--text-light);
-    line-height: 1.6;
-}
-
-.section-title, .box-title {
-    font-weight: 700;
-}
-
-.section-title {
-    font-size: 1.3em;
-    margin-top: 25px;
-    margin-bottom: 15px;
-}
-
-/*===================================================================*/
-/* 1. NAVIGATION BAR                                 */
-/*===================================================================*/
-
-.navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: var(--dark-blue);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.logo-area {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    width: 30px;
-    height: 30px;
-    background-color: var(--accent-teal);
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.site-title {
-    font-size: 1.5em;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.nav a {
-    color: var(--text-light);
-    text-decoration: none;
-    margin-left: 25px;
-    font-size: 0.95em;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.nav a:hover,
-.nav a.active {
-    color: var(--accent-yellow);
-}
-
-/*===================================================================*/
-/* 2. MAIN DASHBOARD LAYOUT & CONTENT                */
-/*===================================================================*/
-
-/* --- 2.1. Dashboard Grid Layout --- */
-.dashboard-container {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 20px;
-    padding: 20px 40px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-/* --- 2.2. Interactive Section (Quiz Card + Progress Widget) --- */
-.interactive-section {
-    display: grid;
-    /* Sets up two columns: Quiz Card (3fr) and Progress Widget (2fr) */
-    grid-template-columns: 3fr 2fr;
-    gap: 20px;
-    margin-bottom: 30px; 
-}
-
-/* --- 2.3. Slideshow Container Styling --- */
-.slideshow-container {
-    position: relative;
-    overflow: hidden;
-    min-height: 300px;
-    background-color: var(--mid-blue);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    padding: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.slide-title {
-    font-size: 2.2em;
-    font-weight: 800;
-    margin-bottom: 15px;
-    color: var(--accent-yellow);
-}
-
-.slide-text {
-    font-size: 1.15em;
-    line-height: 1.5;
-    color: var(--text-light);
-    max-width: 80%;
-}
-
-.active-dot {
-    background-color: var(--accent-teal) !important;
-    transform: scale(1.2);
-}
-
-/* --- 2.4. Quiz Card Styling --- */
-.quiz-card {
-    background-color: var(--card-light);
-    color: var(--text-dark);
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.quiz-info {
-    display: flex;
-    align-items: center;
-}
-
-.quiz-illustration {
-    max-width: 120px;
-    height: auto;
-    object-fit: contain;
-    margin-right: 25px;
-}
-
-/* --- 2.5. Course Progress Widget Styling --- */
-.progress-widget {
-    background-color: var(--mid-blue);
-    padding: 20px;
-    border-radius: 8px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: flex-start; 
-    text-align: center;
-}
-
-.progress-widget .box-title {
-    padding-bottom: 15px; 
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.progress-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    flex-grow: 1; 
-}
-
-.progress-circle {
-    width: 120px;
-    height: 120px;
-    line-height: 120px; 
-    border-radius: 50%;
-    /* Note: The progress value (45%) should be set dynamically */
-    background: conic-gradient(var(--accent-teal) 45%, var(--dark-blue) 45%); 
-    border: 8px solid var(--mid-blue);
-    margin-bottom: 15px;
-    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.1);
-}
-
-.progress-percentage {
-    font-size: 1.8em;
-    font-weight: 800;
-    color: var(--text-light);
-}
-
-.progress-summary {
-    font-size: 1em;
-    margin-bottom: 15px;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* --- 2.6. Module Buttons Styling --- */
-.module-links {
-    display: flex;
-    gap: 20px;
-}
-
-.module-btn {
-    background-color: var(--card-light);
-    color: var(--text-dark);
-    padding: 15px;
-    border-radius: 8px;
-    flex-grow: 1;
-    text-align: center;
-    transition: transform 0.2s;
-}
-
-.module-btn:hover {
-    transform: translateY(-3px);
-}
-
-/*===================================================================*/
-/* 3. SIDEBAR STYLING (Dashboard Right Column)       */
-/*===================================================================*/
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.sidebar-box {
-    background-color: var(--mid-blue);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.box-title {
-    font-size: 1.1em;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-/* --- 3.1. Date/Time Box --- */
-.date-time-box {
-    background-color: var(--card-light);
-    color: var(--text-dark);
-    text-align: center;
-    font-weight: 700;
-}
-
-/* --- 3.2. Task List Box --- */
-.task-list-box ul {
-    list-style: none;
-    margin-top: 10px;
-}
-
-.task-list-box li {
-    padding: 5px 0;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    font-size: 0.95em;
-}
-
-/* --- 3.3. Productivity Tools Box --- */
-.productivity-tools-box .productivity-icons {
-    display: flex;
-    justify-content: space-around; 
-    align-items: flex-start;
-    flex-wrap: wrap; 
-    margin-bottom: 20px;
-    padding-top: 10px;
-}
-
-.tool-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 5px;
-    width: 30%; 
-    margin-bottom: 10px; 
-}
-
-.tool-icon {
-    width: 50px; 
-    height: 50px;
-    background-color: var(--card-light);
-    border-radius: 50%;
-    padding: 10px; 
-    object-fit: contain;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.tool-item p {
-    font-size: 0.8em;
-    color: var(--text-light);
-    line-height: 1.2;
-}
-
-/* --- 3.4. Resource Links --- */
-.resource-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.resource-link {
-    display: flex;
-    align-items: flex-start;
-    text-decoration: none;
-    color: var(--text-light);
-    font-size: 0.9em;
-    transition: color 0.3s;
-}
-
-.resource-link:hover {
-    color: var(--accent-yellow);
-}
-
-.checkbox-icon {
-    margin-right: 8px;
-    font-size: 1.1em;
-    line-height: 1;
-    color: var(--accent-teal);
-}
-
-/*===================================================================*/
-/* 4. PLANNER/SCHEDULER LAYOUT & COMPONENTS          */
-/*===================================================================*/
-
-/* --- 4.1. Planner Layout (70/30 Split) --- */
-.container { 
-    display:flex; 
-    height:100vh; 
-}
-
-.left { 
-    width:70%; 
-    background:#3b4d64; 
-    padding:30px; 
-    color:white; 
-    box-sizing:border-box; 
-    overflow:auto; 
-}
-
-.right { 
-    width:30%; 
-    background:#74a4c2; 
-    padding:30px; 
-    box-sizing:border-box; 
-    overflow:auto; 
-}
-
-/* --- 4.2. Search Bar --- */
-.search-wrap { 
-    display:flex; 
-    gap:12px; 
-    align-items:flex-start; 
-}
-
-.search-box { 
-    background:var(--card-light); 
-    padding:8px; 
-    border-radius:25px; 
-    display:flex; 
-    align-items:center; 
-    width:380px; 
-    position:relative; 
-}
-
-.search-box input { 
-    border:none; 
-    outline:none; 
-    font-size:16px; 
-    width:100%; 
-    padding-left:8px; 
-}
-
-.search-box .icon { 
-    margin-right:8px; 
-}
-
-.search-box button { 
-    background:#dfe3e6; 
-    border:none; 
-    padding:7px 15px; 
-    border-radius:15px; 
-    cursor:pointer; 
-}
-
-/* --- 4.3. Search Results Dropdown ---*/
-#search-results {
-    position:relative;
-    margin-top:8px;
-    width:380px;
-    list-style:none;
-    padding:6px;
-    border-radius:8px;
-    display:none;
-    max-height:220px;
-    overflow:auto;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    background: var(--card-light);
-    color: var(--text-dark);
-    z-index: 40;
-}
-
-#search-results li { 
-    padding:8px; 
-    border-radius:6px; 
-    cursor:pointer; 
-    border:1px solid transparent; 
-    margin-bottom:6px; 
-}
-
-#search-results li:hover { 
-    background:#f0f8ff; 
-    border-color:#d8e8ff; 
-}
-
-/* --- 4.4. Semester/Week/Day Cards --- */
-.semester-card { 
-    background:#f9edcf; 
-    margin-top:18px; 
-    padding:20px; 
-    border-radius:15px; 
-    color:black; 
-    box-sizing:border-box; 
-}
-
-.weeks { 
-    margin-bottom:12px; 
-    display:flex; gap:6px; 
-    flex-wrap:wrap; 
-}
-
-.weeks span { 
-    margin-right:6px; 
-    cursor:pointer; 
-    font-weight:bold; 
-    padding:6px 8px; 
-    border-radius:6px; 
-    background:transparent; 
-    color:var(--text-dark); 
-}
-
-.weeks span.active { 
-    background:#e8cfc0; 
-    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.06); 
-}
-
-.days { 
-    display:flex; 
-    gap:15px; 
-    margin-top:12px; 
-}
-
-.day { 
-    background:#e0d3bd; 
-    padding:22px; 
-    border-radius:12px; 
-    width:100px; 
-    text-align:center; 
-    cursor:pointer; 
-    position:relative; 
-    transition: transform .08s ease; 
-    user-select:none; 
-}
-
-.day:hover { transform: translateY(-4px); }
-
-.day .badge { 
-    position:absolute; 
-    top:8px; right:8px; 
-    background:#ff6b6b; 
-    color:white; 
-    font-size:11px; 
-    padding:4px 6px; 
-    border-radius:10px; 
-    display:none; 
-}
-
-.instructions { 
-    font-size:12px; 
-    margin-top:16px; 
-    color:var(--text-dark); 
-}
-
-/* --- 4.5. Global Summary Bar (W1 - W14) --- */
-.global-summary {
-    margin-top: 20px;
-    background: #f9edcf;
-    padding: 10px 20px;
-    border-radius: 12px;
-    width: calc(100% - 40px);
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    color: var(--text-dark);
-    font-size: 20px;
-}
-
-.summary-row {
-    display: flex;
-    justify-content: space-around;
-    font-size: 15px;
-    font-weight: 560;
-    color: var(--text-dark);
-}
-
-
-
-.stats { 
-    display:flex; 
-    gap:20px; 
-    margin-bottom:20px; 
-}
-
-.stat-box { 
-    background:#d7d3c7; 
-    width:120px; 
-    text-align:center; 
-    padding:15px; 
-    border-radius:15px; 
-}
-
-.task-title { 
-    font-weight:bold; 
-    margin-bottom:10px; 
-}
-
-#taskList { 
-    padding-left:18px; 
-    max-height:50vh; 
-    overflow:auto; 
-}
-
-#taskList li { 
-    margin-bottom:8px; 
-    cursor:pointer; 
-    background:rgba(255,255,255,0.12); 
-    padding:8px; 
-    border-radius:8px; 
-    color:#032; 
-}
-
-.task-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-}
-
-.delete-btn {
-    background: #ff5b5b;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 4px 8px;
-    cursor: pointer;
-    transition: 0.2s;
-    font-size: 10px;
-    margin: 0;
-}
-
-.delete-btn:hover {
-    background: pink;
-    transform: scale(1.15);
-}
-
-
-.modal-back {
-    display:none;
-    position:fixed; inset:0;
-    background: rgba(0,0,0,0.35);
-    align-items:center; 
-    justify-content:center;
-    z-index:70;
-}
-
-.modal {
-    background:var(--card-light);
-    color: var(--text-dark);
-    border-radius:12px;
-    padding:18px;
-    width:420px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-}
-
-.modal h3 { 
-    margin-top:0; 
-}
-
-.field { 
-    margin-bottom:10px; 
-    font-size:14px; 
-}
-
-.field input, .field select, .field textarea {
-    width:100%; 
-    padding:8px; 
-    border-radius:6px; 
-    border:1px solid #ccc;
-}
-
-
-/* --- 6.2. Button Styles (General) --- */
-.btn {
-    padding:8px 12px; 
-    border-radius:8px; 
-    border:none; 
-    cursor:pointer;
-    transition: opacity 0.3s;
-    display: inline-block;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.btn:hover {
-    opacity: 0.9;
-}
-
-.btn.ghost { 
-    background:#eee; 
-    color: var(--text-dark);
-}
-
-.modal .btn { 
-    background:#f9cf48; 
-}
-
-.add-btn { 
-    margin-top:15px; 
-    background:#f9cf48; 
-    border:none; 
-    padding:10px 20px; 
-    border-radius:15px; 
-    cursor:pointer; 
-}
-
-.btn-explore {
-    background-color: var(--accent-yellow);
-    color: var(--text-dark);
-    padding: 10px 25px;
-}
-
-.btn-go {
-    background-color: var(--accent-teal);
-    color: var(--card-light);
-    margin-top: 10px;
-    padding: 10px 25px;
-}
-
-.btn-view-modules {
-    background-color: var(--accent-teal);
-    color: var(--card-light);
-    padding: 8px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-
-/* --- 6.3. Utility Classes --- */
-.search-highlight {
-    outline: 3px solid orange;
-    outline-offset: -6px;
-    animation: blink 0.6s ease-in-out infinite alternate;
-    z-index: 60;
-}
-@keyframes blink {
-    from { outline-color: orange; }
-    to { outline-color: red; }
-}
-
-
-/*===================================================================*/
-/* 7. RESPONSIVENESS                                 */
-/*===================================================================*/
-
-@media (max-width: 900px){
-    /* Planner/Scheduler Layout */
-    .container {
-        flex-direction:column;
-        height:auto
-    }
-
-    .left, .right {
-        width:100%;
-        /* Add padding-bottom to .left to separate from .right when stacked */
-        padding-bottom: 40px; 
-    }
-
-    /* Dashboard Layout */
-    .dashboard-container {
-        /* Switch to a single column layout */
-        grid-template-columns: 1fr;
-        padding: 20px;
-    }
-
-    /* Navigation */
-    .navigation {
-        padding: 15px 20px;
-    }
-
-    /* Slideshow Text */
-    .slide-text {
-        max-width: 100%; /* Use full width on small screens */
-    }
-
-    /* Interactive Section (Quiz Card + Progress Widget) */
-    .interactive-section {
-        /* Stack components vertically */
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    /* Module Links */
-    .module-links {
-        flex-direction: column;
-    }
-}
-
-</style>
 <body>
 
     <header class="navigation">
@@ -751,144 +140,119 @@ body {
             <span class="site-title">FOCUS</span>
         </div>
         <nav class="nav">
-            <a href="index.html" class="nav-link active">DASHBOARD</a>
-            <a href="tools.html" class="nav-link">TOOLS</a>
-            <a href="modules.html" class="nav-link">MODULE</a>
-            <a href="Quiz.html" class="nav-link">QUIZ</a>
-            <a href="community.html" class="nav-link">COMMUNITY</a>
+            <a href="index.html" class="active">DASHBOARD</a>
+            <a href="tools.html">TOOLS</a>
+            <a href="modules.html">MODULE</a>
+            <a href="Quiz.html">QUIZ</a>
         </nav>
     </header>
 
     <main class="dashboard-container">
-        
         <section class="main-content">
-
-            <div class="hero-section slideshow-container">
-                
-                <div class="slide fade" style="display: block;">
+            <div class="slideshow-container">
+                <div class="slide fade">
                     <h2 class="slide-title">Prioritize Better: The 80/20 Principle 🔑</h2>
-                    <p class="slide-text">Focus 80% of your effort on the 20% of tasks that produce the most significant results (your high-value assignments).</p>
+                    <p class="slide-text">Focus 80% of your effort on the 20% of tasks that produce the most significant results.</p>
                 </div>
 
                 <div class="slide fade">
-                    <h2 class="slide-title">Combat Burnout: Schedule a Digital Detox 🧘</h2>
-                    <p class="slide-text">Mental health check: Dedicate at least 30 minutes a day to screen-free activities (reading, walking, stretching). Your brain needs rest!</p>
+                    <h2 class="slide-title">Combat Burnout: Digital Detox 🧘</h2>
+                    <p class="slide-text">Mental health check: Dedicate at least 30 minutes a day to screen-free activities. Your brain needs rest!</p>
                 </div>
                 
                 <div class="slide fade">
-                    <h2 class="slide-title">Master Your Time: The Two-Minute Rule ⏱️</h2>
-                    <p class="slide-text">If a task takes less than two minutes to complete, do it immediately! Don't let small tasks clutter your to-do list.</p>
+                    <h2 class="slide-title">Master Your Time: Two-Minute Rule ⏱️</h2>
+                    <p class="slide-text">If a task takes less than two minutes to complete, do it immediately! Don't let small tasks clutter your list.</p>
                 </div>
-                
-                <div style="text-align:center" class="slide-dots-container">
-                    </div>
 
+                <div class="dot-container">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
             </div>
+
+            <h2 style="margin: 20px 0;">Your personalized path</h2>
             
-            <h2 class="section-title">Your personalized path</h2>
-            
-            <section class="interactive-section">
-                
-                <div class="quiz-card">
-                    <div class="quiz-info">
-                        <img src="quiz_icon.png" alt="Quiz Icon" class="quiz-illustration"> 
-                        <div class="quiz-text">
-                            <h3>Diagnosed Quiz</h3>
-                            <p>Find your focus style</p>
-                        </div>
+            <div class="quiz-card">
+                <div style="display:flex; align-items:center;">
+                    <div style="margin-right:20px; font-size: 40px;">📝</div>
+                    <div>
+                        <h3>Diagnosed Quiz</h3>
+                        <p>Find your focus style</p>
                     </div>
-                    <a href="Quiz.html" class="btn btn-explore">Explore</a>
                 </div>
-                
-            </section>
-            
+                <a href="Quiz.html" class="btn btn-explore">Explore</a>
+            </div>
+
             <div class="module-links">
                 <div class="module-btn">
                     <p>Time Management</p>
-                    <a href="modules.html#pomodoro-technique" class="btn btn-go">Go</a>
+                    <a href="#" class="btn btn-go">Go</a>
                 </div>
                 <div class="module-btn">
                     <p>Focus Methods</p>
-                    <a href="modules.html#eat-the-frog" class="btn btn-go">Go</a>
+                    <a href="#" class="btn btn-go">Go</a>
                 </div>
                 <div class="module-btn">
                     <p>Study Methods</p>
-                    <a href="modules.html#active-recall" class="btn btn-go">Go</a>
+                    <a href="#" class="btn btn-go">Go</a>
                 </div>
             </div>
-
         </section>
 
         <aside class="sidebar">
-            
-            <div class="sidebar-box date-time-box">
-                <p id="current-date-time">Loading Date & Time...</p>
+            <div class="sidebar-box" style="background: white; color: black; text-align: center;">
+                <p id="current-date-time" style="font-weight: bold;">Loading...</p>
             </div>
 
-            <div class="sidebar-box daily-planner-box">
-                <h3 class="box-title">Daily Planner</h3>
-                <div class="planner-summary">
-                    <p>Total Assignments: <span id="dashboardAssignCount">0</span></p>
-                    <p>Total Tests/Quizzes: <span id="dashboardTestCount">0</span></p>
-                </div>
+            <div class="sidebar-box">
+                <h3 style="border-bottom: 1px solid #555; padding-bottom: 10px; margin-bottom: 10px;">Planner Summary</h3>
+                <p>Assignments: <span id="dashboardAssignCount">0</span></p>
+                <p>Tests/Quizzes: <span id="dashboardTestCount">0</span></p>
             </div>
-
-            <div class="sidebar-box task-list-box">
-                <h3 class="box-title">Task List</h3>
-                <ul id="task-list">
-                    </ul>
-            </div>
-            
-            <div class="sidebar-box productivity-tools-box">
-                <h3 class="box-title">Productivity Tools</h3>
-                <div class="productivity-icons">
-                    
-                    <a href="tools.html" style="text-decoration: none; color: inherit;">
-                        <div class="tool-item">
-                            <img src="timer.png" alt="Pomodoro Timer" class="tool-icon">
-                            <p>Pomodoro Timer</p>
-                        </div>
-                    </a>
-                    
-                    <a href="tools.html" style="text-decoration: none; color: inherit;">
-			<div class="tool-item">
-                        <img src="blocker.png" alt="Distraction Blocker" class="tool-icon">
-                        <p>Distraction Blocker</p>
-                    </div>
-		<a href="Time_Management.html" style="text-decoration: none; color: inherit;">
-                    <div class="tool-item">
-                        <img src="goal_tracker.png" alt="Goal Tracker" class="tool-icon">
-                        <p>Goal Tracker</p>
-                    </div>
-                </div>
-               </div>
-
         </aside>
-
     </main>
 
     <script>
-        function loadPlannerSummary() {
-            // Retrieve the counts stored by the Time Management planner
-            // They will be loaded as 0 if the time_management page hasn't saved data yet
-            const assignCount = localStorage.getItem('globalAssignCount') || 0;
-            const testCount = localStorage.getItem('globalTestCount') || 0;
-
-            // Update the dashboard elements
-            const assignEl = document.getElementById('dashboardAssignCount');
-            const testEl = document.getElementById('dashboardTestCount');
-
-            if (assignEl) assignEl.textContent = assignCount;
-            if (testEl) testEl.textContent = testCount;
+        // 1. DATE & TIME LOGIC
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('current-date-time').textContent = now.toLocaleString('en-US', options);
         }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
 
-        // Run the function when the dashboard loads
-        loadPlannerSummary();
+        // 2. SLIDESHOW LOGIC
+        let slideIndex = 0;
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("slide");
+            let dots = document.getElementsByClassName("dot");
+            
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active-dot", "");
+            }
+            
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active-dot";
+            setTimeout(showSlides, 5000); // Change image every 5 seconds
+        }
+        showSlides();
+
+        // 3. LOAD LOCALSTORAGE COUNTS
+        function loadCounts() {
+            document.getElementById('dashboardAssignCount').textContent = localStorage.getItem('globalAssignCount') || 0;
+            document.getElementById('dashboardTestCount').textContent = localStorage.getItem('globalTestCount') || 0;
+        }
+        loadCounts();
     </script>
-
-    <script src="script.js"></script>
 </body>
-
 </html>
-
-
