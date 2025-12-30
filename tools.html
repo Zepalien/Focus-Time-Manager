@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Kawaii Tools</title>
+    <title>Focus | Kawaii Pulse Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * { font-family: 'Quicksand', sans-serif; }
@@ -18,22 +18,18 @@
             color: #5A67D8;
         }
 
-        /* Floating Background Shapes */
+        /* --- BACKGROUND DECORATION --- */
         .blob {
-            position: fixed;
-            z-index: -1;
-            filter: blur(60px);
-            border-radius: 50%;
-            opacity: 0.5;
+            position: fixed; z-index: -1; filter: blur(60px);
+            border-radius: 50%; opacity: 0.5;
             animation: float 20s infinite alternate;
         }
-
         @keyframes float {
             from { transform: translate(0, 0); }
             to { transform: translate(100px, 50px); }
         }
 
-        /* Glassmorphism Polish */
+        /* --- CUTE CARDS --- */
         .cute-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(15px);
@@ -43,109 +39,96 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .cute-card:hover {
-            transform: scale(1.02) translateY(-10px);
-            box-shadow: 0 30px 60px rgba(157, 161, 203, 0.2);
-        }
-
-        /* 3D "Bubbly" Buttons */
-        .btn-bubbly {
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 0px rgba(0,0,0,0.1);
-        }
-
-        .btn-bubbly:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0px rgba(0,0,0,0.1);
-        }
-
+        /* --- BUTTONS --- */
+        .btn-bubbly { transition: all 0.2s ease; box-shadow: 0 6px 0px rgba(0,0,0,0.1); }
+        .btn-bubbly:active { transform: translateY(4px); box-shadow: 0 2px 0px rgba(0,0,0,0.1); }
         .btn-mint { background: #6EE7B7; border-bottom: 6px solid #059669; color: white; }
         .btn-pink { background: #F472B6; border-bottom: 6px solid #DB2777; color: white; }
         .btn-amber { background: #FCD34D; border-bottom: 6px solid #D97706; color: white; }
 
-        /* Progress Ring Pulse */
-        #progress-ring {
-            filter: drop-shadow(0 0 12px rgba(110, 231, 183, 0.4));
+        /* --- MOVING ANIMATIONS --- */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
+        @keyframes tick-tock {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .animating-ring { animation: breathe 3s ease-in-out infinite; }
+        .animating-text { animation: tick-tock 1s ease-in-out infinite; }
+
+        #progress-ring { transition: stroke-dashoffset 1s linear, stroke 0.3s ease; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="blob w-96 h-96 bg-purple-200 top-[-10%] left-[-10%]"></div>
     <div class="blob w-80 h-80 bg-pink-100 bottom-[5%] right-[-5%]" style="animation-delay: -5s;"></div>
-    <div class="blob w-64 h-64 bg-blue-100 top-[40%] right-[20%]" style="animation-delay: -10s;"></div>
 
-    <header class="max-w-7xl mx-auto flex justify-between items-center mb-16 px-4">
-        <div class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">
-            FOCUS ✨
-        </div>
-        <nav class="flex space-x-6 md:space-x-10 font-bold text-gray-500 text-sm">
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
+        <div class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">FOCUS ✨</div>
+        <nav class="flex space-x-6 font-bold text-gray-400 text-sm">
             <a href="index.html" class="hover:text-pink-500">DASHBOARD</a>
-            <a href="#" class="text-pink-500 border-b-4 border-pink-400 pb-2">TOOLS</a>
+            <a href="#" class="text-pink-500 border-b-4 border-pink-400 pb-1">TOOLS</a>
             <a href="modules.html" class="hover:text-pink-500">MODULE</a>
             <a href="Quiz.html" class="hover:text-pink-500">QUIZ</a>
         </nav>
     </header>
 
     <main class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-            <div class="text-center md:text-left">
-                <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight mb-2">My Tools</h1>
-                <p class="text-gray-400 font-medium italic">"You're doing amazing, sweetie!" 💖</p>
-            </div>
-            <div class="bg-white/90 border-4 border-pink-200 px-8 py-3 rounded-[2.5rem] shadow-sm flex items-center gap-3">
-                <span class="text-2xl">🌟</span>
-                <span class="font-bold text-pink-500 uppercase tracking-widest text-xs">Streak: <span id="streak-count" class="text-lg">0</span></span>
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <h1 class="text-5xl font-extrabold text-gray-800">My Tools</h1>
+            <div class="bg-white/90 border-4 border-pink-200 px-8 py-2 rounded-full shadow-sm flex items-center gap-2">
+                <span class="text-xl">⭐</span>
+                <span class="font-bold text-pink-500 uppercase text-xs">Streak: <span id="streak-count" class="text-lg">0</span></span>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
-            <div class="cute-card p-10 flex flex-col items-center group">
+            <div class="cute-card p-10 flex flex-col items-center">
                 <div class="flex gap-4 mb-8">
                     <button id="focus-btn" class="px-6 py-2 rounded-full font-bold text-xs btn-mint btn-bubbly">FOCUS</button>
-                    <button id="break-btn" class="px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400">BREAK</button>
+                    <button id="break-btn" class="px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400 hover:bg-gray-200">BREAK</button>
                 </div>
 
-                <div class="relative flex items-center justify-center mb-8">
+                <div class="relative flex items-center justify-center mb-8" id="timer-container">
                     <svg class="w-60 h-60 transform -rotate-90">
                         <circle cx="120" cy="120" r="105" stroke="#EDF2F7" stroke-width="14" fill="transparent" />
                         <circle id="progress-ring" cx="120" cy="120" r="105" stroke="#6EE7B7" stroke-width="14" fill="transparent" 
-                                stroke-dasharray="660" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-1000" />
+                                stroke-dasharray="660" stroke-dashoffset="0" stroke-linecap="round" />
                     </svg>
                     <div id="timer-display" class="absolute text-6xl font-black text-gray-700 tracking-tighter">25:00</div>
                 </div>
 
-                <button id="start-btn" class="w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4">START SESSION</button>
+                <button id="start-btn" class="w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4 uppercase tracking-widest">Start</button>
                 <button id="reset-btn" class="text-gray-300 hover:text-gray-500 text-xs font-bold transition">↺ reset timer</button>
             </div>
 
             <div class="cute-card p-10 flex flex-col items-center justify-center text-center">
-                <div class="relative mb-8">
-                    <div class="absolute inset-0 bg-amber-200 blur-2xl opacity-40 rounded-full animate-pulse"></div>
-                    <div class="relative text-7xl animate-bounce">📅</div>
-                </div>
-                <h2 class="text-2xl font-black text-gray-700 mb-2">PLANNER</h2>
+                <div class="text-7xl mb-6 animate-bounce" style="animation-duration: 3s;">📅</div>
+                <h2 class="text-2xl font-black text-gray-700 mb-2 uppercase">Planner</h2>
                 <p class="text-gray-400 text-sm mb-10 leading-relaxed px-4">Organize your dreams into small, achievable steps! ✨</p>
-                <a href="Time_Management.html" class="w-full py-5 rounded-3xl btn-amber btn-bubbly font-black text-xl inline-block">OPEN PLANNER</a>
+                <a href="Time_Management.html" class="w-full py-5 rounded-3xl btn-amber btn-bubbly font-black text-xl inline-block">OPEN</a>
             </div>
 
             <div class="cute-card p-10 flex flex-col items-center">
                 <div class="text-5xl mb-6">🛡️</div>
-                <h2 class="text-2xl font-black text-pink-500 mb-8 tracking-wide">FOCUS SHIELD</h2>
+                <h2 class="text-2xl font-black text-pink-500 mb-8 uppercase">Shield</h2>
                 
-                <div class="w-full space-y-6">
+                <div class="w-full space-y-4">
                     <div class="relative">
                         <input type="text" id="domain-input" placeholder="youtube.com" 
-                               class="w-full bg-white border-4 border-pink-50 p-5 rounded-3xl text-sm outline-none focus:border-pink-200 transition-all placeholder:text-gray-300">
-                        <button id="add-domain-btn" class="absolute right-3 top-3 bottom-3 px-5 rounded-2xl btn-pink btn-bubbly font-bold text-xl">+</button>
+                               class="w-full bg-white border-4 border-pink-50 p-4 rounded-3xl text-sm outline-none focus:border-pink-200">
+                        <button id="add-domain-btn" class="absolute right-2 top-2 bottom-2 px-5 rounded-2xl btn-pink btn-bubbly font-bold text-xl">+</button>
                     </div>
                     
-                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[140px] p-4 bg-pink-50/50 rounded-[2.5rem] border-4 border-dashed border-pink-100 items-start align-content-start overflow-y-auto">
-                        <p id="empty-msg" class="text-pink-200 text-xs italic m-auto">Shield is empty... add a site!</p>
+                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[120px] p-4 bg-pink-50/50 rounded-[2.5rem] border-4 border-dashed border-pink-100 items-start">
+                        <p id="empty-msg" class="text-pink-200 text-xs italic m-auto">Shield is empty!</p>
                     </div>
 
-                    <button id="clear-list-btn" class="w-full text-pink-300 text-[10px] font-black uppercase hover:text-pink-500 tracking-widest transition">Deactivate Shield</button>
+                    <button id="clear-list-btn" class="w-full text-pink-300 text-[10px] font-black uppercase hover:text-pink-500 tracking-widest transition">Clear All</button>
                 </div>
             </div>
 
@@ -153,52 +136,108 @@
     </main>
 
     <script>
-        const TIMER_MODES = { 'focus': 25*60, 'break': 5*60 };
+        const TIMER_MODES = { 'focus': 25 * 60, 'break': 5 * 60 };
         let currentMode = 'focus';
         let timeLeft = TIMER_MODES[currentMode];
         let timerInterval;
         let isRunning = false;
         let sessions = 0;
 
+        const display = document.getElementById('timer-display');
+        const ring = document.getElementById('progress-ring');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const focusBtn = document.getElementById('focus-btn');
+        const breakBtn = document.getElementById('break-btn');
+
         function updateDisplay() {
             const mins = Math.floor(timeLeft / 60);
             const secs = timeLeft % 60;
-            document.getElementById('timer-display').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            
+            display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             const offset = 660 - (timeLeft / TIMER_MODES[currentMode]) * 660;
-            document.getElementById('progress-ring').style.strokeDashoffset = offset;
+            ring.style.strokeDashoffset = offset;
         }
 
-        document.getElementById('start-btn').onclick = () => {
+        function toggleAnimations(status) {
+            if (status) {
+                ring.classList.add('animating-ring');
+                display.classList.add('animating-text');
+            } else {
+                ring.classList.remove('animating-ring');
+                display.classList.remove('animating-text');
+            }
+        }
+
+        function switchMode(mode) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            currentMode = mode;
+            timeLeft = TIMER_MODES[mode];
+            startBtn.textContent = "START";
+            toggleAnimations(false);
+
+            if (mode === 'focus') {
+                focusBtn.className = "px-6 py-2 rounded-full font-bold text-xs btn-mint btn-bubbly";
+                breakBtn.className = "px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400";
+                ring.style.stroke = "#6EE7B7";
+                startBtn.className = "w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4 uppercase tracking-widest";
+            } else {
+                breakBtn.className = "px-6 py-2 rounded-full font-bold text-xs btn-pink btn-bubbly";
+                focusBtn.className = "px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400";
+                ring.style.stroke = "#F472B6";
+                startBtn.className = "w-full py-5 rounded-3xl btn-pink btn-bubbly font-black text-xl mb-4 uppercase tracking-widest";
+            }
+            updateDisplay();
+        }
+
+        startBtn.onclick = () => {
             if (isRunning) {
                 clearInterval(timerInterval);
-                document.getElementById('start-btn').textContent = "RESUME";
+                startBtn.textContent = "RESUME";
+                toggleAnimations(false);
             } else {
+                toggleAnimations(true);
                 timerInterval = setInterval(() => {
-                    if (timeLeft > 0) { timeLeft--; updateDisplay(); }
-                    else { 
-                        clearInterval(timerInterval); 
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        toggleAnimations(false);
                         if(currentMode === 'focus') {
                             sessions++;
                             document.getElementById('streak-count').textContent = sessions;
-                            confetti({ particleCount: 150, spread: 70, colors: ['#6EE7B7', '#F472B6', '#FCD34D'] });
+                            confetti({ particleCount: 150, spread: 70, colors: ['#6EE7B7', '#F472B6'] });
                         }
+                        alert("Great job! Session complete 🌸");
                     }
                 }, 1000);
-                document.getElementById('start-btn').textContent = "PAUSE";
+                startBtn.textContent = "PAUSE";
             }
             isRunning = !isRunning;
         };
+
+        resetBtn.onclick = () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = TIMER_MODES[currentMode];
+            startBtn.textContent = "START";
+            toggleAnimations(false);
+            updateDisplay();
+        };
+
+        focusBtn.onclick = () => switchMode('focus');
+        breakBtn.onclick = () => switchMode('break');
 
         document.getElementById('add-domain-btn').onclick = () => {
             const input = document.getElementById('domain-input');
             const container = document.getElementById('domain-tags');
             const emptyMsg = document.getElementById('empty-msg');
-            
-            if(input.value) {
-                if(emptyMsg) emptyMsg.remove();
+            if (input.value) {
+                if (emptyMsg) emptyMsg.remove();
                 const tag = document.createElement('div');
-                tag.className = "bg-white text-pink-500 px-4 py-2 rounded-full text-xs font-bold border-2 border-pink-100 shadow-sm animate-bounce";
+                tag.className = "bg-white text-pink-500 px-4 py-2 rounded-full text-xs font-bold border-2 border-pink-100 shadow-sm animate-pulse";
                 tag.textContent = input.value;
                 container.appendChild(tag);
                 input.value = "";
