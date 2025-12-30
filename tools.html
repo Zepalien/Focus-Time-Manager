@@ -3,257 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productivity Tools</title>
-    <!-- Load Tailwind CSS -->
+    <title>Focus | Productivity Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* Define custom colors based on provided images (Dark Blue/Teal/Yellow theme) */
-        :root {
-            --color-bg-dark: #1A1F36;
-            --color-card-dark: #2A2F4A;
-            --color-teal: #4DC0C8;
-            --color-yellow: #FBB034;
-        }
-
+        * { font-family: 'Poppins', sans-serif; }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-bg-dark);
+            background-color: #0F172A; /* Deep Indigo Night */
             color: white;
         }
-        .header-nav a {
-            color: #ccc;
-            transition: color 0.2s;
-        }
-        .header-nav a.active, .header-nav a:hover {
-            color: var(--color-teal);
-        }
-        .tool-card {
-            background-color: var(--color-card-dark);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            min-height: 400px;
-        }
-        .tool-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .primary-accent {
-            color: var(--color-yellow);
-        }
-        .secondary-accent {
-            color: var(--color-teal);
-        }
-        .btn-yellow {
-            background-color: var(--color-yellow);
-            color: var(--color-bg-dark);
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-        .btn-teal {
-            background-color: var(--color-teal);
-            color: var(--color-bg-dark);
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-        .btn-yellow:hover { background-color: #e59a00; }
-        .btn-teal:hover { background-color: #3aa8b0; }
 
-        /* Custom styles for the Time Management Icon link */
-        .time-management-link {
-            background-color: rgba(77, 192, 200, 0.1); /* Light teal background */
-            border: 2px solid var(--color-teal);
-            box-shadow: 0 0 15px rgba(77, 192, 200, 0.4);
-            transition: all 0.3s ease-in-out;
+        /* Glassmorphism Card Style */
+        .tool-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
-        .time-management-link:hover {
-            background-color: rgba(77, 192, 200, 0.2);
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(77, 192, 200, 0.6);
+
+        /* Neon Glows on Hover */
+        .timer-card:hover { border-color: #2DD4BF; box-shadow: 0 0 30px rgba(45, 212, 191, 0.2); }
+        .planner-card:hover { border-color: #F0AB3F; box-shadow: 0 0 30px rgba(240, 171, 63, 0.2); }
+        .blocker-card:hover { border-color: #F472B6; box-shadow: 0 0 30px rgba(244, 114, 182, 0.2); }
+
+        /* Timer Text Glow */
+        #timer-display {
+            text-shadow: 0 0 15px rgba(45, 212, 191, 0.6);
         }
-        .input-style {
-            background-color: rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
+
+        .btn-gradient-teal { background: linear-gradient(135deg, #2DD4BF 0%, #0891B2 100%); color: #0F172A; }
+        .btn-gradient-amber { background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%); color: #0F172A; }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- Header Navigation (Simplified for layout context) -->
-    <header class="p-4 flex justify-between items-center bg-[#101423] shadow-lg">
-        <div class="text-2xl font-extrabold secondary-accent">FOCUS</div>
-        <nav class="header-nav space-x-6 text-sm md:text-base">
-            <a href="index.html">DASHBOARD</a>
-            <a href="tools.html" class="active font-bold">TOOLS</a>
-            <a href="modules.html">MODULE</a>
-            <a href="Quiz.html">QUIZ</a>
-            <a href="community.html">COMMUNITY</a>
+    <header class="p-4 flex justify-between items-center bg-[#0B1120] border-b border-white/5">
+        <div class="text-2xl font-extrabold text-teal-400 tracking-tighter">FOCUS</div>
+        <nav class="space-x-6 text-sm font-medium">
+            <a href="index.html" class="text-gray-400 hover:text-teal-400">DASHBOARD</a>
+            <a href="#" class="text-teal-400 border-b-2 border-teal-400 pb-1">TOOLS</a>
+            <a href="modules.html" class="text-gray-400 hover:text-teal-400">MODULE</a>
+            <a href="Quiz.html" class="text-gray-400 hover:text-teal-400">QUIZ</a>
         </nav>
     </header>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<main class="p-8">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-4xl font-extrabold">Productivity Tools</h1>
-        <div class="bg-gray-800 px-4 py-2 rounded-full border border-orange-500 flex items-center gap-2">
-            <span class="text-xl">🔥</span>
-            <span class="font-bold text-orange-400">Streak: <span id="streak-count">0</span> sessions</span>
-        </div>
-    </div>
-
-    <div class="flex flex-col md:flex-row gap-8">
-
-        <div class="tool-card p-6 rounded-xl shadow-lg w-full md:w-1/3 relative overflow-hidden">
-            <h2 class="text-2xl font-bold primary-accent mb-4 border-b border-primary-accent/30 pb-2">Pomodoro Timer</h2>
-
-            <div class="flex space-x-2 mb-6">
-                <button id="focus-btn" class="px-3 py-1 text-xs rounded-full btn-teal timer-mode-btn">Focus</button>
-                <button id="short-break-btn" class="px-3 py-1 text-xs rounded-full bg-gray-600 text-white timer-mode-btn">Short Break</button>
-                <button id="long-break-btn" class="px-3 py-1 text-xs rounded-full bg-gray-600 text-white timer-mode-btn">Long Break</button>
+    <main class="p-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+            <h1 class="text-5xl font-extrabold tracking-tight">Productivity <span class="text-teal-400">Tools</span></h1>
+            <div class="bg-slate-800/50 px-6 py-3 rounded-3xl border border-orange-500/30 flex items-center gap-3">
+                <span class="text-2xl animate-pulse">🔥</span>
+                <span class="font-bold text-orange-400 uppercase tracking-widest text-xs">Session Streak: <span id="streak-count" class="text-lg">0</span></span>
             </div>
-
-            <div class="relative flex items-center justify-center my-4">
-                <svg class="w-48 h-48 transform -rotate-90">
-                    <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="8" fill="transparent" class="text-gray-700" />
-                    <circle id="progress-ring" cx="96" cy="96" r="88" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="552.92" stroke-dashoffset="0" class="text-teal-400 transition-all duration-1000 ease-linear" />
-                </svg>
-                <div id="timer-display" class="absolute text-5xl font-extrabold">25:00</div>
-            </div>
-
-            <div class="flex justify-center space-x-4">
-                <button id="start-btn" class="px-6 py-3 rounded-xl btn-teal flex items-center hover:scale-105 transition-transform">
-                    <span id="start-text">Start</span>
-                </button>
-                <button id="reset-btn" class="px-6 py-3 rounded-xl btn-yellow flex items-center hover:scale-105 transition-transform">Reset</button>
-            </div>
-            <p id="timer-status" class="text-center mt-4 text-sm text-green-400 italic">Ready to crush it!</p>
         </div>
 
-        <div class="tool-card p-6 rounded-xl shadow-lg w-full md:w-1/3 flex flex-col items-center justify-center text-center">
-            <h2 class="text-2xl font-bold secondary-accent mb-6 border-b border-secondary-accent/30 pb-2 w-full">Time Management Planner</h2>
-            <a href="Time_Management.html" class="time-management-link p-10 rounded-3xl w-full max-w-xs h-64 flex flex-col items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="text-white mb-4 animate-bounce">
-                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                    <path d="M3 10h18M8 2v4M16 2v4"></path>
-                </svg>
-                <p class="text-xl font-bold">Open Planner</p>
-            </a>
-            <a href="Time_Management.html" class="mt-6 px-8 py-3 rounded-xl btn-teal text-white flex items-center group">
-                Go to Planner
-                <span class="ml-2 group-hover:translate-x-2 transition-transform">→</span>
-            </a>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        <div class="tool-card p-6 rounded-xl shadow-lg w-full md:w-1/3">
-            <h2 class="text-2xl font-bold text-red-400 mb-4 border-b border-red-400/30 pb-2">Focus Shield</h2>
-            <p class="text-sm text-gray-400 mb-4">Add domains to your "No-Go" zone during sessions.</p>
-            <div class="flex space-x-2 mb-6">
-                <input type="text" id="domain-input" placeholder="e.g. youtube.com" class="input-style flex-grow p-3 rounded-lg text-sm outline-none border-teal-500/50">
-                <button id="add-domain-btn" class="p-3 rounded-lg bg-teal-500 hover:rotate-90 transition-transform">
-                    <span class="text-xl">+</span>
-                </button>
+            <div class="tool-card timer-card p-8 rounded-[2rem] flex flex-col items-center">
+                <h2 class="text-xl font-bold text-teal-400 mb-6 uppercase tracking-widest">Pomodoro</h2>
+                
+                <div class="flex gap-2 mb-8">
+                    <button id="focus-btn" class="text-[10px] px-4 py-2 rounded-full font-bold btn-gradient-teal">FOCUS</button>
+                    <button id="short-break-btn" class="text-[10px] px-4 py-2 rounded-full font-bold bg-slate-700 text-gray-300">BREAK</button>
+                </div>
+
+                <div class="relative flex items-center justify-center mb-8">
+                    <svg class="w-56 h-56 transform -rotate-90">
+                        <circle cx="112" cy="112" r="100" stroke="rgba(255,255,255,0.05)" stroke-width="12" fill="transparent" />
+                        <circle id="progress-ring" cx="112" cy="112" r="100" stroke="#2DD4BF" stroke-width="12" fill="transparent" 
+                                stroke-dasharray="628" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-1000 ease-linear" />
+                    </svg>
+                    <div id="timer-display" class="absolute text-6xl font-black text-teal-400">25:00</div>
+                </div>
+
+                <div class="flex gap-4 w-full">
+                    <button id="start-btn" class="flex-1 py-4 rounded-2xl btn-gradient-teal font-black text-sm uppercase transition-transform active:scale-95">Start</button>
+                    <button id="reset-btn" class="px-6 py-4 rounded-2xl bg-slate-700 font-bold text-sm hover:bg-slate-600 transition-colors">↺</button>
+                </div>
             </div>
-            <div id="domain-tags" class="flex flex-wrap gap-2 mb-4">
-                <span class="bg-red-500/20 border border-red-500/50 px-3 py-1 rounded-full text-xs">whatsapp.com</span>
+
+            <div class="tool-card planner-card p-8 rounded-[2rem] flex flex-col items-center justify-center text-center">
+                <h2 class="text-xl font-bold text-amber-400 mb-6 uppercase tracking-widest">Planner</h2>
+                <div class="group relative py-10">
+                    <div class="absolute inset-0 bg-amber-400/20 blur-3xl rounded-full group-hover:bg-amber-400/40 transition-all"></div>
+                    <svg class="relative w-24 h-24 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <p class="text-gray-400 text-sm mb-8 px-4">Ready to organize your next big project?</p>
+                <a href="Time_Management.html" class="w-full py-4 rounded-2xl btn-gradient-amber font-black text-sm uppercase transition-transform hover:scale-105 inline-block">Open Planner</a>
             </div>
-            <button id="clear-list-btn" class="w-full py-3 rounded-xl bg-red-600/20 border border-red-600 text-red-400 hover:bg-red-600 hover:text-white transition-all">Clear All Shields</button>
+
+            <div class="tool-card blocker-card p-8 rounded-[2rem]">
+                <h2 class="text-xl font-bold text-pink-400 mb-6 uppercase tracking-widest text-center">Focus Shield</h2>
+                <div class="space-y-4">
+                    <div class="relative">
+                        <input type="text" id="domain-input" placeholder="Block domain..." class="w-full bg-slate-900/50 border border-white/10 p-4 rounded-2xl text-sm focus:border-pink-500 outline-none transition-all">
+                        <button id="add-domain-btn" class="absolute right-2 top-2 bottom-2 px-4 rounded-xl btn-gradient-teal text-xs font-bold">+</button>
+                    </div>
+                    
+                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[100px] p-2">
+                        <span class="bg-pink-500/10 border border-pink-500/30 px-3 py-1 rounded-full text-[10px] text-pink-400">youtube.com</span>
+                    </div>
+
+                    <button id="clear-list-btn" class="w-full py-3 rounded-xl border border-pink-500/30 text-pink-500 text-[10px] font-bold uppercase hover:bg-pink-500 hover:text-white transition-all">Deactivate All Shields</button>
+                </div>
+            </div>
+
         </div>
-    </div>
-</main>
+    </main>
 
-<script>
-    const TIMER_MODES = { 'focus': 25*60, 'short-break': 5*60, 'long-break': 15*60 };
-    let currentMode = 'focus';
-    let timeLeft = TIMER_MODES[currentMode];
-    let timerInterval;
-    let isRunning = false;
-    let sessionsCompleted = 0;
+    <script>
+        // Copy the previous script logic here (Timer, Streak, Domain Adding)
+        // I've updated the Ring Circumference for the new size (r=100 -> 628)
+        const TIMER_MODES = { 'focus': 25*60, 'short-break': 5*60 };
+        let currentMode = 'focus';
+        let timeLeft = TIMER_MODES[currentMode];
+        let timerInterval;
+        let isRunning = false;
+        let sessions = 0;
 
-    const progressRing = document.getElementById('progress-ring');
-    const circumference = 2 * Math.PI * 88;
-
-    function setProgress(percent) {
-        const offset = circumference - (percent / 100) * circumference;
-        progressRing.style.strokeDashoffset = offset;
-    }
-
-    function updateDisplay() {
-        const mins = Math.floor(timeLeft / 60);
-        const secs = timeLeft % 60;
-        document.getElementById('timer-display').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        
-        const totalTime = TIMER_MODES[currentMode];
-        const percent = (timeLeft / totalTime) * 100;
-        setProgress(percent);
-    }
-
-    function toggleTimer() {
-        if (isRunning) {
-            clearInterval(timerInterval);
-            document.getElementById('start-text').textContent = "Start";
-        } else {
-            timerInterval = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    updateDisplay();
-                } else {
-                    clearInterval(timerInterval);
-                    handleTimerComplete();
-                }
-            }, 1000);
-            document.getElementById('start-text').textContent = "Pause";
+        function updateDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timer-display').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            
+            const offset = 628 - (timeLeft / TIMER_MODES[currentMode]) * 628;
+            document.getElementById('progress-ring').style.strokeDashoffset = offset;
         }
-        isRunning = !isRunning;
-    }
 
-    function handleTimerComplete() {
-        if (currentMode === 'focus') {
-            sessionsCompleted++;
-            document.getElementById('streak-count').textContent = sessionsCompleted;
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        }
-        alert("Session Complete!");
-        resetTimer();
-    }
+        document.getElementById('start-btn').onclick = () => {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                document.getElementById('start-btn').textContent = "Start";
+            } else {
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) { timeLeft--; updateDisplay(); }
+                    else { 
+                        clearInterval(timerInterval); 
+                        if(currentMode === 'focus') {
+                            sessions++;
+                            document.getElementById('streak-count').textContent = sessions;
+                            confetti({ particleCount: 150, spread: 70, colors: ['#2DD4BF', '#F472B6'] });
+                        }
+                        alert("Session Complete!");
+                    }
+                }, 1000);
+                document.getElementById('start-btn').textContent = "Pause";
+            }
+            isRunning = !isRunning;
+        };
 
-    function resetTimer() {
-        clearInterval(timerInterval);
-        isRunning = false;
-        timeLeft = TIMER_MODES[currentMode];
-        document.getElementById('start-text').textContent = "Start";
+        document.getElementById('add-domain-btn').onclick = () => {
+            const input = document.getElementById('domain-input');
+            if(input.value) {
+                const tag = document.createElement('span');
+                tag.className = "bg-pink-500/10 border border-pink-500/30 px-3 py-1 rounded-full text-[10px] text-pink-400 animate-bounce";
+                tag.textContent = input.value;
+                document.getElementById('domain-tags').appendChild(tag);
+                input.value = "";
+            }
+        };
+
         updateDisplay();
-    }
-
-    function switchMode(mode) {
-        currentMode = mode;
-        // Update UI colors based on mode
-        progressRing.className = mode === 'focus' ? 'text-teal-400' : 'text-yellow-400';
-        resetTimer();
-    }
-
-    // --- Events ---
-    document.getElementById('start-btn').addEventListener('click', toggleTimer);
-    document.getElementById('reset-btn').addEventListener('click', resetTimer);
-    document.getElementById('focus-btn').addEventListener('click', () => switchMode('focus'));
-    document.getElementById('short-break-btn').addEventListener('click', () => switchMode('short-break'));
-    document.getElementById('long-break-btn').addEventListener('click', () => switchMode('long-break'));
-
-    // Distraction Blocker Tags
-    document.getElementById('add-domain-btn').addEventListener('click', () => {
-        const input = document.getElementById('domain-input');
-        if(input.value) {
-            const tag = document.createElement('span');
-            tag.className = "bg-red-500/20 border border-red-500/50 px-3 py-1 rounded-full text-xs animate-pulse";
-            tag.textContent = input.value;
-            document.getElementById('domain-tags').appendChild(tag);
-            input.value = "";
-        }
-    });
-
-    updateDisplay();
-</script>
+    </script>
 </body>
-
 </html>
-
-
