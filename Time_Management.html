@@ -86,8 +86,12 @@
     .weeks span { 
         font-family: 'Indie Flower', cursive; font-size: 1.2rem; 
         cursor: pointer; padding: 2px 10px; transition: 0.2s;
+        border-bottom: 2px solid transparent;
     }
-    .weeks span.active { background: var(--highlight); transform: skewX(-10deg); font-weight: bold; }
+    .weeks span.active { background: var(--highlight); transform: skewX(-10deg); font-weight: bold; border-bottom: none; }
+    
+    /* NEW: Highlighting weeks that have tasks */
+    .weeks span.has-data { border-bottom: 2px dashed var(--sage); color: var(--sage); }
 
     .days { display: flex; gap: 12px; margin-top: 40px; }
     .day { 
@@ -237,6 +241,7 @@
         localStorage.setItem("journal_tasks", JSON.stringify(tasks));
         updateGlobalSummary();
         updateBadges();
+        generateWeeks(); // Re-generate to update week highlights
     }
 
     function generateWeeks() {
@@ -245,7 +250,13 @@
         for (let w = 1; w <= 14; w++) {
             const span = document.createElement('span');
             span.textContent = "Week " + w;
+            
+            // Highlight check: Does this week have any tasks?
+            const hasData = tasks.some(t => t.week === w);
+            if (hasData) span.classList.add("has-data");
+
             if (w === selectedWeek) span.classList.add("active");
+            
             span.onclick = () => {
                 selectedWeek = w;
                 selectedDay = null;
