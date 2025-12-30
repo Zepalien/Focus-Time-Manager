@@ -3,267 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Study Cafe | Interactive Edition</title>
+    <title>The Study Cafe | Clean Light Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Caveat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --espresso-dark: #1F120D;
-            --wood-bg: #2D1B14;
-            --caramel: #E6A15C;
-            --latte-cream: #FFFDF5;
-            --post-it: #FFF9C4;
-            --text-main: #2D1B14;
+            --latte-bg: #FDFBFA;
+            --sidebar-cream: #F5F0EB;
+            --coffee-text: #3E2723;
+            --accent-gold: #D97706;
+            --paper-white: #FFFFFF;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--wood-bg);
-            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); 
-            color: white;
+            background-color: var(--latte-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/retina-wood.png'); 
+            color: var(--coffee-text);
             margin: 0;
-            overflow-x: hidden;
         }
 
         .handwritten { font-family: 'Caveat', cursive; }
         .serif { font-family: 'Playfair Display', serif; }
 
-        /* --- 1. STEAM ANIMATION --- */
-        .steam {
-            display: inline-block;
-            animation: steamRise 2s infinite ease-in-out;
-            filter: grayscale(1) contrast(0.5) opacity(0.6);
-        }
-        @keyframes steamRise {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { transform: translateY(-10px) scale(1.2); opacity: 0.5; }
-            100% { transform: translateY(-20px) scale(1.5); opacity: 0; }
-        }
-
-        /* --- 2. EASTER EGG: COFFEE STAIN --- */
-        .coffee-stain {
-            position: fixed;
-            bottom: -20px;
-            right: -20px;
-            width: 150px;
-            opacity: 0.15;
-            pointer-events: auto;
-            cursor: pointer;
-            transition: opacity 0.3s;
-            z-index: 10;
-        }
-        .coffee-stain:hover { opacity: 0.4; }
-
-        /* --- 3. INTERACTIVE CARDS --- */
-        .napkin-card, .post-it-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .napkin-card:hover {
-            transform: rotate(0deg) translateY(-10px) scale(1.02);
-            box-shadow: 20px 20px 40px rgba(0,0,0,0.5);
-        }
-        .post-it-card:hover {
-            transform: rotate(0deg) translateY(-5px);
-            filter: brightness(1.05);
-        }
-
-        /* SIDEBAR STYLES */
+        /* SIDEBAR - Clean & Light */
         .sidebar-panel {
-            background-color: var(--espresso-dark);
+            background-color: var(--sidebar-cream);
             width: 100%;
             padding: 25px;
-            border-right: 3px solid #3E2723;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.6);
+            border-right: 1px solid #E5E0DA;
         }
         @media (min-width: 1024px) { .sidebar-panel { width: 320px; min-height: 100vh; } }
 
         .module-category-button {
-            background: rgba(255,255,255,0.05);
-            color: #D1D1D1;
+            background: white;
+            color: var(--coffee-text);
             padding: 12px 15px;
             margin-bottom: 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(230, 161, 92, 0.2);
+            border-radius: 8px;
+            border: 1px solid #DDD6CF;
             text-align: left;
             transition: 0.3s;
             cursor: pointer;
             font-weight: 600;
             width: 100%;
         }
-        .module-category-button.active { background-color: var(--caramel); color: var(--espresso-dark); }
+        .module-category-button.active { 
+            background-color: var(--accent-gold); 
+            color: white;
+            border-color: var(--accent-gold);
+        }
 
         .method-button {
-            color: var(--caramel);
+            color: #795548;
             padding: 8px 15px 8px 30px;
             cursor: pointer;
             font-size: 0.95rem;
-            opacity: 0.8;
+            display: block;
+            transition: 0.2s;
+        }
+        .method-button.active { color: var(--accent-gold); font-weight: bold; text-decoration: underline; }
+
+        /* CARDS - Enhanced Readability */
+        .content-card {
+            background-color: var(--paper-white);
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            border: 1px solid #F0EDE9;
+        }
+
+        .card-label {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
             display: block;
         }
-        .method-button.active { opacity: 1; font-weight: bold; color: #fff; text-decoration: underline; }
 
-        .cup-loader { font-size: 70px; animation: steamRise 1.5s infinite ease-in-out; }
-
-        /* BREW BUTTON STYLE */
-        .brew-btn {
-            background: var(--caramel);
-            color: var(--espresso-dark);
-            font-weight: bold;
-            padding: 12px 24px;
-            border-radius: 50px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(230, 161, 92, 0.3);
-        }
-        .brew-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(230, 161, 92, 0.5);
+        header {
+            background-color: white;
+            border-bottom: 2px solid var(--sidebar-cream);
         }
     </style>
 </head>
 <body>
 
-    <img src="https://www.pngall.com/wp-content/uploads/5/Coffee-Stain-PNG-Transparent-HD-Photo.png" 
-         class="coffee-stain" 
-         onclick="alert('Barista Tip: Take a 30-second eye break every 20 minutes!')" 
-         title="Click for a tip!">
-
-    <header class="sticky top-0 z-50 shadow-2xl" style="background-color: var(--espresso-dark); border-bottom: 3px solid var(--caramel);">
+    <header class="sticky top-0 z-50 shadow-sm">
         <div class="flex justify-between items-center px-6 lg:px-10 py-5">
             <div class="flex items-center">
-                <div class="relative mr-3">
-                    <span class="absolute -top-4 left-2 steam text-xl">♨</span>
-                    <span class="text-3xl">☕</span>
-                </div>
-                <span class="text-2xl font-bold tracking-tighter serif">THE STUDY <span style="color: var(--caramel);">CAFE</span></span>
+                <span class="text-3xl mr-2">☕</span>
+                <span class="text-2xl font-bold tracking-tighter serif">THE STUDY <span style="color: var(--accent-gold);">CAFE</span></span>
             </div>
-            <button id="menu-toggle" class="lg:hidden text-white text-3xl">☰</button>
+
             <nav class="hidden lg:flex space-x-8 text-xs font-bold uppercase tracking-widest">
-                <a href="#" class="text-gray-400 hover:text-white">DASHBOARD</a>
-                <a href="#" class="text-gray-400 hover:text-white">TOOLS</a>
-                <a href="#" class="text-white border-b-2 border-caramel">MODULES</a>
-                <a href="#" class="text-gray-400 hover:text-white">QUIZ</a>
-                <a href="#" class="text-gray-400 hover:text-white">COMMUNITY</a>
+                <a href="index.html" class="text-gray-500 hover:text-black">DASHBOARD</a>
+                <a href="tools.html" class="text-gray-500 hover:text-black">TOOLS</a>
+                <a href="modules.html" class="text-black border-b-2 border-amber-600">MODULES</a>
+                <a href="Quiz.html" class="text-gray-500 hover:text-black">QUIZ</a>
+                <a href="community.html" class="text-gray-500 hover:text-black">COMMUNITY</a>
             </nav>
-        </div>
-        <div id="mobile-menu" class="hidden lg:hidden bg-[#1F120D] px-6 pb-6 flex flex-col space-y-4 text-sm font-bold uppercase">
-            <a href="#" class="text-gray-400">DASHBOARD</a>
-            <a href="#" class="text-caramel">MODULES</a>
         </div>
     </header>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
         <aside class="sidebar-panel">
-            <h2 class="text-4xl handwritten text-center mb-10" style="color: var(--caramel);">Today's Specials</h2>
-            <div id="module-list" class="flex flex-col space-y-2"></div>
+            <h2 class="text-4xl handwritten text-center mb-10 text-amber-900">Study Menu</h2>
+            <div id="module-list" class="flex flex-col"></div>
         </aside>
 
-        <main class="flex-1 p-6 lg:p-20 relative">
-            <div id="content-area"></div>
+        <main class="flex-1 p-6 lg:p-16">
+            <div id="content-area" class="max-w-5xl mx-auto"></div>
         </main>
     </div>
 
     <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        menuToggle.onclick = () => mobileMenu.classList.toggle('hidden');
-
         const methodsData = {
             'pomodoro': {
-                name: "The Pomodoro Espresso",
+                name: "The Pomodoro Technique",
                 category: 'time',
-                info: "Break your work into 25-minute 'brews' followed by a quick 5-minute 'sip'. Keeps energy high.",
-                secret: "The Secret: Use a physical timer for a healthy sense of urgency.",
-                recipe: "1. Pick one task<br>2. Set timer for 25m<br>3. Work until bell rings<br>4. Take 5m break",
-                video: "Mastering the Timer",
+                info: "Stay productive by working in 25-minute bursts. It prevents mental fatigue and keeps you focused on one task at a time.",
+                secret: "Pro Tip: Set a specific goal for each 25-minute session to maximize your progress.",
+                recipe: "1. Pick a single task\n2. Set a timer for 25 minutes\n3. Work until the timer rings\n4. Take a 5-minute break",
+                video: "Master the Pomodoro Technique",
                 videoUrl: "https://www.youtube.com/watch?v=mNBmG24djoY"
             },
             'frog': {
-                name: "The Morning Frog Shot",
+                name: "Eat That Frog!",
                 category: 'focus',
-                info: "Tackle your biggest, scariest task first thing. Once done, everything else feels easy.",
-                secret: "The Secret: Do not check your phone until the frog is finished!",
-                recipe: "1. Identify your hardest task<br>2. Block first 90m of day<br>3. Eat the frog!<br>4. Enjoy momentum",
-                video: "Frog Method Guide",
+                info: "Complete your most difficult task first thing in the morning. This builds massive momentum for the rest of your day.",
+                secret: "Pro Tip: Identify your 'frog' the night before so you can start immediately the next day.",
+                recipe: "1. List your daily tasks\n2. Identify the hardest one (the frog)\n3. Do it first thing\n4. Feel the relief!",
+                video: "The 'Eat That Frog' Method",
                 videoUrl: "https://www.youtube.com/watch?v=ntSraUH4Rlo"
-            },
-            'active-recall': {
-                name: "The Recall Roast",
-                category: 'study',
-                info: "Force your brain to pull information out instead of just re-reading. Builds permanent memory.",
-                secret: "The Secret: Try to explain the concept to an empty chair without looking at notes.",
-                recipe: "1. Read one section<br>2. Close the book<br>3. Write down memory items<br>4. Fill gaps",
-                video: "Active Recall Tutorial",
-                videoUrl: "https://www.youtube.com/watch?v=IyvlgRf7u3Y"
             }
         };
 
         const modules = {
-            'time': { name: "Quick Shots", methods: ['pomodoro'] },
-            'focus': { name: "Slow Brews", methods: ['frog'] },
-            'study': { name: "Master Blends", methods: ['active-recall'] }
+            'time': { name: "Time Management", methods: ['pomodoro'] },
+            'focus': { name: "Deep Focus", methods: ['frog'] }
         };
-
-        let currentOpenCategory = 'time';
 
         function render(mId) {
             const data = methodsData[mId];
-            currentOpenCategory = data.category;
             const area = document.getElementById('content-area');
             const list = document.getElementById('module-list');
 
+            // Render Sidebar
             list.innerHTML = '';
-            Object.keys(modules).forEach(catKey => {
-                const isActiveCat = (catKey === currentOpenCategory);
-                const catBtn = document.createElement('button');
-                catBtn.className = `module-category-button ${isActiveCat ? 'active' : ''}`;
-                catBtn.innerText = modules[catKey].name;
-                catBtn.onclick = () => render(modules[catKey].methods[0]);
-                list.appendChild(catBtn);
+            Object.keys(modules).forEach(cat => {
+                const isActive = (cat === data.category);
+                const btn = document.createElement('button');
+                btn.className = `module-category-button ${isActive ? 'active' : ''}`;
+                btn.innerText = modules[cat].name;
+                btn.onclick = () => render(modules[cat].methods[0]);
+                list.appendChild(btn);
 
-                if(isActiveCat) {
-                    modules[catKey].methods.forEach(methodId => {
-                        const methodBtn = document.createElement('button');
-                        methodBtn.className = `method-button ${methodId === mId ? 'active' : ''}`;
-                        methodBtn.innerText = methodsData[methodId].name;
-                        methodBtn.onclick = () => render(methodId);
-                        list.appendChild(methodBtn);
+                if(isActive) {
+                    modules[cat].methods.forEach(methodId => {
+                        const mBtn = document.createElement('button');
+                        mBtn.className = `method-button ${methodId === mId ? 'active' : ''}`;
+                        mBtn.innerText = methodsData[methodId].name;
+                        mBtn.onclick = () => render(methodId);
+                        list.appendChild(mBtn);
                     });
                 }
             });
 
-            area.innerHTML = `<div class="flex flex-col items-center justify-center py-20"><div class="cup-loader">☕</div><h2 class="handwritten text-3xl mt-5">Preparing your brew...</h2></div>`;
-            
-            setTimeout(() => {
-                area.innerHTML = `
-                    <h1 class="serif text-3xl lg:text-5xl text-center mb-10" style="color: var(--caramel)">${data.name}</h1>
-                    
-                    <div class="flex justify-center mb-12">
-                        <button class="brew-btn" onclick="alert('Starting your 25-minute timer! Focus on the aroma of knowledge.')">☕ START BREWING</button>
+            // Render Content
+            area.innerHTML = `
+                <h1 class="serif text-5xl text-center mb-12 text-amber-950">${data.name}</h1>
+                
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <div class="content-card">
+                        <span class="card-label">How it works</span>
+                        <p class="text-xl leading-relaxed text-gray-700 mb-8">${data.info}</p>
+                        <div class="p-5 bg-amber-50 rounded-lg border-l-4 border-amber-500 italic text-amber-900">
+                            ${data.secret}
+                        </div>
                     </div>
 
-                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
-                        <div class="napkin-card">
-                            <span class="card-header-label">The Secret Ingredient</span>
-                            <p class="text-lg lg:text-xl mb-6 font-medium">${data.info}</p>
-                            <div class="p-4 bg-orange-100 border-l-4 border-orange-500 font-bold italic text-orange-900">${data.secret}</div>
+                    <div class="space-y-8">
+                        <div class="content-card" style="background-color: #FFFDE7;">
+                            <span class="card-label" style="color: #5D4037;">The Steps</span>
+                            <pre class="whitespace-pre-wrap font-sans text-lg text-gray-700 leading-loose">${data.recipe}</pre>
                         </div>
 
-                        <div class="space-y-8">
-                            <div class="post-it-card">
-                                <span class="card-header-label" style="color: #5D4037">The Recipe</span>
-                                <p class="font-mono text-sm leading-loose">${data.recipe}</p>
+                        <a href="${data.videoUrl}" target="_blank" class="flex items-center justify-between p-6 bg-white border-2 border-amber-100 rounded-xl hover:border-amber-400 transition-all shadow-sm group">
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Video Tutorial</p>
+                                <p class="text-lg font-bold text-amber-900 group-hover:text-amber-600">${data.video}</p>
                             </div>
-
-                            <a href="${data.videoUrl}" target="_blank" class="bg-black/40 p-5 rounded-lg border-l-4 border-caramel flex justify-between items-center hover:bg-black/60 group">
-                                <div>
-                                    <p class="text-[10px] uppercase text-gray-400">Barista's Guide</p>
-                                    <p class="font-bold text-caramel group-hover:underline">${data.video}</p>
-                                </div>
-                                <span class="text-2xl group-hover:scale-125 transition-transform">📽️</span>
-                            </a>
-                        </div>
-                    </div>`;
-            }, 600);
+                            <span class="text-3xl">🎬</span>
+                        </a>
+                    </div>
+                </div>
+            `;
         }
 
         window.onload = () => render('pomodoro');
