@@ -3,260 +3,219 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FOCUS Journal - Semester Planner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Indie+Flower&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  
+  <title>Semester Planner</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    /* CSS Root & Base Styles */
-    :root {
-        --paper: #fdfbf7;
-        --sage: #84a59d;
-        --highlight: #f9cf48;
-        --text-dark: #2c1810;
-        --accent-red: #ff6b6b;
-        --glass: rgba(255, 255, 255, 0.7);
-    }
-
-    body { 
-        margin:0; font-family: 'Poppins', sans-serif; 
-        background-color: #f4f1ea; 
-        background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
-        background-size: 26px 26px; 
-        color: var(--text-dark);
-    }
-
-    /* Layout & Navigation */
-    .navigation {
-        background: #fff; padding: 12px 40px; display: flex;
-        justify-content: space-between; align-items: center;
-        border-bottom: 2px dashed var(--sage);
-        position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
-    }
-    .nav { display: flex; gap: 25px; }
-    .nav-link { text-decoration: none; color: #6b7280; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
-    .nav-link.active { color: var(--sage); border-bottom: 2px solid var(--sage); }
-
-    .container { display:flex; height:100vh; padding-top: 70px; box-sizing: border-box; }
-
-    /* Left Side: Journal Page */
-    .left { width:68%; padding:40px; overflow-y: auto; box-sizing: border-box; }
-    .semester-card { 
-        background: #fff; padding: 40px; border: 1px solid #e0d3bd;
-        border-radius: 2px; box-shadow: 12px 12px 0px rgba(215, 211, 199, 0.4);
+    /* Additional styling to ensure the summary looks like Pic 2 */
+    .polaroid {
+        background: white; 
+        padding: 20px; 
+        border-radius: 8px; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        margin-top: 30px;
         position: relative;
     }
-    .washi-tape {
-        position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
-        width: 150px; height: 38px; background: rgba(132, 165, 157, 0.5);
+    .summary-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        text-align: center;
     }
-    .semester-card h2 { font-family: 'Dancing Script', cursive; text-align: center; font-size: 3rem; margin: 10px 0 35px; }
-
-    /* Week Highlighting Logic */
-    .weeks { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-    .weeks span { font-family: 'Indie Flower', cursive; font-size: 1.2rem; cursor: pointer; padding: 2px 10px; }
-    
-    /* Highlight for current selection */
-    .weeks span.active { background: var(--highlight); transform: skewX(-10deg); font-weight: bold; }
-    
-    /* INDICATOR: Highlight weeks that actually contain entries */
-    .weeks span.has-entries { border-bottom: 3px double var(--sage); }
-
-    .days { display: flex; gap: 12px; margin-top: 40px; }
-    .day { 
-        flex: 1; background: #fff; border: 1px solid #f0f0f0; 
-        border-bottom: 4px solid #d7d3c7; padding: 25px 5px; text-align: center;
-        cursor: pointer; font-family: 'Indie Flower', cursive; font-size: 1.1rem;
-        position: relative; transition: 0.3s;
-    }
-    .badge { 
-        position: absolute; top: 5px; right: 5px; background: var(--accent-red);
-        color: white; border-radius: 50%; width: 20px; height: 20px;
-        font-size: 11px; display: none; align-items: center; justify-content: center;
-    }
-
-    /* Right Sidebar: Tallied Stats */
-    .right { 
-        width:32%; background: var(--glass); backdrop-filter: blur(12px);
-        padding:40px; border-left: 1px solid #e0d3bd; overflow-y: auto;
-        display: flex; flex-direction: column; box-sizing: border-box;
-    }
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 30px; }
-    .stat-card { background: white; padding: 15px 5px; border-radius: 12px; text-align: center; border: 1px solid #eee; }
-    .stat-card h1 { margin: 0; font-size: 1.8rem; color: var(--sage); }
-    .stat-card p { margin: 0; font-size: 0.7rem; text-transform: uppercase; font-weight: 600; color: #999; }
-
-    #taskList { list-style: none; padding: 0; }
-    .task-item { 
-        background: white; padding: 15px; border-radius: 10px; margin-bottom: 12px;
-        border-left: 6px solid var(--sage); display: flex; justify-content: space-between;
-    }
-    .add-btn { background: var(--sage); color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: 600; }
-
-    /* Modal Styling */
-    .modal-back { display:none; position:fixed; inset:0; background: rgba(0,0,0,0.4); align-items:center; justify-content:center; z-index:2000; }
-    .modal { background:white; padding:30px; border-radius:15px; width:400px; }
-    .field { margin-bottom: 15px; }
-    .field input, .field select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+    .summary-item b { display: block; font-size: 1.1rem; margin-bottom: 5px; }
+    .week-list { font-size: 0.85rem; color: #666; border-top: 1px dashed #ddd; mt: 5px; pt: 5px; }
   </style>
 </head>
+
 <body>
-
-<header class="navigation">
-    <div class="logo-area"><span>🌿</span><span class="site-title">FOCUS <i>Journal</i></span></div>
-    <nav class="nav">
-        <a href="index.html" class="nav-link">Dashboard</a>
-        <a href="tools.html" class="nav-link">Tools</a>
-        <a href="modules.html" class="nav-link">Module</a>
-        <a href="Quiz.html" class="nav-link">Quiz</a>
-        <a href="community.html" class="nav-link active">Community</a>
-    </nav>
-</header>
-
 <div class="container">
-    <div class="left">
-        <div class="semester-card">
-            <div class="washi-tape"></div>
-            <h2>Semester Timeline</h2>
-            <div class="weeks" id="weekContainer"></div>
-            <div class="days" id="daysContainer">
-                <div class="day" data-day="1">Mon<div class="badge" id="b1"></div></div>
-                <div class="day" data-day="2">Tue<div class="badge" id="b2"></div></div>
-                <div class="day" data-day="3">Wed<div class="badge" id="b3"></div></div>
-                <div class="day" data-day="4">Thu<div class="badge" id="b4"></div></div>
-                <div class="day" data-day="5">Fri<div class="badge" id="b5"></div></div>
-                <div class="day" data-day="6">Sat<div class="badge" id="b6"></div></div>
-                <div class="day" data-day="0">Sun<div class="badge" id="b0"></div></div>
+
+<div class="left">
+    <div class="search-wrap">
+      <div class="search-box">
+        <input id="searchInput" placeholder="Search assignment / test / subject..." autocomplete="off" />
+        <span class="icon">🔍</span>
+      </div>
+      <ul id="search-results"></ul>
+    </div>
+
+    <div class="semester-card">
+      <h2>SEMESTER<br/>WEEK</h2>
+      <div class="weeks" id="weekContainer"></div>
+      <div class="days" id="daysContainer">
+        <div class="day" data-day="1">Mon<div class="badge" id="b1"></div></div>
+        <div class="day" data-day="2">Tue<div class="badge" id="b2"></div></div>
+        <div class="day" data-day="3">Wed<div class="badge" id="b3"></div></div>
+        <div class="day" data-day="4">Thu<div class="badge" id="b4"></div></div>
+        <div class="day" data-day="5">Fri<div class="badge" id="b5"></div></div>
+        <div class="day" data-day="6">Sat<div class="badge" id="b6"></div></div>
+        <div class="day" data-day="0">Sun<div class="badge" id="b0"></div></div>
+      </div>
+    </div>
+
+    <section class="polaroid">
+        <h3 style="text-align:center; margin-top:0;">Overall Summary (W1–W14)</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <b>Assignments: <span id="gAssign">0</span></b>
+                <div class="week-list">Week: <span id="gAssignWeek">-</span></div>
+            </div>
+            <div class="summary-item">
+                <b>Tests/Quizzes: <span id="gTest">0</span></b>
+                <div class="week-list">Week: <span id="gTestWeek">-</span></div>
+            </div>
+            <div class="summary-item">
+                <b>Personal: <span id="gEvent">0</span></b>
+                <div class="week-list">Week: <span id="gEventWeek">-</span></div>
             </div>
         </div>
-    </div>
+    </section>
+  </div>
 
-    <div class="right">
-        <div class="stats-grid">
-            <div class="stat-card"><h1 id="assignCount">0</h1><p>Assign</p></div>
-            <div class="stat-card"><h1 id="testCount">0</h1><p>Tests</p></div>
-            <div class="stat-card"><h1 id="eventCount">0</h1><p>Events</p></div>
-        </div>
-        <h3 style="font-family: 'Dancing Script', cursive; font-size: 2rem;">Today's Entries</h3>
-        <ul id="taskList"></ul>
-        <button class="add-btn" id="btnAdd">+ Add Log Entry</button>
+<div class="right">
+    <div class="stats">
+      <div class="stat-box"><h1 id="assignCount">0</h1><p>Assignment</p></div>
+      <div class="stat-box"><h1 id="testCount">0</h1><p>Test</p></div>
+      <div class="stat-box"><h1 id="eventCount">0</h1><p>Event</p></div>
     </div>
+    <div class="task-title">Task :</div>
+    <ul id="taskList"></ul>
+    <button class="add-btn" id="btnAdd">+ Add Entry</button>
+  </div>
 </div>
 
 <div class="modal-back" id="modal-back">
   <div class="modal">
-    <h3>New Entry</h3>
-    <div class="field"><label>Type</label><select id="task-type"><option value="assignment">Assignment</option><option value="test">Test/Quiz</option><option value="event">Personal Event</option></select></div>
+    <h3 id="modal-title">Add Task</h3>
+    <div class="field"><label>Type</label><select id="task-type">
+        <option value="assignment">Assignment</option>
+        <option value="test">Test/Quiz</option>
+        <option value="event">Personal Event</option>
+    </select></div>
     <div class="field"><label>Title</label><input id="task-title" /></div>
     <div class="field"><label>Subject</label><input id="task-subject" /></div>
-    <div class="field"><label>Date</label><div style="display:flex;gap:10px;"><select id="modal-week"></select><select id="modal-day"><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option><option value="0">Sun</option></select></div></div>
-    <button id="modal-save" class="add-btn">Save Entry</button>
+    <div class="field"><label>Week & Day</label>
+        <select id="modal-week"></select>
+        <select id="modal-day">
+          <option value="1">Mon</option><option value="2">Tue</option>
+          <option value="3">Wed</option><option value="4">Thu</option>
+          <option value="5">Fri</option><option value="6">Sat</option>
+          <option value="0">Sun</option>
+        </select>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn ghost" id="modal-cancel">Cancel</button>
+      <button class="btn" id="modal-save">Save</button>
+    </div>
   </div>
 </div>
 
 <script>
-    let tasks = JSON.parse(localStorage.getItem("journal_tasks")) || [];
-    let selectedWeek = 1;
-    let selectedDay = null;
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let selectedWeek = 1;
+let selectedDay = null;
 
-    function save() { 
-        localStorage.setItem("journal_tasks", JSON.stringify(tasks)); 
-        updateBadges();
-        generateWeeks(); // Refresh week highlights
-    }
+// Renders the summary at the bottom
+function updateGlobalSummary() {
+    let a = 0, t = 0, e = 0;
+    let assignmentWeeks = [], testWeeks = [], eventWeeks = [];
 
-    function generateWeeks() {
-        const container = document.getElementById('weekContainer');
-        container.innerHTML = '';
-        for (let w = 1; w <= 14; w++) {
-            const span = document.createElement('span');
-            span.textContent = "Week " + w;
-            
-            // HIGHLIGHT FIX: Add class if week contains any entry
-            const hasData = tasks.some(t => t.week === w);
-            if (hasData) span.classList.add("has-entries");
-            
-            if (w === selectedWeek) span.classList.add("active");
-            
-            span.onclick = () => {
-                selectedWeek = w;
-                selectedDay = null;
-                generateWeeks();
-                renderTasks();
-                updateBadges();
-            };
-            container.appendChild(span);
+    tasks.forEach(item => {
+        if (item.type === "assignment") {
+            a++;
+            if (!assignmentWeeks.includes(item.week)) assignmentWeeks.push(item.week);
         }
-    }
-
-    function renderTasks() {
-        const list = document.getElementById('taskList');
-        list.innerHTML = '';
-        
-        // SIDEBAR FIX: Tally filtered data accurately
-        let filtered = tasks.filter(t => t.week === selectedWeek);
-        if (selectedDay !== null) filtered = filtered.filter(t => t.day === selectedDay);
-
-        let counts = { assignment: 0, test: 0, event: 0 };
-
-        filtered.forEach(t => {
-            const li = document.createElement('li');
-            li.className = "task-item";
-            li.innerHTML = `<div><strong>${t.subject}</strong><br><small>${t.title}</small></div>`;
-            list.appendChild(li);
-            counts[t.type]++;
-        });
-
-        document.getElementById("assignCount").textContent = counts.assignment;
-        document.getElementById("testCount").textContent = counts.test;
-        document.getElementById("eventCount").textContent = counts.event;
-    }
-
-    function updateBadges() {
-        for (let d = 0; d < 7; d++) {
-            const badge = document.getElementById("b" + d);
-            const count = tasks.filter(t => t.week === selectedWeek && t.day === d).length;
-            badge.style.display = count > 0 ? "flex" : "none";
-            badge.textContent = count;
+        if (item.type === "test") {
+            t++;
+            if (!testWeeks.includes(item.week)) testWeeks.push(item.week);
         }
-    }
-
-    document.getElementById('btnAdd').onclick = () => {
-        const ws = document.getElementById('modal-week');
-        ws.innerHTML = '';
-        for(let i=1; i<=14; i++) {
-            let o = document.createElement('option');
-            o.value = i; o.textContent = "Week " + i;
-            if(i === selectedWeek) o.selected = true;
-            ws.appendChild(o);
+        if (item.type === "event") {
+            e++;
+            if (!eventWeeks.includes(item.week)) eventWeeks.push(item.week);
         }
-        document.getElementById('modal-back').style.display = 'flex';
-    };
-
-    document.getElementById('modal-save').onclick = () => {
-        tasks.push({
-            id: Date.now().toString(),
-            type: document.getElementById('task-type').value,
-            title: document.getElementById('task-title').value,
-            subject: document.getElementById('task-subject').value,
-            week: parseInt(document.getElementById('modal-week').value),
-            day: parseInt(document.getElementById('modal-day').value)
-        });
-        save();
-        document.getElementById('modal-back').style.display = 'none';
-        renderTasks();
-    };
-
-    document.querySelectorAll('.day').forEach(el => {
-        el.onclick = () => {
-            selectedDay = parseInt(el.dataset.day);
-            renderTasks();
-            updateBadges();
-        };
     });
 
-    generateWeeks();
+    document.getElementById("gAssign").textContent = a;
+    document.getElementById("gTest").textContent = t;
+    document.getElementById("gEvent").textContent = e;
+
+    // Sort and display the weeks
+    document.getElementById("gAssignWeek").textContent = assignmentWeeks.length ? assignmentWeeks.sort((x,y)=>x-y).join(", ") : "-";
+    document.getElementById("gTestWeek").textContent = testWeeks.length ? testWeeks.sort((x,y)=>x-y).join(", ") : "-";
+    document.getElementById("gEventWeek").textContent = eventWeeks.length ? eventWeeks.sort((x,y)=>x-y).join(", ") : "-";
+}
+
+// Side bar stats: counts ONLY for the currently selected week
+function renderTasks() {
+    const list = document.getElementById('taskList');
+    list.innerHTML = '';
+    
+    let weekTasks = tasks.filter(t => t.week === selectedWeek);
+    let counts = { assignment: 0, test: 0, event: 0 };
+    
+    weekTasks.forEach(t => counts[t.type]++);
+    
+    document.getElementById("assignCount").textContent = counts.assignment;
+    document.getElementById("testCount").textContent = counts.test;
+    document.getElementById("eventCount").textContent = counts.event;
+
+    // Filter display based on day
+    let display = selectedDay !== null ? weekTasks.filter(t => t.day === selectedDay) : weekTasks;
+    display.forEach(t => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${t.subject}: ${t.title}</span>`;
+        list.appendChild(li);
+    });
+}
+
+// Helper: updates badges on the Mon-Sun boxes
+function updateBadges() {
+    for (let d = 0; d < 7; d++) {
+        const count = tasks.filter(t => t.week === selectedWeek && t.day === d).length;
+        const b = document.getElementById("b" + d);
+        b.style.display = count > 0 ? "flex" : "none";
+        b.textContent = count;
+    }
+}
+
+// Modal and Navigation logic...
+function generateWeeks() {
+    const container = document.getElementById('weekContainer');
+    container.innerHTML = '';
+    for (let w = 1; w <= 14; w++) {
+        const span = document.createElement('span');
+        span.textContent = "W" + w;
+        if (w === selectedWeek) span.classList.add("active");
+        span.onclick = () => { selectedWeek = w; selectedDay = null; generateWeeks(); renderTasks(); updateBadges(); };
+        container.appendChild(span);
+    }
+}
+
+document.getElementById('modal-save').onclick = () => {
+    tasks.push({
+        type: document.getElementById('task-type').value,
+        title: document.getElementById('task-title').value,
+        subject: document.getElementById('task-subject').value,
+        week: parseInt(document.getElementById('modal-week').value),
+        day: parseInt(document.getElementById('modal-day').value),
+        id: Date.now()
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    document.getElementById('modal-back').style.display = 'none';
+    renderTasks(); updateBadges(); updateGlobalSummary();
+};
+
+document.getElementById('btnAdd').onclick = () => {
+    const mw = document.getElementById('modal-week'); mw.innerHTML = '';
+    for(let i=1; i<=14; i++) mw.innerHTML += `<option value="${i}" ${i===selectedWeek?'selected':''}>W${i}</option>`;
+    document.getElementById('modal-back').style.display = 'flex';
+};
+
+document.querySelectorAll('.day').forEach(d => d.onclick = () => {
+    selectedDay = parseInt(d.dataset.day);
     renderTasks();
-    updateBadges();
+});
+
+generateWeeks(); renderTasks(); updateBadges(); updateGlobalSummary();
 </script>
 </body>
 </html>
