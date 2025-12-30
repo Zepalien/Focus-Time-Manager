@@ -5,234 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FOCUS - Game Zone</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;500;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
     :root {
-        /* Game Theme Colors */
         --primary: #4f46e5;
-        --primary-light: #6366f1;
-        --dark-header-bg: #1e293b;
-        --hero-bg: #1a1a2e; /* Darker for Game Theme */
         --teal-card-bg: #2dd4bf;
-        --button-dark: #283c60;
-        --card-bg: #16213e; /* Dark Blue Game Card */
+        --accent-pink: #ff2e63;
         --accent-yellow: #fcd34d;
+        --dark-bg: #0f3460;
     }
 
-    /* Standardized Header */
+    /* Standardized Header from Community.html */
     .header {
-        background-color: var(--dark-header-bg);
+        background-color: #1e293b;
         color: white;
         padding: 0.75rem 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 0px rgba(0, 0, 0, 0.2);
-        position: sticky;
-        top: 0;
-        z-index: 100;
+        box-shadow: 0 4px 0px rgba(0, 0, 0, 0.3);
+        position: sticky; top: 0; z-index: 100;
     }
-    .logo-section {
-        display: flex;
-        align-items: center;
-        font-weight: 700;
-        font-size: 1.25rem;
-    }
-    .logo-circle {
-        background-color: var(--teal-card-bg);
-        color: white;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        margin-right: 0.5rem;
-    }
-    .nav-menu a {
-        color: white;
-        margin-left: 1.5rem;
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.85rem;
-        transition: color 0.3s;
-    }
+    .logo-section { display: flex; align-items: center; font-weight: 700; font-size: 1.25rem; }
+    .logo-circle { background-color: var(--teal-card-bg); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; margin-right: 0.5rem; }
+    .nav-menu a { color: white; margin-left: 1.5rem; text-decoration: none; font-weight: 500; font-size: 0.85rem; }
     .nav-menu a:hover { color: var(--teal-card-bg); }
 
-    /* Game Theme Body */
     body {
         font-family: 'Poppins', sans-serif;
-        background: #0f3460;
-        margin: 0;
-        padding: 0;
+        background: var(--dark-bg);
         color: #e0e0e0;
     }
 
     .font-pixel { font-family: 'Press Start 2P', cursive; }
 
-    .hero-section {
-        background: linear-gradient(180deg, #1e293b 0%, #0f3460 100%);
-        color: white;
-        padding: 4rem 2rem 2rem 2rem;
-        text-align: center;
-    }
-
-    /* Game Stage Cards */
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 20px;
-    }
-
-    ul#quiz-list {
-        display: flex;
-        gap: 20px;
-        padding: 0;
-        list-style: none;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    ul#quiz-list li {
-        flex: 1 1 250px;
-    }
-
-    a.quiz-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        background: var(--card-bg);
-        padding: 30px 20px;
+    /* Missions UI */
+    .stage-card {
+        background: #16213e;
         border: 4px solid #4e4eba;
-        border-radius: 20px;
-        color: white;
-        transition: all 0.3s;
-        box-shadow: 0 8px 0px #091a33;
-    }
-
-    a.quiz-link:hover {
-        transform: translateY(-8px);
-        border-color: var(--teal-card-bg);
-        box-shadow: 0 12px 20px rgba(45, 212, 191, 0.2);
-    }
-
-    .quiz-img {
-        width: 100%;
-        height: 120px;
-        margin-bottom: 15px;
-        object-fit: contain;
-        filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
-    }
-
-    /* Diagnostic Analyzer - Level Form */
-    .analyzer-title-section {
-        text-align: center;
-        padding: 40px 20px 10px;
-    }
-
-    .analyzer-card {
-        background: var(--card-bg);
-        border: 4px solid var(--accent-yellow);
         border-radius: 24px;
-        padding: 40px;
-        box-shadow: 0 0 30px rgba(252, 211, 77, 0.1);
-        margin-bottom: 60px;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 0px #091a33;
+    }
+    .stage-card:hover {
+        transform: scale(1.05) translateY(-5px);
+        border-color: var(--teal-card-bg);
     }
 
-    .analyzer-card h3 {
-        color: var(--accent-yellow);
-        font-size: 1.2rem;
-        margin-bottom: 30px;
-        text-align: center;
-        line-height: 1.6;
+    .xp-badge {
+        position: absolute; top: -15px; right: -10px;
+        background: var(--accent-pink); color: white;
+        padding: 4px 12px; border-radius: 8px; font-size: 10px; font-weight: 800;
+        box-shadow: 0 4px 0px #9b1d3d;
     }
 
-    .quiz-question {
-        margin-bottom: 20px;
-        padding: 20px;
+    /* Arcade Form Elements */
+    .analyzer-card {
+        background: #16213e;
+        border: 4px solid var(--accent-yellow);
+        border-radius: 32px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .question-box {
         background: #1a1a2e;
-        border-radius: 12px;
-        border-left: 6px solid var(--teal-card-bg);
-    }
-
-    .question-text {
-        font-weight: 500;
-        margin-bottom: 15px;
-        display: block;
-        color: #fff;
-    }
-
-    .likert-scale {
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-    }
-
-    .likert-scale label {
-        flex: 1;
-        text-align: center;
-        cursor: pointer;
-        padding: 10px 0;
-        background: #0f3460;
         border: 2px solid #4e4eba;
-        border-radius: 8px;
-        font-weight: 700;
-        transition: all 0.2s;
+        border-radius: 16px;
+        transition: all 0.3s;
+    }
+    .question-box:focus-within {
+        border-color: var(--teal-card-bg);
+        box-shadow: 0 0 15px rgba(45, 212, 191, 0.2);
     }
 
-    .likert-scale input:checked + label {
-        background-color: var(--teal-card-bg);
-        color: #1a1a2e;
-        border-color: white;
-        transform: scale(1.05);
+    .likert-btn {
+        display: block; padding: 12px; background: #0f3460;
+        border: 2px solid #4e4eba; border-radius: 12px;
+        cursor: pointer; font-weight: 800; transition: all 0.2s;
+    }
+    input[type="radio"]:checked + .likert-btn {
+        background: var(--teal-card-bg); color: #1a1a2e;
+        border-color: white; transform: scale(1.1);
     }
 
-    .likert-scale input { display: none; }
+    .hp-bar-bg { width: 100%; height: 16px; background: #1a1a2e; border-radius: 8px; border: 2px solid #4e4eba; overflow: hidden; }
+    #hp-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff2e63, #fcd34d, #2dd4bf); transition: width 0.5s ease; }
 
-    /* Arcade Style Buttons */
     .submit-btn {
-        width: 100%;
-        padding: 20px;
-        background-color: var(--teal-card-bg);
-        color: #1a1a2e;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        font-weight: 800;
-        text-transform: uppercase;
-        margin-top: 30px;
-        box-shadow: 0 6px 0px #1eada0;
-        transition: all 0.1s;
+        background: var(--teal-card-bg); color: #1a1a2e;
+        padding: 20px; border-radius: 16px; font-weight: 800;
+        text-transform: uppercase; box-shadow: 0 6px 0px #1eada0;
     }
+    .submit-btn:active { transform: translateY(4px); box-shadow: 0 2px 0px #1eada0; }
 
-    .submit-btn:active {
-        transform: translateY(4px);
-        box-shadow: 0 2px 0px #1eada0;
-    }
-
-    .back-btn {
-        margin: 30px auto;
-        padding: 12px 24px;
-        background: #4e4eba;
-        color: white;
-        border-radius: 8px;
-        font-weight: 600;
-        display: block;
-        box-shadow: 0 4px 0px #283c60;
-    }
-
-    .back-btn:hover { background: #6366f1; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .floating { animation: float 3s ease-in-out infinite; }
 </style>
 </head>
-<body>
+<body class="pb-20">
 
 <header class="header">
     <div class="logo-section">
-        <div class="logo-circle">F</div>
-        FOCUS
+        <div class="logo-circle">F</div> FOCUS
     </div>
     <nav class="nav-menu">
         <a href="index.html">DASHBOARD</a>
@@ -243,170 +118,193 @@
     </nav>
 </header>
 
-<section class="hero-section">
-    <h1 class="font-pixel text-yellow-400 text-xl md:text-2xl mb-4">🎮 SELECT YOUR STAGE</h1>
-    <p class="hero-subtitle text-blue-200 uppercase tracking-widest text-sm font-bold">Earn focus points by completing tasks</p>
-</section>
-
-<div class="container">
-    <ul id="quiz-list">
-        <li>
-            <a href="https://kahoot.it/challenge/02465461?challenge-id=d4008628-cfe2-47c4-9c94-ea5cf2cb528a_1763394407513" target="_blank" class="quiz-link">
-                <img src="set1.png" alt="Set 1" class="quiz-img">
-                <span class="font-pixel text-[10px] mb-2 text-teal-400">LVL 01</span>
-                SET 1: CHALLENGE
-            </a>
-        </li>
-        <li>
-            <a href="https://kahoot.it/challenge/067060?challenge-id=18c0860c-b698-4ea5-beb7-e09e8028ccd0_1763435855670" target="_blank" class="quiz-link">
-                <img src="set1.png" alt="Set 2" class="quiz-img">
-                <span class="font-pixel text-[10px] mb-2 text-purple-400">LVL 02</span>
-                SET 2: MASTERY
-            </a>
-        </li>
-        <li>
-            <a href="https://www.educandy.com/site/html5/bin/main.php?activity=wordsearch&quizid=234" target="_blank" class="quiz-link">
-                <img src="set2.png" alt="Mini Game" class="quiz-img">
-                <span class="font-pixel text-[10px] mb-2 text-pink-400">BOSS</span>
-                WORD SEARCH: FOCUS
-            </a>
-        </li>
-    </ul>
+<div class="text-center py-12 px-6">
+    <h1 class="font-pixel text-yellow-400 text-2xl md:text-3xl mb-4 floating">STAGE SELECT</h1>
+    <p class="text-blue-200 font-bold uppercase tracking-widest text-xs">Complete missions to gain focus XP!</p>
 </div>
 
-<section class="analyzer-title-section">
-    <h1 class="font-pixel text-teal-400 text-lg md:text-xl">🔬 ANALYZER LAB</h1>
-    <p class="text-blue-200 mt-2 uppercase text-xs font-bold">Scan your brain for the best study method</p>
-</section>
+<div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+    <div class="stage-card p-6 flex flex-col items-center text-center">
+        <div class="xp-badge font-pixel">+100 XP</div>
+        <img src="set1.png" alt="Set 1" class="w-20 h-20 mb-4 object-contain">
+        <h3 class="font-pixel text-[10px] text-teal-400 mb-2">LVL 1</h3>
+        <h2 class="text-lg font-bold text-white mb-6">Kahoot Challenge 1</h2>
+        <a href="https://kahoot.it/challenge/02465461?challenge-id=d4008628-cfe2-47c4-9c94-ea5cf2cb528a_1763394407513" target="_blank" class="w-full py-3 submit-btn text-xs" style="padding:10px">DEPLOY</a>
+    </div>
 
-<div class="container">
-    <div class="analyzer-card">
-        <h3>Rate your agreement (1 = Newbie, 5 = Pro)</h3>
+    <div class="stage-card p-6 flex flex-col items-center text-center">
+        <div class="xp-badge font-pixel" style="background:#a855f7; box-shadow:0 4px 0 #7e22ce">+250 XP</div>
+        <img src="set1.png" alt="Set 2" class="w-20 h-20 mb-4 object-contain">
+        <h3 class="font-pixel text-[10px] text-purple-400 mb-2">LVL 2</h3>
+        <h2 class="text-lg font-bold text-white mb-6">Kahoot Challenge 2</h2>
+        <a href="https://kahoot.it/challenge/067060?challenge-id=18c0860c-b698-4ea5-beb7-e09e8028ccd0_1763435855670" target="_blank" class="w-full py-3 submit-btn text-xs" style="padding:10px">DEPLOY</a>
+    </div>
 
-        <form id="focusQuiz">
-            <div class="quiz-question">
-                <span class="question-text">P1. I often start on the easiest tasks first, even if they aren't the most important.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="p1" id="p1_1" value="1" required><label for="p1_1">1</label>
-                    <input type="radio" name="p1" id="p1_2" value="2"><label for="p1_2">2</label>
-                    <input type="radio" name="p1" id="p1_3" value="3"><label for="p1_3">3</label>
-                    <input type="radio" name="p1" id="p1_4" value="4"><label for="p1_4">4</label>
-                    <input type="radio" name="p1" id="p1_5" value="5"><label for="p1_5">5</label>
-                </div>
+    <div class="stage-card p-6 flex flex-col items-center text-center">
+        <div class="xp-badge font-pixel" style="background:#fcd34d; box-shadow:0 4px 0 #b45309; color:#000">BOSS</div>
+        <img src="set2.png" alt="Boss" class="w-20 h-20 mb-4 object-contain">
+        <h3 class="font-pixel text-[10px] text-yellow-400 mb-2">FINAL</h3>
+        <h2 class="text-lg font-bold text-white mb-6">Word Search Mania</h2>
+        <a href="https://www.educandy.com/site/html5/bin/main.php?activity=wordsearch&quizid=234" target="_blank" class="w-full py-3 submit-btn text-xs" style="padding:10px">FIGHT</a>
+    </div>
+</div>
+
+<div class="max-w-3xl mx-auto px-6">
+    <div class="analyzer-card p-8 md:p-12">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h2 class="font-pixel text-teal-400 text-sm">BRAIN SCANNER v2.0</h2>
+                <p class="text-xs text-gray-400 mt-1">Analyzing focus patterns...</p>
             </div>
-            
-            <div class="quiz-question">
-                <span class="question-text">P2. I feel overwhelmed and unsure which of my tasks I should work on next.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="p2" id="p2_1" value="1" required><label for="p2_1">1</label>
-                    <input type="radio" name="p2" id="p2_2" value="2"><label for="p2_2">2</label>
-                    <input type="radio" name="p2" id="p2_3" value="3"><label for="p2_3">3</label>
-                    <input type="radio" name="p2" id="p2_4" value="4"><label for="p2_4">4</label>
-                    <input type="radio" name="p2" id="p2_5" value="5"><label for="p2_5">5</label>
+            <div class="w-full md:w-48">
+                <div class="flex justify-between text-[10px] font-bold mb-1">
+                    <span>PROGRESS</span>
+                    <span id="progress-text">0%</span>
                 </div>
+                <div class="hp-bar-bg"><div id="hp-fill"></div></div>
             </div>
+        </div>
 
-            <div class="quiz-question">
-                <span class="question-text">P3. I always know which assignment has the highest impact on my grade.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="p3" id="p3_1" value="1" required><label for="p3_1">1</label>
-                    <input type="radio" name="p3" id="p3_2" value="2"><label for="p3_2">2</label>
-                    <input type="radio" name="p3" id="p3_3" value="3"><label for="p3_3">3</label>
-                    <input type="radio" name="p3" id="p3_4" value="4"><label for="p3_4">4</label>
-                    <input type="radio" name="p3" id="p3_5" value="5"><label for="p3_5">5</label>
-                </div>
-            </div>
-
-            <div class="quiz-question">
-                <span class="question-text">I1. I check my phone or social media every few minutes while studying.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="i1" id="i1_1" value="1" required><label for="i1_1">1</label>
-                    <input type="radio" name="i1" id="i1_2" value="2"><label for="i1_2">2</label>
-                    <input type="radio" name="i1" id="i1_3" value="3"><label for="i1_3">3</label>
-                    <input type="radio" name="i1" id="i1_4" value="4"><label for="i1_4">4</label>
-                    <input type="radio" name="i1" id="i1_5" value="5"><label for="i1_5">5</label>
-                </div>
-            </div>
-
-            <div class="quiz-question">
-                <span class="question-text">I2. It's hard for me to focus for more than 20 minutes without getting up.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="i2" id="i2_1" value="1" required><label for="i2_1">1</label>
-                    <input type="radio" name="i2" id="i2_2" value="2"><label for="i2_2">2</label>
-                    <input type="radio" name="i2" id="i2_3" value="3"><label for="i2_3">3</label>
-                    <input type="radio" name="i2" id="i2_4" value="4"><label for="i2_4">4</label>
-                    <input type="radio" name="i2" id="i2_5" value="5"><label for="i2_5">5</label>
+        <form id="focusQuiz" class="space-y-8">
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">P1. I often start on the easiest tasks first, even if they aren't the most important.</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="p1" id="p1_1" value="1" class="hidden" required><label for="p1_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="p1" id="p1_2" value="2" class="hidden"><label for="p1_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="p1" id="p1_3" value="3" class="hidden"><label for="p1_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="p1" id="p1_4" value="4" class="hidden"><label for="p1_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="p1" id="p1_5" value="5" class="hidden"><label for="p1_5" class="likert-btn text-center">5</label>
                 </div>
             </div>
 
-            <div class="quiz-question">
-                <span class="question-text">I3. I can easily ignore noisy environments or chat notifications.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="i3" id="i3_1" value="1" required><label for="i3_1">1</label>
-                    <input type="radio" name="i3" id="i3_2" value="2"><label for="i3_2">2</label>
-                    <input type="radio" name="i3" id="i3_3" value="3"><label for="i3_3">3</label>
-                    <input type="radio" name="i3" id="i3_4" value="4"><label for="i3_4">4</label>
-                    <input type="radio" name="i3" id="i3_5" value="5"><label for="i3_5">5</label>
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">P2. I feel overwhelmed and unsure which of my tasks I should work on next.</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="p2" id="p2_1" value="1" class="hidden" required><label for="p2_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="p2" id="p2_2" value="2" class="hidden"><label for="p2_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="p2" id="p2_3" value="3" class="hidden"><label for="p2_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="p2" id="p2_4" value="4" class="hidden"><label for="p2_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="p2" id="p2_5" value="5" class="hidden"><label for="p2_5" class="likert-btn text-center">5</label>
                 </div>
             </div>
 
-            <div class="quiz-question">
-                <span class="question-text">M1. I put off big assignments until the very last day (procrastination).</span>
-                <div class="likert-scale">
-                    <input type="radio" name="m1" id="m1_1" value="1" required><label for="m1_1">1</label>
-                    <input type="radio" name="m1" id="m1_2" value="2"><label for="m1_2">2</label>
-                    <input type="radio" name="m1" id="m1_3" value="3"><label for="m1_3">3</label>
-                    <input type="radio" name="m1" id="m1_4" value="4"><label for="m1_4">4</label>
-                    <input type="radio" name="m1" id="m1_5" value="5"><label for="m1_5">5</label>
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">P3. I always know which assignment has the highest impact on my grade. (Reverse Score)</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="p3" id="p3_1" value="1" class="hidden" required><label for="p3_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="p3" id="p3_2" value="2" class="hidden"><label for="p3_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="p3" id="p3_3" value="3" class="hidden"><label for="p3_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="p3" id="p3_4" value="4" class="hidden"><label for="p3_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="p3" id="p3_5" value="5" class="hidden"><label for="p3_5" class="likert-btn text-center">5</label>
                 </div>
             </div>
 
-            <div class="quiz-question">
-                <span class="question-text">M2. I usually feel energetic and ready to begin my work sessions.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="m2" id="m2_1" value="1" required><label for="m2_1">1</label>
-                    <input type="radio" name="m2" id="m2_2" value="2"><label for="m2_2">2</label>
-                    <input type="radio" name="m2" id="m2_3" value="3"><label for="m2_3">3</label>
-                    <input type="radio" name="m2" id="m2_4" value="4"><label for="m2_4">4</label>
-                    <input type="radio" name="m2" id="m2_5" value="5"><label for="m2_5">5</label>
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">I1. I check my phone or social media every few minutes while studying.</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="i1" id="i1_1" value="1" class="hidden" required><label for="i1_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="i1" id="i1_2" value="2" class="hidden"><label for="i1_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="i1" id="i1_3" value="3" class="hidden"><label for="i1_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="i1" id="i1_4" value="4" class="hidden"><label for="i1_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="i1" id="i1_5" value="5" class="hidden"><label for="i1_5" class="likert-btn text-center">5</label>
                 </div>
             </div>
 
-            <div class="quiz-question">
-                <span class="question-text">M3. I often feel bored or restless when working on a project.</span>
-                <div class="likert-scale">
-                    <input type="radio" name="m3" id="m3_1" value="1" required><label for="m3_1">1</label>
-                    <input type="radio" name="m3" id="m3_2" value="2"><label for="m3_2">2</label>
-                    <input type="radio" name="m3" id="m3_3" value="3"><label for="m3_3">3</label>
-                    <input type="radio" name="m3" id="m3_4" value="4"><label for="m3_4">4</label>
-                    <input type="radio" name="m3" id="m3_5" value="5"><label for="m3_5">5</label>
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">I2. It's hard for me to focus for more than 20 minutes without getting up.</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="i2" id="i2_1" value="1" class="hidden" required><label for="i2_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="i2" id="i2_2" value="2" class="hidden"><label for="i2_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="i2" id="i2_3" value="3" class="hidden"><label for="i2_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="i2" id="i2_4" value="4" class="hidden"><label for="i2_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="i2" id="i2_5" value="5" class="hidden"><label for="i2_5" class="likert-btn text-center">5</label>
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn font-pixel text-sm">Analyze Results</button>
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">I3. I can easily ignore noisy environments or chat notifications. (Reverse Score)</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="i3" id="i3_1" value="1" class="hidden" required><label for="i3_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="i3" id="i3_2" value="2" class="hidden"><label for="i3_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="i3" id="i3_3" value="3" class="hidden"><label for="i3_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="i3" id="i3_4" value="4" class="hidden"><label for="i3_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="i3" id="i3_5" value="5" class="hidden"><label for="i3_5" class="likert-btn text-center">5</label>
+                </div>
+            </div>
+
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">M1. I put off big assignments until the very last day (procrastination).</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="m1" id="m1_1" value="1" class="hidden" required><label for="m1_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="m1" id="m1_2" value="2" class="hidden"><label for="m1_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="m1" id="m1_3" value="3" class="hidden"><label for="m1_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="m1" id="m1_4" value="4" class="hidden"><label for="m1_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="m1" id="m1_5" value="5" class="hidden"><label for="m1_5" class="likert-btn text-center">5</label>
+                </div>
+            </div>
+
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">M2. I usually feel energetic and ready to begin work sessions. (Reverse Score)</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="m2" id="m2_1" value="1" class="hidden" required><label for="m2_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="m2" id="m2_2" value="2" class="hidden"><label for="m2_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="m2" id="m2_3" value="3" class="hidden"><label for="m2_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="m2" id="m2_4" value="4" class="hidden"><label for="m2_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="m2" id="m2_5" value="5" class="hidden"><label for="m2_5" class="likert-btn text-center">5</label>
+                </div>
+            </div>
+
+            <div class="question-box p-6">
+                <span class="text-white font-bold block mb-4">M3. I often feel bored or restless when working on a long-term project.</span>
+                <div class="grid grid-cols-5 gap-2">
+                    <input type="radio" name="m3" id="m3_1" value="1" class="hidden" required><label for="m3_1" class="likert-btn text-center">1</label>
+                    <input type="radio" name="m3" id="m3_2" value="2" class="hidden"><label for="m3_2" class="likert-btn text-center">2</label>
+                    <input type="radio" name="m3" id="m3_3" value="3" class="hidden"><label for="m3_3" class="likert-btn text-center">3</label>
+                    <input type="radio" name="m3" id="m3_4" value="4" class="hidden"><label for="m3_4" class="likert-btn text-center">4</label>
+                    <input type="radio" name="m3" id="m3_5" value="5" class="hidden"><label for="m3_5" class="likert-btn text-center">5</label>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full submit-btn font-pixel text-sm">CALCULATE FOCUS POWER</button>
         </form>
         
-        <button class="back-btn" onclick="window.location.href='index.html'">EXIT TO MENU</button>
+        <button class="w-full mt-4 text-gray-400 font-bold hover:text-white transition" onclick="window.location.href='index.html'">BACK TO MENU</button>
     </div>
 </div>
 
 <script>
-    const quizForm = document.getElementById('focusQuiz');
+    // --- UI Logic: Progress Bar ---
+    const form = document.getElementById('focusQuiz');
+    const hpFill = document.getElementById('hp-fill');
+    const progressText = document.getElementById('progress-text');
+    const questions = ['p1','p2','p3','i1','i2','i3','m1','m2','m3'];
+
+    form.addEventListener('change', () => {
+        let answered = 0;
+        questions.forEach(q => {
+            if(form.querySelector(`input[name="${q}"]:checked`)) answered++;
+        });
+        const percent = Math.round((answered / questions.length) * 100);
+        hpFill.style.width = percent + '%';
+        progressText.innerText = percent + '%';
+    });
+
+    // --- Original Calculation Logic ---
     const questionMap = {
-        p1: { dim: 'P', reverse: false }, p2: { dim: 'P', reverse: false }, p3: { dim: 'P', reverse: true }, 
-        i1: { dim: 'I', reverse: false }, i2: { dim: 'I', reverse: false }, i3: { dim: 'I', reverse: true }, 
+        p1: { dim: 'P', reverse: false }, p2: { dim: 'P', reverse: false }, p3: { dim: 'P', reverse: true },  
+        i1: { dim: 'I', reverse: false }, i2: { dim: 'I', reverse: false }, i3: { dim: 'I', reverse: true },  
         m1: { dim: 'M', reverse: false }, m2: { dim: 'M', reverse: true }, m3: { dim: 'M', reverse: false }  
     };
 
     function calculateScores(event) {
         event.preventDefault(); 
-        const formData = new FormData(quizForm);
+        const formData = new FormData(form);
         let scores = { P: 0, I: 0, M: 0 };
         
         for (const [name, data] of Object.entries(questionMap)) {
             const value = parseInt(formData.get(name)); 
             if (isNaN(value)) {
-                alert("Complete the diagnostic scan first!");
+                alert("Please answer all questions before submitting.");
                 return;
             }
             let score = data.reverse ? (6 - value) : value;
@@ -420,20 +318,20 @@
         ];
 
         dimensions.sort((a, b) => b.score - a.score);
-        const primaryStruggle = dimensions[0];
-        const secondaryStruggle = dimensions[1];
-        const recommendation = (primaryStruggle.dim === 'P') ? { method: "Eat the Frog", slug: "eat-the-frog" } : { method: "Pomodoro Technique", slug: "pomodoro-technique" };
+        const primary = dimensions[0];
+        const secondary = dimensions[1];
+        const recommendation = (primary.dim === 'P') ? { method: "Eat the Frog", slug: "eat-the-frog" } : { method: "Pomodoro Technique", slug: "pomodoro-technique" };
         
         localStorage.setItem('focusScores', JSON.stringify(scores));
-        localStorage.setItem('primaryStruggle', primaryStruggle.name);
-        localStorage.setItem('secondaryStruggle', secondaryStruggle.name);
+        localStorage.setItem('primaryStruggle', primary.name);
+        localStorage.setItem('secondaryStruggle', secondary.name);
         localStorage.setItem('primaryMethod', recommendation.method);
         localStorage.setItem('methodSlug', recommendation.slug);
 
         window.location.href = 'results.html';
     }
 
-    quizForm.addEventListener('submit', calculateScores);
+    form.addEventListener('submit', calculateScores);
 </script>
 
 </body>
