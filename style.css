@@ -1,146 +1,96 @@
-/* =========================================
-   1. GLOBAL THEME & GLASSMORPHISM
-   ========================================= */
+/* --- GLOBAL THEME & VARIABLES --- */
 :root {
-    /* Modern Dark Palette */
-    --bg-main: #0f172a; /* Deep Midnight */
+    --bg-deep: #0f172a;
     --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --glass-bg: rgba(255, 255, 255, 0.05);
+    --accent-cyan: #2dd4bf;   /* Main Teal/Cyan */
+    --accent-amber: #fbbf24;  /* Action Yellow */
+    --glass: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
-    
-    /* Energetic Accents */
-    --accent-teal: #2dd4bf;   /* Cyan-Teal Glow */
-    --accent-amber: #fbbf24;  /* Warm Amber Glow */
-    --text-primary: #f8fafc;
-    --text-muted: #94a3b8;
-    
-    --shadow-glow: 0 0 20px rgba(45, 212, 191, 0.2);
+    --text: #f8fafc;
+    --text-dim: #94a3b8;
 }
 
-* {
-    margin: 0; padding: 0; box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
 body {
     background: var(--bg-gradient);
     background-attachment: fixed;
-    color: var(--text-primary);
+    color: var(--text);
     min-height: 100vh;
 }
 
-/* =========================================
-   2. FLOATING NAVIGATION BAR
-   ========================================= */
-.navigation {
+/* --- UNIFIED NAVIGATION --- */
+.navigation, .header {
+    background: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%;
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--glass-border);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-.logo {
+.logo, .logo-circle {
     width: 32px; height: 32px;
-    background: var(--accent-teal);
-    border-radius: 10px;
-    box-shadow: 0 0 15px var(--accent-teal);
+    background: var(--accent-cyan) !important;
+    border-radius: 8px;
+    box-shadow: 0 0 15px var(--accent-cyan);
 }
 
-.site-title {
-    font-weight: 800; letter-spacing: 2px;
-    color: var(--accent-teal);
-    margin-left: 10px;
-}
-
-.nav a {
-    color: var(--text-muted);
+.nav a, .nav-link, .nav-menu a {
+    color: var(--text-dim) !important;
     text-decoration: none;
-    margin-left: 25px;
+    margin-left: 20px;
     font-weight: 600;
     transition: 0.3s;
-    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
 }
 
 .nav a:hover, .nav a.active {
-    color: var(--accent-teal);
-    text-shadow: 0 0 10px var(--accent-teal);
+    color: var(--accent-cyan) !important;
+    text-shadow: 0 0 8px var(--accent-cyan);
 }
 
-/* =========================================
-   3. UNIVERSAL GLASS CARDS
-   ========================================= */
-.sidebar-box, .slideshow-container, .quiz-card, .module-btn, .day, .container {
-    background: var(--glass-bg) !important;
-    backdrop-filter: blur(10px);
+/* --- GLASS CARD COMPONENTS (Applies to all pages) --- */
+.sidebar-box, .slideshow-container, .quiz-card, .container, 
+.semester-card, .tool-card, .info-card, .card {
+    background: var(--glass) !important;
+    backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border) !important;
     border-radius: 20px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    transition: 0.3s ease;
 }
 
-.sidebar-box:hover, .quiz-card:hover {
+.sidebar-box:hover, .tool-card:hover {
     transform: translateY(-5px);
-    border-color: var(--accent-teal) !important;
+    border-color: var(--accent-cyan) !important;
 }
 
-/* =========================================
-   4. BUTTONS & UI ELEMENTS (Vibrant)
-   ========================================= */
-.btn, .btn-go, .btn-explore, button {
+/* --- UNIFIED BUTTONS --- */
+.btn, .btn-go, .btn-explore, .add-btn, button:not(.back-btn) {
     background: var(--accent-amber) !important;
     color: #000 !important;
-    font-weight: 700 !important;
-    border-radius: 50px !important;
-    padding: 10px 24px !important;
     border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s;
-    text-transform: uppercase;
-    font-size: 0.8rem;
+    transition: 0.3s;
 }
 
-.btn:hover, .btn-go:hover {
-    transform: scale(1.05);
+.btn:hover {
     box-shadow: 0 0 20px var(--accent-amber);
+    transform: scale(1.05);
 }
 
-/* =========================================
-   5. PAGE-SPECIFIC ADJUSTMENTS
-   ========================================= */
-
-/* Dashboard Hero */
-.slide-title {
-    color: var(--accent-amber);
-    font-weight: 800;
-    font-size: 2.2rem;
-}
-
-/* Semester Planner Badges */
-.badge {
-    background: #ef4444 !important; /* Urgent Red */
-    box-shadow: 0 0 10px #ef4444;
-}
-
-/* Progress Circles */
-.progress-circle {
-    background: conic-gradient(var(--accent-teal) 45%, #1e293b 45%) !important;
-    border: 5px solid var(--glass-border) !important;
-}
-
-/* Quiz Selection Boxes */
-.quiz-link {
-    background: var(--glass-bg);
-    border-radius: 15px;
-    padding: 15px;
-    border: 2px solid transparent;
-}
-.quiz-link:hover {
-    border-color: var(--accent-teal);
-    background: rgba(45, 212, 191, 0.1);
-}
+/* --- PAGE SPECIFIC FIXES --- */
+.slide-title { color: var(--accent-amber); font-weight: 800; }
+.day { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; }
+.day:hover { background: var(--accent-cyan); color: #000; }
+.badge { background: #ef4444 !important; box-shadow: 0 0 10px #ef4444; }
