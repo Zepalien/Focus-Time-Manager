@@ -1,494 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Semester Planner</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<style>
+    /* ... existing styles ... */
 
-<body>
-    <header class="navigation">
-        <div class="logo-area">
-            <div class="logo"></div>
-            <span class="site-title">FOCUS</span>
-        </div>
-        <nav class="nav">
-            <a href="index.html" class="nav-link active">DASHBOARD</a>
-            <a href="tools.html" class="nav-link">TOOLS</a>
-            <a href="modules.html" class="nav-link">MODULE</a>
-            <a href="Quiz.html" class="nav-link">QUIZ</a>
-            <a href="community.html" class="nav-link">COMMUNITY</a>
-        </nav>
-    </header>
-<div class="container">
-
-<!-- LEFT SIDE -->
-  <div class="left">
-    <div class="search-wrap">
-      <div class="search-box">
-        <input id="searchInput" placeholder="Search assignment / test / subject..." autocomplete="off" />
-        <span class="icon">🔍</span>
-      </div>
-
-      <!-- search results shown below search box -->
-      <ul id="search-results"></ul>
-    </div>
-
-    <div class="semester-card">
-      <h2>SEMESTER<br/>WEEK</h2>
-
-      <div class="weeks" id="weekContainer"></div>
-
-      <div class="days" id="daysContainer">
-        <div class="day" data-day="1">Mon<div class="badge" id="b1"></div></div>
-        <div class="day" data-day="2">Tue<div class="badge" id="b2"></div></div>
-        <div class="day" data-day="3">Wed<div class="badge" id="b3"></div></div>
-        <div class="day" data-day="4">Thu<div class="badge" id="b4"></div></div>
-        <div class="day" data-day="5">Fri<div class="badge" id="b5"></div></div>
-        <div class="day" data-day="6">Sat<div class="badge" id="b6"></div></div>
-        <div class="day" data-day="0">Sun<div class="badge" id="b0"></div></div>
-      </div>
-
-      <div class="instructions">
-        <p><b>How to use</b></p>
-        <p>1. Click a week (1–14) to view days.</p>
-        <p>2. Click any day box to view task list or add tasks.</p>
-        <p>3. Use the search above — hover a result to see where it is (week + day).</p>
-      </div>
-    </div>
-
-<!-- BELOW SIDE -->
-      <section class="global-summary">
-        <h3>Overall Summary (W1–W14)</h3>
-
-        <div class="summary-row">
-          <p>Total Assignment: <span id="gAssign">0</span></p>
-          <p>Total Test/Quiz: <span id="gTest">0</span></p>
-          <p>Total Personal Event: <span id="gEvent">0</span></p>
-        </div>
-
-        <div class="summary-row bottom-row">
-          <p>Week: <span id="gAssignWeek">-</span></p>
-          <p>Week: <span id="gTestWeek">-</span></p>
-          <p>Week: <span id="gEventWeek">-</span></p>
-        </div>
-      </section>
-  </div>
-
-
-
-<!-- RIGHT SIDE -->
-  <div class="right">
-    <div class="stats">
-      <div class="stat-box">
-        <h1 id="assignCount">0</h1>
-        <p>Assignment</p>
-      </div>
-
-      <div class="stat-box">
-        <h1 id="testCount">0</h1>
-        <p>Test</p>
-      </div>
-
-      <div class="stat-box">
-        <h1 id="eventCount">0</h1>
-        <p>Personal Event</p>
-      </div>
-    </div>
-
-    <div class="task-title">Task :</div>
-    <ul id="taskList"></ul>
-
-    <button class="add-btn" id="btnAdd">+ Add</button>
-  </div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-back" id="modal-back">
-  <div class="modal">
-    <h3 id="modal-title">Add Task</h3>
-
-    <div class="field">
-      <label>Type</label>
-      <select id="task-type">
-        <option value="assignment">Assignment</option>
-        <option value="test">Test/Quiz</option>
-        <option value="event">Personal Event</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Title</label>
-      <input id="task-title" placeholder="e.g. IMC501 Assignment 3" />
-    </div>
-
-    <div class="field">
-      <label>Subject / Venue</label>
-      <input id="task-subject" placeholder="e.g. IMC501 / Lab 4" />
-    </div>
-
-    <div class="field">
-      <label>Week & Day</label>
-      <div style="display:flex;gap:8px">
-        <select id="modal-week"></select>
-        <select id="modal-day">
-          <option value="0">Sunday</option>
-          <option value="1">Monday</option>
-          <option value="2">Tuesday</option>
-          <option value="3">Wednesday</option>
-          <option value="4">Thursday</option>
-          <option value="5">Friday</option>
-          <option value="6">Saturday</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Notes</label>
-      <textarea id="task-notes" rows="3"></textarea>
-    </div>
-
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button class="btn ghost" id="modal-cancel">Cancel</button>
-      <button class="btn" id="modal-save">Save</button>
-    </div>
-  </div>
-</div>
-
-
-
-<script>
-  // ---------- data & state ----------
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let selectedWeek = 1;
-let selectedDay = null;
-
-// ---------- elements ----------
-const modalBack = document.getElementById('modal-back');
-const modalWeek = document.getElementById('modal-week');
-const weekContainer = document.getElementById('weekContainer');
-const taskList = document.getElementById('taskList');
-const btnAdd = document.getElementById('btnAdd');
-const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('search-results');
-const daysContainer = document.getElementById('daysContainer');
-
-// ---------- helpers ----------
-function save() { 
-  localStorage.setItem("tasks", JSON.stringify(tasks)); 
-}
-
-function generateWeeks() {
-  weekContainer.innerHTML = '';
-  for (let w = 1; w <= 14; w++) {
-    const span = document.createElement('span');
-    span.textContent = "W" + w;
-    span.dataset.week = w;
-
-    span.onclick = () => selectWeek(w, span);
-
-    if (w === selectedWeek) span.classList.add("active");
-
-    weekContainer.appendChild(span);
-  }
-}
-
-function selectWeek(week, element) {
-  selectedWeek = week;
-  selectedDay = null;
-
-  document.querySelectorAll(".weeks span").forEach(e => e.classList.remove("active"));
-  if (element) element.classList.add("active");
-
-  updateAddButtonDay();
-  renderTasks();
-  updateBadges();
-  updateGlobalSummary();
-}
-
-// ---------- MODAL ----------
-function openModal(task = false, edit = false, dayIndex = 0) {
-  document.getElementById('modal-title').textContent = edit ? 'Edit Task' : 'Add Task';
-  modalBack.style.display = 'flex';
-
-  modalWeek.innerHTML = '';
-  for (let i = 1; i <= 14; i++) {
-    const o = document.createElement('option');
-    o.value = i;
-    o.textContent = 'W' + i;
-    if (i === selectedWeek) o.selected = true;
-    modalWeek.appendChild(o);
-  }
-
-  if (task) {
-    document.getElementById('task-type').value = task.type;
-    document.getElementById('task-title').value = task.title;
-    document.getElementById('task-subject').value = task.subject;
-    document.getElementById('task-notes').value = task.notes || '';
-    modalWeek.value = task.week;
-    document.getElementById('modal-day').value = task.day;
-  } else {
-    document.getElementById('task-type').value = 'assignment';
-    document.getElementById('task-title').value = '';
-    document.getElementById('task-subject').value = '';
-    document.getElementById('task-notes').value = '';
-    document.getElementById('modal-day').value = dayIndex;
-  }
-
-// ---------- SEARCH FUNCTION ----------
-searchInput.addEventListener("input", () => {
-  const q = searchInput.value.toLowerCase().trim();
-  searchResults.innerHTML = "";
-
-  if (q === "") {
-    searchResults.style.display = "none";
-    return;
-  }
-
-  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  const results = tasks.filter(t =>
-    t.title.toLowerCase().includes(q) ||
-    t.subject.toLowerCase().includes(q) ||
-    t.type.toLowerCase().includes(q)
-  );
-
-  if (results.length === 0) {
-    searchResults.style.display = "block";
-    searchResults.innerHTML = "<li class='no-result'>No results found</li>";
-    return;
-  }
-
-  searchResults.style.display = "block";
-
-  results.forEach(t => {
-    const li = document.createElement("li");
-    li.className = "search-item";
-
-    li.textContent = `${t.subject} - ${t.title} (W${t.week} / ${dayNames[t.day]})`;
-
-    // Hover highlight week/day
-    li.onmouseover = () => {
-      document.querySelector(`[data-week="${t.week}"]`)?.classList.add("highlight-week");
-    };
-
-    li.onmouseout = () => {
-      document.querySelector(`[data-week="${t.week}"]`)?.classList.remove("highlight-week");
-    };
-
-    // Click → jump to its week & day
-    li.onclick = () => {
-      selectedWeek = t.week;
-      selectedDay = t.day;
-
-      generateWeeks();
-      updateAddButtonDay();
-      renderTasks();
-      updateBadges();
-
-      searchResults.style.display = "none";
-    };
-
-    searchResults.appendChild(li);
-  });
-});
-
-// ---------- POP UP ADD TASK BARU ----------
-  document.getElementById('modal-save').onclick = () => {
-    const type = document.getElementById('task-type').value;
-    const title = document.getElementById('task-title').value.trim();
-    const subject = document.getElementById('task-subject').value.trim();
-    const notes = document.getElementById('task-notes').value.trim();
-    const week = parseInt(modalWeek.value);
-    const day = parseInt(document.getElementById('modal-day').value);
-
-    if (!title || !subject) return alert("Fill title & subject");
-
-    if (edit && task) {
-        // 🔥 MODE EDIT → OVERWRITE TASK LAMA
-        task.type = type;
-        task.title = title;
-        task.subject = subject;
-        task.notes = notes;
-        task.week = week;
-        task.day = day;
-    } else {
-        // ➕ MODE ADD → PUSH TASK BARU
-        tasks.push({
-            type, title, subject, notes, week, day
-        });
+    .navigation { 
+        background: #fff; 
+        padding: 1rem 2rem; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        border-bottom: 3px dashed #84a59d; 
     }
 
-    save();
-    closeModal();
-    renderTasks();
-    updateBadges();
-    updateGlobalSummary(); 
-};
-
-
-  document.getElementById('modal-cancel').onclick = closeModal;
-}
-
-function closeModal() { 
-  modalBack.style.display = 'none'; 
-}
-
-// ---------- ADD BUTTON ----------
-function updateAddButtonDay() {
-  if (selectedDay !== null) {
-    btnAdd.textContent = "+ Add Task for This Day";
-    btnAdd.onclick = () => openModal(false, false, selectedDay);
-  } else {
-    btnAdd.textContent = "+ Add";
-    btnAdd.onclick = () => openModal(false, false, 0);
-  }
-}
-
-// ---------- MASUKKAN TASKS BARU ----------
-function renderTasks() {
-  taskList.innerHTML = '';
-
-  let filtered = tasks.filter(t => t.week === selectedWeek);
-  if (selectedDay !== null) filtered = filtered.filter(t => t.day === selectedDay);
-
-  let assignCount = 0;
-  let testCount = 0;
-  let eventCount = 0;
-
-  filtered.forEach(t => {
-    const li = document.createElement('li');
-    li.className = "task-item";
-
-    const text = document.createElement('span');
-    text.textContent = `${t.subject} - ${t.title} (${t.type})`;
-    text.onclick = () => openModal(t, true, t.day);
-
-// ---------- DELETE TASK BUTTON ----------
-    const del = document.createElement('button');
-    del.className = "delete-btn";
-    del.textContent = "✕";
-
-    del.onclick = () => {
-      if (confirm("Delete this task?")) {
-        tasks = tasks.filter(x => x !== t);
-        save();
-        renderTasks();
-        updateBadges();
-        updateGlobalSummary();
-      }
-    };
-
-    li.appendChild(del)
-    li.appendChild(text);
-    taskList.appendChild(li);
-
-    if (t.type === "assignment") assignCount++;
-    if (t.type === "test") testCount++;
-     if (t.type === "event") eventCount++;
-  });
-
-  document.getElementById("assignCount").textContent = assignCount;
-  document.getElementById("testCount").textContent = testCount;
-  document.getElementById("eventCount").textContent = eventCount;
-}
-
-// ---- NOMBOR KECIK DEKAT ATAS HARI ----
-function weekHasTasks(week) {
-  return tasks.some(t => t.week === week);
-}
-
-function updateBadges() {
-  const hasTasks = weekHasTasks(selectedWeek);
-
-  for (let d = 0; d < 7; d++) {
-    const badge = document.getElementById("b" + d);
-
-    if (!hasTasks) {
-      badge.style.display = "none";
-      badge.textContent = "";
-      continue;
+    .logo-area { display: flex; align-items: center; gap: 10px; }
+    
+    .site-title { 
+        font-family: 'Playfair Display', serif; 
+        font-weight: bold; 
+        font-size: 1.5rem;
+        color: #1a2e35;
     }
 
-    const count = tasks.filter(t => t.week === selectedWeek && t.day === d).length;
+    .nav { display: flex; gap: 24px; }
 
-    if (count > 0) {
-      badge.style.display = "flex";
-      badge.textContent = count;
-    } else {
-      badge.style.display = "none";
-      badge.textContent = "";
+    .nav-link { 
+        text-decoration: none; 
+        color: #6b7280; 
+        font-weight: 700; 
+        font-size: 0.875rem; 
+        text-transform: uppercase;
+        transition: color 0.3s;
     }
-  }
-}
 
-// ---------- DAY CLICK ----------
-document.querySelectorAll('#daysContainer .day').forEach(el => {
-  el.addEventListener('click', () => {
-    selectedDay = parseInt(el.dataset.day);
-    updateAddButtonDay();
-    renderTasks();
-    updateBadges();
-  });
-});
+    .nav-link:hover { color: #84a59d; }
+    
+    .nav-link.active { 
+        color: #064e3b; 
+        border-bottom: 2px solid #064e3b;
+        padding-bottom: 4px;
+    }
+</style>
 
-// ---------- TOTAL PLANNER W1-W14 ----------
-function updateGlobalSummary() {
-    let a = 0, t = 0, e = 0;
-    let assignmentWeeks = [];
-    let testWeeks = [];
-    let eventWeeks = [];
-
-    tasks.forEach(item => {
-        if (item.type === "assignment") {
-            a++;
-// example item structure must have week: "W9" etc
-            if (item.week && !assignmentWeeks.includes(item.week)) {
-                assignmentWeeks.push(item.week);
-            }
-        }
-
-        if (item.type === "test"){
-         t++;
-          if (item.week && !testWeeks.includes(item.week)) {
-                testWeeks.push(item.week);
-            }
-        }
-
-        if (item.type === "event"){ 
-          e++;
-          if (item.week && !eventWeeks.includes(item.week)) {
-                eventWeeks.push(item.week);
-            }
-        }
-    });
-
-    document.getElementById("gAssign").textContent = a;
-    document.getElementById("gTest").textContent = t;
-    document.getElementById("gEvent").textContent = e;
-
-// 🟡 NEW: Write week info
-    document.getElementById("gAssignWeek").textContent =
-        assignmentWeeks.length > 0 ? assignmentWeeks.join(", ") : "-";
-    document.getElementById("gTestWeek").textContent =
-        testWeeks.length > 0 ? testWeeks.join(", ") : "-";
-     document.getElementById("gEventWeek").textContent =
-        eventWeeks.length > 0 ? eventWeeks.join(", ") : "-";  
-}
-
-
-// ---------- INIT ----------
-generateWeeks();
-renderTasks();
-updateAddButtonDay();
-updateBadges();
-updateGlobalSummary();
-
-  // expose for debugging (optional)
-  window._app = { tasks, renderTasks, generateWeeks };
-
-</script>
-</body>
-</html>
-
+<header class="navigation">
+    <div class="logo-area">
+        <span class="text-2xl">🌿</span>
+        <span class="site-title">FOCUS <i style="font-family: 'Dancing Script', cursive; color: #84a59d;">Cottage</i></span>
+    </div>
+    <nav class="nav">
+        <a href="index.html" class="nav-link active">Dashboard</a>
+        <a href="tools.html" class="nav-link">Tools</a>
+        <a href="modules.html" class="nav-link">Module</a>
+        <a href="Quiz.html" class="nav-link">Quiz</a>
+        <a href="community.html" class="nav-link">Community</a>
+    </nav>
+</header>
