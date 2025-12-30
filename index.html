@@ -224,9 +224,10 @@ nav a.active{
 .learning-grid{
     max-width:1200px;
     margin:0 auto;
-    display:center;
+    display: grid; 
     grid-template-columns:repeat(4,1fr);
     gap:25px;
+    justify-items: center;   
 }
 
 .learning-card{
@@ -452,6 +453,7 @@ document.getElementById('assignCount').textContent =
 document.getElementById('testCount').textContent =
     localStorage.getItem('globalTestCount') || 0;
 </script>
+
 
 
 
