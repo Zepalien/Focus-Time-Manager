@@ -3,201 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Focus Style Analysis</title>
+    <title>Focus | Results Unlocked</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* --- THEME STYLES (MATCHING QUIZ.HTML) --- */
         :root {
-            --primary: #4f46e5;       /* Indigo-600 (Highlight/Link Color) */
-            --dark-header-bg: #1e293b; /* Slate-800, for the top bar */
-            --background-dark: #3e536e; /* Main body background color */
-            --teal-card-bg: #2dd4bf;  /* Teal/Cyan accent */
-            --card-bg: #f9edd5;       /* Light card background (from Quiz.html .container) */
-            --button-dark: #283c60;   /* Darker blue for buttons */
+            --primary: #4f46e5;
+            --teal-card-bg: #2dd4bf;
+            --accent-pink: #ff2e63;
+            --accent-yellow: #fcd34d;
+            --dark-bg: #0f3460;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--background-dark);
+            background: var(--dark-bg);
+            color: #e0e0e0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            color: #222;
         }
 
-        /* 1. HEADER/NAV STYLES */
+        .font-pixel { font-family: 'Press Start 2P', cursive; }
+
+        /* Standard Header */
         .header {
-            background-color: var(--dark-header-bg);
+            background-color: #1e293b;
             color: white;
             padding: 0.75rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 0px rgba(0, 0, 0, 0.3);
+            position: sticky; top: 0; z-index: 100;
         }
-        .logo-section {
-            display: flex;
-            align-items: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-        .logo-circle {
-            background-color: var(--teal-card-bg);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            margin-right: 0.5rem;
-        }
-        .nav-menu a {
-            color: white;
-            margin-left: 1.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 0;
-        }
-        .nav-menu a:hover, .nav-menu a[href*="quiz.html"] {
-            color: var(--teal-card-bg); /* Highlight 'QUIZ' link */
-        }
+        .logo-section { display: flex; align-items: center; font-weight: 700; font-size: 1.25rem; }
+        .logo-circle { background-color: var(--teal-card-bg); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; margin-right: 0.5rem; }
+        .nav-menu a { color: white; margin-left: 1.5rem; text-decoration: none; font-weight: 500; font-size: 0.85rem; }
 
-        /* 2. MAIN CONTENT CARD STYLES (results-card uses .container properties) */
-        .main-content-wrapper {
-            flex-grow: 1;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
+        /* Results Card - Retro Game Style */
         .results-card {
-            max-width: 800px;
-            width: 100%;
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 40px 30px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .results-card h1 {
-            color: var(--button-dark);
-            margin-bottom: 25px;
-            font-size: 2.2em;
-            font-weight: 800;
+            background: #16213e;
+            border: 6px solid #4e4eba;
+            border-radius: 32px;
+            box-shadow: 0 20px 0px #091a33;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* 3. SCORE DISPLAY STYLES */
-        .score-summary {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-            padding: 15px;
-            border-top: 1px dashed #ccc;
-            border-bottom: 1px dashed #ccc;
-        }
-        .score-item {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #555;
-        }
-        .score-item span {
-            display: block;
-            font-size: 2.2em;
-            font-weight: 800;
-            color: var(--primary); /* Primary color for high-impact numbers */
-            line-height: 1.2;
+        /* Power Bars */
+        .stat-container { margin-bottom: 20px; }
+        .stat-bar-bg { background: #1a1a2e; height: 24px; border: 3px solid #4e4eba; border-radius: 12px; overflow: hidden; }
+        .stat-bar-fill { height: 100%; width: 0%; transition: width 1.5s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+
+        /* Recommendation Box */
+        .unlock-box {
+            background: rgba(45, 212, 191, 0.1);
+            border: 2px dashed var(--teal-card-bg);
+            border-radius: 20px;
+            padding: 24px;
         }
 
-        /* 4. RECOMMENDATION BOX STYLES */
-        .recommendation-box {
-            background-color: #e8f9f7; /* Very light teal background */
-            border: 2px solid var(--teal-card-bg);
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 8px;
-            text-align: left;
-        }
-        .recommendation-box h3 {
-            color: var(--teal-card-bg);
-            margin-top: 0;
-            font-size: 1.6em;
-            font-weight: 700;
-        }
-        .method-link {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-top: 25px;
-            transition: background-color 0.3s;
-        }
-        .method-link:hover {
-            background-color: #3b30a5;
-        }
-        
-        /* 5. BACK BUTTON */
-        .back-btn {
-            margin-top: 30px;
-            padding: 10px 16px;
+        .arcade-btn {
+            background: var(--teal-card-bg);
+            color: #1a1a2e;
             border: none;
-            border-radius: 8px;
-            background: var(--button-dark);
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            display: block;
-            width: fit-content;
-            margin: 30px auto 0;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            box-shadow: 0 6px 0px #1eada0;
+            transition: all 0.1s;
+            display: inline-block;
+            padding: 15px 30px;
+        }
+        .arcade-btn:active { transform: translateY(4px); box-shadow: 0 2px 0px #1eada0; }
+
+        /* Confetti/Particle Effect Style */
+        .glitch-text {
+            color: var(--accent-yellow);
+            text-shadow: 2px 2px var(--accent-pink);
         }
 
-        .back-btn:hover {
-            background: gray;
-            color: #222;
-        }
-        
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .blinking { animation: pulse 1s infinite; }
     </style>
 </head>
-<body>
+<body class="pb-20">
 
     <header class="header">
         <div class="logo-section">
-            <div class="logo-circle">F</div>
-            FOCUS
+            <div class="logo-circle">F</div> FOCUS
         </div>
         <nav class="nav-menu">
             <a href="index.html">DASHBOARD</a>
             <a href="tools.html">TOOLS</a>
             <a href="modules.html">MODULE</a>
-            <a href="Quiz.html" style="font-weight: 700;">QUIZ</a> 
-            <a href="community.html">COMMUNITIY</a> 
+            <a href="quiz.html" style="color: var(--teal-card-bg); font-weight: 700;">QUIZ</a> 
+            <a href="community.html">COMMUNITY</a> 
         </nav>
     </header>
 
-    <div class="main-content-wrapper">
-        <div class="results-card">
-            <h1>🎉 Your Focus Style Analysis is Ready!</h1>
-            <p class="text-gray-600">Based on your responses, here is the breakdown of your current focus challenges (Higher score = Bigger challenge).</p>
-
-            <div class="score-summary" id="scoreSummary">
-                </div>
+    <div class="max-w-4xl mx-auto px-6 mt-12">
+        <div class="results-card p-8 md:p-12 text-center">
             
-            <div class="recommendation-box">
-                <h3 id="recommendationTitle"></h3>
-                <p><strong id="primaryStruggleText"></strong></p>
-                <p class="text-gray-700 mt-4">We recommend you start with this module because it is specifically designed to address your main challenges. You can also explore the Active Recall module to improve overall learning retention.</p>
-                <a href="#" id="moduleLink" class="method-link">Go to Recommended Module</a>
+            <div class="mb-8">
+                <h1 class="font-pixel text-2xl md:text-3xl glitch-text mb-4 uppercase">Mission Accomplished!</h1>
+                <p class="text-blue-200 font-bold tracking-widest text-xs">FOCUS PROFILE SCAN COMPLETE</p>
             </div>
 
-            <button class="back-btn" onclick="window.location.href='Quiz.html'">
-                ← Back to Quiz Page
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12" id="statBars">
+                <div class="stat-container">
+                    <div class="flex justify-between text-[10px] font-pixel mb-2">
+                        <span>PRIORITY</span>
+                        <span id="p-val">0</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                        <div id="p-bar" class="stat-bar-fill" style="background: #ff2e63;"></div>
+                    </div>
+                </div>
+                <div class="stat-container">
+                    <div class="flex justify-between text-[10px] font-pixel mb-2">
+                        <span>SHIELD (INT)</span>
+                        <span id="i-val">0</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                        <div id="i-bar" class="stat-bar-fill" style="background: #fcd34d;"></div>
+                    </div>
+                </div>
+                <div class="stat-container">
+                    <div class="flex justify-between text-[10px] font-pixel mb-2">
+                        <span>ENERGY (MOT)</span>
+                        <span id="m-val">0</span>
+                    </div>
+                    <div class="stat-bar-bg">
+                        <div id="m-bar" class="stat-bar-fill" style="background: #2dd4bf;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unlock-box mb-10 text-left">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="bg-yellow-400 p-2 rounded-lg text-black font-pixel text-xs blinking">NEW PERK UNLOCKED</div>
+                    <h2 class="text-xl font-bold text-white" id="recommendationTitle">Loading Strategy...</h2>
+                </div>
+                
+                <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                    <span class="text-teal-400 font-bold">DETECTION:</span> <span id="primaryStruggleText">---</span><br><br>
+                    This mission revealed that your focus "armor" is being pierced by specific distractions. To counter this, we've prepared a special training module. Equip this strategy to boost your focus levels.
+                </p>
+
+                <a href="#" id="moduleLink" class="arcade-btn w-full text-center text-sm font-pixel">EQUIP STRATEGY</a>
+            </div>
+
+            <button class="text-gray-500 hover:text-white font-bold text-xs tracking-widest transition" onclick="window.location.href='quiz.html'">
+                RESTART MISSION?
             </button>
         </div>
     </div>
@@ -209,44 +166,34 @@
             const primaryMethod = localStorage.getItem('primaryMethod');
             const methodSlug = localStorage.getItem('methodSlug');
 
-            const resultsCard = document.querySelector('.results-card');
-
-            // --- Error Handling (If quiz wasn't taken) ---
             if (!scores || !primaryMethod) {
-                resultsCard.innerHTML = `
-                    <h1 class="text-red-600">⚠️ Error: Quiz results not found.</h1>
-                    <p class="text-lg mb-8">Please complete the Focus Style Diagnostic Analyzer first.</p>
-                    <a href="quiz.html" class="method-link" style="background-color: var(--teal-card-bg);">Take Quiz Now</a>
-                    <button class="back-btn" onclick="window.location.href='quiz.html'">
-                        ← Back to Quiz Page
-                    </button>
+                document.querySelector('.results-card').innerHTML = `
+                    <h1 class="font-pixel text-red-500 text-xl mb-4">DATA CORRUPTED</h1>
+                    <p class="mb-8">No scan data found. Please complete the quiz first.</p>
+                    <a href="quiz.html" class="arcade-btn">GO TO START</a>
                 `;
                 return;
             }
 
-            // --- Display Scores ---
-            const scoreSummary = document.getElementById('scoreSummary');
-            scoreSummary.innerHTML = `
-                <div class="score-item"><span>${scores.P}</span> Prioritization</div>
-                <div class="score-item"><span>${scores.I}</span> Interruption</div>
-                <div class="score-item"><span>${scores.M}</span> Motivation</div>
-            `;
-
-            // --- Display Recommendation ---
-            const titleEl = document.getElementById('recommendationTitle');
-            const struggleTextEl = document.getElementById('primaryStruggleText');
+            // Update Text
+            document.getElementById('p-val').textContent = scores.P + '/15';
+            document.getElementById('i-val').textContent = scores.I + '/15';
+            document.getElementById('m-val').textContent = scores.M + '/15';
+            
+            document.getElementById('recommendationTitle').textContent = primaryMethod;
+            document.getElementById('primaryStruggleText').textContent = primaryStruggle;
+            
             const linkEl = document.getElementById('moduleLink');
-            
-            titleEl.textContent = `Your Primary Focus Solution: The ${primaryMethod}`;
-            struggleTextEl.textContent = `Your Biggest Challenge: ${primaryStruggle}`;
-            
-            // Assuming your modules page uses URL hashes for navigation (e.g., modules.html#pomodoro-technique)
-            linkEl.href = `modules.html#${methodSlug}`; 
-            linkEl.textContent = `Start Learning ${primaryMethod} Now!`;
+            linkEl.href = `modules.html#${methodSlug}`;
+            linkEl.textContent = `LEARN ${primaryMethod}`;
+
+            // Animate Bars (Delayed for effect)
+            setTimeout(() => {
+                document.getElementById('p-bar').style.width = (scores.P / 15 * 100) + '%';
+                document.getElementById('i-bar').style.width = (scores.I / 15 * 100) + '%';
+                document.getElementById('m-bar').style.width = (scores.M / 15 * 100) + '%';
+            }, 500);
         });
     </script>
-
 </body>
-
 </html>
-
