@@ -5,25 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Semester Planner</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Additional styling to ensure the summary looks like Pic 2 */
-    .polaroid {
-        background: white; 
-        padding: 20px; 
-        border-radius: 8px; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        position: relative;
-    }
-    .summary-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 15px;
-        text-align: center;
-    }
-    .summary-item b { display: block; font-size: 1.1rem; margin-bottom: 5px; }
-    .week-list { font-size: 0.85rem; color: #666; border-top: 1px dashed #ddd; mt: 5px; pt: 5px; }
-  </style>
 </head>
 
 <body>
@@ -41,6 +22,7 @@
     <div class="semester-card">
       <h2>SEMESTER<br/>WEEK</h2>
       <div class="weeks" id="weekContainer"></div>
+
       <div class="days" id="daysContainer">
         <div class="day" data-day="1">Mon<div class="badge" id="b1"></div></div>
         <div class="day" data-day="2">Tue<div class="badge" id="b2"></div></div>
@@ -50,33 +32,46 @@
         <div class="day" data-day="6">Sat<div class="badge" id="b6"></div></div>
         <div class="day" data-day="0">Sun<div class="badge" id="b0"></div></div>
       </div>
+
+      <div class="instructions">
+        <p><b>How to use</b></p>
+        <p>1. Click a week (1–14) to view days. Weeks with entries are highlighted.</p>
+        <p>2. Click any day box to view task list or add tasks.</p>
+        <p>3. Use the search above — hover a result to see where it is (week + day).</p>
+      </div>
     </div>
 
-    <section class="polaroid">
-        <h3 style="text-align:center; margin-top:0;">Overall Summary (W1–W14)</h3>
-        <div class="summary-grid">
-            <div class="summary-item">
-                <b>Assignments: <span id="gAssign">0</span></b>
-                <div class="week-list">Week: <span id="gAssignWeek">-</span></div>
-            </div>
-            <div class="summary-item">
-                <b>Tests/Quizzes: <span id="gTest">0</span></b>
-                <div class="week-list">Week: <span id="gTestWeek">-</span></div>
-            </div>
-            <div class="summary-item">
-                <b>Personal: <span id="gEvent">0</span></b>
-                <div class="week-list">Week: <span id="gEventWeek">-</span></div>
-            </div>
+<section class="global-summary">
+        <h3>Overall Summary (W1–W14)</h3>
+        <div class="summary-row">
+          <p>Total Assignment: <span id="gAssign">0</span></p>
+          <p>Total Test/Quiz: <span id="gTest">0</span></p>
+          <p>Total Personal Event: <span id="gEvent">0</span></p>
         </div>
-    </section>
+        <div class="summary-row bottom-row">
+          <p>Week: <span id="gAssignWeek">-</span></p>
+          <p>Week: <span id="gTestWeek">-</span></p>
+          <p>Week: <span id="gEventWeek">-</span></p>
+        </div>
+      </section>
   </div>
 
 <div class="right">
     <div class="stats">
-      <div class="stat-box"><h1 id="assignCount">0</h1><p>Assignment</p></div>
-      <div class="stat-box"><h1 id="testCount">0</h1><p>Test</p></div>
-      <div class="stat-box"><h1 id="eventCount">0</h1><p>Event</p></div>
+      <div class="stat-box">
+        <h1 id="assignCount">0</h1>
+        <p>Assignment</p>
+      </div>
+      <div class="stat-box">
+        <h1 id="testCount">0</h1>
+        <p>Test</p>
+      </div>
+      <div class="stat-box">
+        <h1 id="eventCount">0</h1>
+        <p>Personal Event</p>
+      </div>
     </div>
+
     <div class="task-title">Task :</div>
     <ul id="taskList"></ul>
     <button class="add-btn" id="btnAdd">+ Add Entry</button>
@@ -86,21 +81,40 @@
 <div class="modal-back" id="modal-back">
   <div class="modal">
     <h3 id="modal-title">Add Task</h3>
-    <div class="field"><label>Type</label><select id="task-type">
+    <div class="field">
+      <label>Type</label>
+      <select id="task-type">
         <option value="assignment">Assignment</option>
         <option value="test">Test/Quiz</option>
         <option value="event">Personal Event</option>
-    </select></div>
-    <div class="field"><label>Title</label><input id="task-title" /></div>
-    <div class="field"><label>Subject</label><input id="task-subject" /></div>
-    <div class="field"><label>Week & Day</label>
+      </select>
+    </div>
+    <div class="field">
+      <label>Title</label>
+      <input id="task-title" placeholder="e.g. IMC501 Assignment 3" />
+    </div>
+    <div class="field">
+      <label>Subject / Venue</label>
+      <input id="task-subject" placeholder="e.g. IMC501 / Lab 4" />
+    </div>
+    <div class="field">
+      <label>Week & Day</label>
+      <div style="display:flex;gap:8px">
         <select id="modal-week"></select>
         <select id="modal-day">
-          <option value="1">Mon</option><option value="2">Tue</option>
-          <option value="3">Wed</option><option value="4">Thu</option>
-          <option value="5">Fri</option><option value="6">Sat</option>
-          <option value="0">Sun</option>
+          <option value="1">Monday</option>
+          <option value="2">Tuesday</option>
+          <option value="3">Wednesday</option>
+          <option value="4">Thursday</option>
+          <option value="5">Friday</option>
+          <option value="6">Saturday</option>
+          <option value="0">Sunday</option>
         </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea id="task-notes" rows="3"></textarea>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn ghost" id="modal-cancel">Cancel</button>
@@ -114,23 +128,90 @@ let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let selectedWeek = 1;
 let selectedDay = null;
 
-// Renders the summary at the bottom
+// ---------- HELPERS ----------
+function save() { 
+    localStorage.setItem("tasks", JSON.stringify(tasks)); 
+}
+
+// 1. HIGHLIGHT FIX: Added logic to underline weeks that have entries
+function generateWeeks() {
+    const weekContainer = document.getElementById('weekContainer');
+    weekContainer.innerHTML = '';
+    for (let w = 1; w <= 14; w++) {
+        const span = document.createElement('span');
+        span.textContent = "W" + w;
+        span.dataset.week = w;
+        
+        // If the week has any task, give it a visual highlight
+        const hasData = tasks.some(t => t.week === w);
+        if (hasData) {
+            span.style.borderBottom = "3px solid #f9cf48";
+        }
+
+        if (w === selectedWeek) span.classList.add("active");
+        
+        span.onclick = () => {
+            selectedWeek = w;
+            selectedDay = null; // Clear day selection when changing weeks
+            generateWeeks();
+            renderTasks();
+            updateBadges();
+        };
+        weekContainer.appendChild(span);
+    }
+}
+
+// 2. TALLY FIX: Sidebar now counts WHOLE WEEK even if a specific day is clicked
+function renderTasks() {
+    const list = document.getElementById('taskList');
+    list.innerHTML = '';
+
+    // Filter tasks for the selected week
+    let weekTasks = tasks.filter(t => t.week === selectedWeek);
+
+    // Update Sidebar Stats (Whole Week View)
+    document.getElementById("assignCount").textContent = weekTasks.filter(t => t.type === "assignment").length;
+    document.getElementById("testCount").textContent = weekTasks.filter(t => t.type === "test").length;
+    document.getElementById("eventCount").textContent = weekTasks.filter(t => t.type === "event").length;
+
+    // Filter display for specific day if selected
+    let displayTasks = weekTasks;
+    if (selectedDay !== null) {
+        displayTasks = weekTasks.filter(t => t.day === selectedDay);
+    }
+
+    // Render the list items
+    if (displayTasks.length === 0) {
+        list.innerHTML = '<li style="color:rgba(0,0,0,0.5); font-style:italic; list-style:none;">No entries for this selection</li>';
+    } else {
+        displayTasks.forEach(t => {
+            const li = document.createElement('li');
+            li.className = "task-item";
+            li.innerHTML = `
+                <button class="delete-btn" onclick="deleteTask(${t.id})">✕</button>
+                <span onclick='openEditModal(${JSON.stringify(t)})'>
+                    ${t.subject} - ${t.title}
+                </span>`;
+            list.appendChild(li);
+        });
+    }
+}
+
+// 3. SUMMARY LIST FIX: Correctly tallies unique weeks and lists them
 function updateGlobalSummary() {
     let a = 0, t = 0, e = 0;
-    let assignmentWeeks = [], testWeeks = [], eventWeeks = [];
+    let aWeeks = [], tWeeks = [], eWeeks = [];
 
     tasks.forEach(item => {
         if (item.type === "assignment") {
             a++;
-            if (!assignmentWeeks.includes(item.week)) assignmentWeeks.push(item.week);
-        }
-        if (item.type === "test") {
+            if (!aWeeks.includes(item.week)) aWeeks.push(item.week);
+        } else if (item.type === "test") {
             t++;
-            if (!testWeeks.includes(item.week)) testWeeks.push(item.week);
-        }
-        if (item.type === "event") {
+            if (!tWeeks.includes(item.week)) tWeeks.push(item.week);
+        } else if (item.type === "event") {
             e++;
-            if (!eventWeeks.includes(item.week)) eventWeeks.push(item.week);
+            if (!eWeeks.includes(item.week)) eWeeks.push(item.week);
         }
     });
 
@@ -138,84 +219,85 @@ function updateGlobalSummary() {
     document.getElementById("gTest").textContent = t;
     document.getElementById("gEvent").textContent = e;
 
-    // Sort and display the weeks
-    document.getElementById("gAssignWeek").textContent = assignmentWeeks.length ? assignmentWeeks.sort((x,y)=>x-y).join(", ") : "-";
-    document.getElementById("gTestWeek").textContent = testWeeks.length ? testWeeks.sort((x,y)=>x-y).join(", ") : "-";
-    document.getElementById("gEventWeek").textContent = eventWeeks.length ? eventWeeks.sort((x,y)=>x-y).join(", ") : "-";
+    document.getElementById("gAssignWeek").textContent = aWeeks.length > 0 ? aWeeks.sort((x,y)=>x-y).join(", ") : "-";
+    document.getElementById("gTestWeek").textContent = tWeeks.length > 0 ? tWeeks.sort((x,y)=>x-y).join(", ") : "-";
+    document.getElementById("gEventWeek").textContent = eWeeks.length > 0 ? eWeeks.sort((x,y)=>x-y).join(", ") : "-";
 }
 
-// Side bar stats: counts ONLY for the currently selected week
-function renderTasks() {
-    const list = document.getElementById('taskList');
-    list.innerHTML = '';
-    
-    let weekTasks = tasks.filter(t => t.week === selectedWeek);
-    let counts = { assignment: 0, test: 0, event: 0 };
-    
-    weekTasks.forEach(t => counts[t.type]++);
-    
-    document.getElementById("assignCount").textContent = counts.assignment;
-    document.getElementById("testCount").textContent = counts.test;
-    document.getElementById("eventCount").textContent = counts.event;
-
-    // Filter display based on day
-    let display = selectedDay !== null ? weekTasks.filter(t => t.day === selectedDay) : weekTasks;
-    display.forEach(t => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span>${t.subject}: ${t.title}</span>`;
-        list.appendChild(li);
-    });
-}
-
-// Helper: updates badges on the Mon-Sun boxes
 function updateBadges() {
     for (let d = 0; d < 7; d++) {
+        const badge = document.getElementById("b" + d);
         const count = tasks.filter(t => t.week === selectedWeek && t.day === d).length;
-        const b = document.getElementById("b" + d);
-        b.style.display = count > 0 ? "flex" : "none";
-        b.textContent = count;
+        badge.style.display = count > 0 ? "flex" : "none";
+        badge.textContent = count;
     }
 }
 
-// Modal and Navigation logic...
-function generateWeeks() {
-    const container = document.getElementById('weekContainer');
-    container.innerHTML = '';
-    for (let w = 1; w <= 14; w++) {
-        const span = document.createElement('span');
-        span.textContent = "W" + w;
-        if (w === selectedWeek) span.classList.add("active");
-        span.onclick = () => { selectedWeek = w; selectedDay = null; generateWeeks(); renderTasks(); updateBadges(); };
-        container.appendChild(span);
+// ---------- MODAL LOGIC ----------
+function openModal(dayIndex = 1) {
+    document.getElementById('modal-title').textContent = 'Add Task';
+    document.getElementById('task-title').value = '';
+    document.getElementById('task-subject').value = '';
+    document.getElementById('task-notes').value = '';
+    document.getElementById('modal-day').value = dayIndex;
+    
+    const mw = document.getElementById('modal-week');
+    mw.innerHTML = '';
+    for(let i=1; i<=14; i++) {
+        mw.innerHTML += `<option value="${i}" ${i === selectedWeek ? 'selected' : ''}>W${i}</option>`;
     }
+    document.getElementById('modal-back').style.display = 'flex';
 }
 
 document.getElementById('modal-save').onclick = () => {
+    const title = document.getElementById('task-title').value.trim();
+    const subject = document.getElementById('task-subject').value.trim();
+    if (!title || !subject) return alert("Fill title & subject");
+
     tasks.push({
+        id: Date.now(),
         type: document.getElementById('task-type').value,
-        title: document.getElementById('task-title').value,
-        subject: document.getElementById('task-subject').value,
+        title: title,
+        subject: subject,
+        notes: document.getElementById('task-notes').value,
         week: parseInt(document.getElementById('modal-week').value),
-        day: parseInt(document.getElementById('modal-day').value),
-        id: Date.now()
+        day: parseInt(document.getElementById('modal-day').value)
     });
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    save();
     document.getElementById('modal-back').style.display = 'none';
-    renderTasks(); updateBadges(); updateGlobalSummary();
-};
-
-document.getElementById('btnAdd').onclick = () => {
-    const mw = document.getElementById('modal-week'); mw.innerHTML = '';
-    for(let i=1; i<=14; i++) mw.innerHTML += `<option value="${i}" ${i===selectedWeek?'selected':''}>W${i}</option>`;
-    document.getElementById('modal-back').style.display = 'flex';
-};
-
-document.querySelectorAll('.day').forEach(d => d.onclick = () => {
-    selectedDay = parseInt(d.dataset.day);
+    generateWeeks();
     renderTasks();
+    updateBadges();
+    updateGlobalSummary();
+};
+
+function deleteTask(id) {
+    if (confirm("Delete this task?")) {
+        tasks = tasks.filter(t => t.id !== id);
+        save();
+        generateWeeks();
+        renderTasks();
+        updateBadges();
+        updateGlobalSummary();
+    }
+}
+
+document.getElementById('modal-cancel').onclick = () => document.getElementById('modal-back').style.display = 'none';
+document.getElementById('btnAdd').onclick = () => openModal(selectedDay || 1);
+
+document.querySelectorAll('.day').forEach(el => {
+    el.addEventListener('click', () => {
+        selectedDay = parseInt(el.dataset.day);
+        renderTasks();
+    });
 });
 
-generateWeeks(); renderTasks(); updateBadges(); updateGlobalSummary();
+// ---------- INIT ----------
+generateWeeks();
+renderTasks();
+updateBadges();
+updateGlobalSummary();
 </script>
 </body>
 </html>
