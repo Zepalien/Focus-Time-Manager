@@ -4,11 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>FOCUS Journal - Semester Planner</title>
-  
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Indie+Flower&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   
   <style>
-    /* --- CSS THEME: PREMIUM DIGITAL JOURNAL --- */
+    /* CSS Root & Base Styles */
     :root {
         --paper: #fdfbf7;
         --sage: #84a59d;
@@ -19,75 +18,48 @@
     }
 
     body { 
-        margin:0; 
-        font-family: 'Poppins', sans-serif; 
+        margin:0; font-family: 'Poppins', sans-serif; 
         background-color: #f4f1ea; 
         background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
-        background-size: 26px 26px; /* Dotted Journal Grid */
+        background-size: 26px 26px; 
         color: var(--text-dark);
-        overflow-x: hidden;
     }
 
-    /* HEADER */
+    /* Layout & Navigation */
     .navigation {
-        background: #fff;
-        padding: 12px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        background: #fff; padding: 12px 40px; display: flex;
+        justify-content: space-between; align-items: center;
         border-bottom: 2px dashed var(--sage);
-        position: fixed; top: 0; width: 100%; z-index: 1000;
-        box-sizing: border-box;
+        position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
     }
-    .logo-area { display: flex; align-items: center; gap: 10px; }
-    .site-title { font-weight: 600; letter-spacing: 1px; }
-    .site-title i { font-family: 'Dancing Script', cursive; color: var(--sage); font-style: normal; }
     .nav { display: flex; gap: 25px; }
     .nav-link { text-decoration: none; color: #6b7280; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
     .nav-link.active { color: var(--sage); border-bottom: 2px solid var(--sage); }
 
     .container { display:flex; height:100vh; padding-top: 70px; box-sizing: border-box; }
 
-    /* LEFT SIDE: MAIN LOGS */
+    /* Left Side: Journal Page */
     .left { width:68%; padding:40px; overflow-y: auto; box-sizing: border-box; }
-
-    .search-box { 
-        background:white; padding:10px 20px; border-radius:30px; 
-        display:flex; align-items:center; width:100%; max-width: 400px;
-        border: 1px solid #e0d3bd; margin-bottom: 20px;
-    }
-    .search-box input { border:none; outline:none; width:100%; font-family: 'Indie Flower', cursive; font-size: 1.1rem; }
-    #search-results {
-        position: absolute; background: white; width: 380px; list-style: none;
-        padding: 10px; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        z-index: 100; display: none; border: 1px solid #eee;
-    }
-    #search-results li { padding: 8px; cursor: pointer; border-radius: 4px; }
-    #search-results li:hover { background: var(--paper); color: var(--sage); }
-
     .semester-card { 
         background: #fff; padding: 40px; border: 1px solid #e0d3bd;
         border-radius: 2px; box-shadow: 12px 12px 0px rgba(215, 211, 199, 0.4);
-        position: relative; margin-top: 20px;
+        position: relative;
     }
-
     .washi-tape {
-        position: absolute; top: -18px; left: 50%; transform: translateX(-50%) rotate(-1deg);
+        position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
         width: 150px; height: 38px; background: rgba(132, 165, 157, 0.5);
-        border-left: 3px dashed rgba(255,255,255,0.4); border-right: 3px dashed rgba(255,255,255,0.4);
     }
+    .semester-card h2 { font-family: 'Dancing Script', cursive; text-align: center; font-size: 3rem; margin: 10px 0 35px; }
 
-    .semester-card h2 { 
-        font-family: 'Dancing Script', cursive; text-align: center; 
-        font-size: 3rem; margin: 10px 0 35px; color: #4b3f35;
-    }
-
+    /* Week Highlighting Logic */
     .weeks { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-    .weeks span { 
-        font-family: 'Indie Flower', cursive; font-size: 1.2rem; 
-        cursor: pointer; padding: 2px 10px; transition: 0.2s;
-    }
+    .weeks span { font-family: 'Indie Flower', cursive; font-size: 1.2rem; cursor: pointer; padding: 2px 10px; }
+    
+    /* Highlight for current selection */
     .weeks span.active { background: var(--highlight); transform: skewX(-10deg); font-weight: bold; }
+    
+    /* INDICATOR: Highlight weeks that actually contain entries */
+    .weeks span.has-entries { border-bottom: 3px double var(--sage); }
 
     .days { display: flex; gap: 12px; margin-top: 40px; }
     .day { 
@@ -96,14 +68,13 @@
         cursor: pointer; font-family: 'Indie Flower', cursive; font-size: 1.1rem;
         position: relative; transition: 0.3s;
     }
-    .day:hover { transform: translateY(-5px); background: #fffdf5; border-color: var(--highlight); }
     .badge { 
         position: absolute; top: 5px; right: 5px; background: var(--accent-red);
         color: white; border-radius: 50%; width: 20px; height: 20px;
         font-size: 11px; display: none; align-items: center; justify-content: center;
     }
 
-    /* RIGHT SIDEBAR */
+    /* Right Sidebar: Tallied Stats */
     .right { 
         width:32%; background: var(--glass); backdrop-filter: blur(12px);
         padding:40px; border-left: 1px solid #e0d3bd; overflow-y: auto;
@@ -114,48 +85,24 @@
     .stat-card h1 { margin: 0; font-size: 1.8rem; color: var(--sage); }
     .stat-card p { margin: 0; font-size: 0.7rem; text-transform: uppercase; font-weight: 600; color: #999; }
 
-    #taskList { list-style: none; padding: 0; margin-top: 20px; }
+    #taskList { list-style: none; padding: 0; }
     .task-item { 
         background: white; padding: 15px; border-radius: 10px; margin-bottom: 12px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02); border-left: 6px solid var(--sage);
-        display: flex; justify-content: space-between; align-items: center;
+        border-left: 6px solid var(--sage); display: flex; justify-content: space-between;
     }
-    .task-item strong { font-family: 'Indie Flower', cursive; font-size: 1.2rem; display: block; }
-    .task-item small { color: #888; font-size: 0.8rem; }
-    
-    .delete-btn { background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-size: 12px; }
+    .add-btn { background: var(--sage); color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: 600; }
 
-    .add-btn { 
-        background: var(--sage); color: white; border: none; padding: 15px; 
-        border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; margin-top: auto;
-    }
-
-    /* MODAL */
+    /* Modal Styling */
     .modal-back { display:none; position:fixed; inset:0; background: rgba(0,0,0,0.4); align-items:center; justify-content:center; z-index:2000; }
-    .modal { background:white; padding:30px; border-radius:15px; width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-    .modal h3 { font-family: 'Dancing Script', cursive; font-size: 2rem; margin-top: 0; }
+    .modal { background:white; padding:30px; border-radius:15px; width:400px; }
     .field { margin-bottom: 15px; }
-    .field label { display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; }
-    .field input, .field select, .field textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; }
-    
-    /* SUMMARY POLAROID */
-    .polaroid {
-        background: white; padding: 20px 20px 40px; width: 280px; margin-top: 40px;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.08); transform: rotate(-1.5deg);
-        border: 1px solid #eee; position: relative;
-    }
-    .polaroid h3 { font-family: 'Indie Flower', cursive; margin: 0 0 15px; font-size: 1.4rem; }
-    .pin { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 24px; }
+    .field input, .field select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
   </style>
 </head>
-
 <body>
 
 <header class="navigation">
-    <div class="logo-area">
-        <span style="font-size: 1.5rem;">🌿</span>
-        <span class="site-title">FOCUS <i>Journal</i></span>
-    </div>
+    <div class="logo-area"><span>🌿</span><span class="site-title">FOCUS <i>Journal</i></span></div>
     <nav class="nav">
         <a href="index.html" class="nav-link">Dashboard</a>
         <a href="tools.html" class="nav-link">Tools</a>
@@ -167,12 +114,6 @@
 
 <div class="container">
     <div class="left">
-        <div class="search-box">
-            <span style="margin-right: 10px;">🔍</span>
-            <input id="searchInput" placeholder="Search your logs..." autocomplete="off" />
-        </div>
-        <ul id="search-results"></ul>
-
         <div class="semester-card">
             <div class="washi-tape"></div>
             <h2>Semester Timeline</h2>
@@ -187,14 +128,6 @@
                 <div class="day" data-day="0">Sun<div class="badge" id="b0"></div></div>
             </div>
         </div>
-
-        <section class="polaroid">
-            <span class="pin">📌</span>
-            <h3>Semester Totals</h3>
-            <p>📝 Assignments: <span id="gAssign">0</span></p>
-            <p>⏳ Tests/Quizzes: <span id="gTest">0</span></p>
-            <p>🎈 Personal: <span id="gEvent">0</span></p>
-        </section>
     </div>
 
     <div class="right">
@@ -203,7 +136,7 @@
             <div class="stat-card"><h1 id="testCount">0</h1><p>Tests</p></div>
             <div class="stat-card"><h1 id="eventCount">0</h1><p>Events</p></div>
         </div>
-        <h3 style="font-family: 'Dancing Script', cursive; font-size: 2rem; margin-bottom: 0;">Today's Entries</h3>
+        <h3 style="font-family: 'Dancing Script', cursive; font-size: 2rem;">Today's Entries</h3>
         <ul id="taskList"></ul>
         <button class="add-btn" id="btnAdd">+ Add Log Entry</button>
     </div>
@@ -211,32 +144,24 @@
 
 <div class="modal-back" id="modal-back">
   <div class="modal">
-    <h3 id="modal-title">New Entry</h3>
+    <h3>New Entry</h3>
     <div class="field"><label>Type</label><select id="task-type"><option value="assignment">Assignment</option><option value="test">Test/Quiz</option><option value="event">Personal Event</option></select></div>
-    <div class="field"><label>Title</label><input id="task-title" placeholder="e.g. Chapter 1 Summary" /></div>
-    <div class="field"><label>Subject / Location</label><input id="task-subject" placeholder="e.g. Math 101" /></div>
+    <div class="field"><label>Title</label><input id="task-title" /></div>
+    <div class="field"><label>Subject</label><input id="task-subject" /></div>
     <div class="field"><label>Date</label><div style="display:flex;gap:10px;"><select id="modal-week"></select><select id="modal-day"><option value="1">Mon</option><option value="2">Tue</option><option value="3">Wed</option><option value="4">Thu</option><option value="5">Fri</option><option value="6">Sat</option><option value="0">Sun</option></select></div></div>
-    <div style="display:flex; gap:10px; margin-top:20px;">
-        <button id="modal-cancel" style="flex:1; padding:10px; border:none; border-radius:8px; cursor:pointer;">Cancel</button>
-        <button id="modal-save" style="flex:2; padding:10px; border:none; border-radius:8px; background:var(--sage); color:white; cursor:pointer;">Save Entry</button>
-    </div>
+    <button id="modal-save" class="add-btn">Save Entry</button>
   </div>
 </div>
 
 <script>
-    /* --- JAVASCRIPT LOGIC --- */
     let tasks = JSON.parse(localStorage.getItem("journal_tasks")) || [];
     let selectedWeek = 1;
     let selectedDay = null;
 
-    const modalBack = document.getElementById('modal-back');
-    const taskList = document.getElementById('taskList');
-    const searchResults = document.getElementById('search-results');
-
     function save() { 
-        localStorage.setItem("journal_tasks", JSON.stringify(tasks));
-        updateGlobalSummary();
+        localStorage.setItem("journal_tasks", JSON.stringify(tasks)); 
         updateBadges();
+        generateWeeks(); // Refresh week highlights
     }
 
     function generateWeeks() {
@@ -245,7 +170,13 @@
         for (let w = 1; w <= 14; w++) {
             const span = document.createElement('span');
             span.textContent = "Week " + w;
+            
+            // HIGHLIGHT FIX: Add class if week contains any entry
+            const hasData = tasks.some(t => t.week === w);
+            if (hasData) span.classList.add("has-entries");
+            
             if (w === selectedWeek) span.classList.add("active");
+            
             span.onclick = () => {
                 selectedWeek = w;
                 selectedDay = null;
@@ -258,7 +189,10 @@
     }
 
     function renderTasks() {
-        taskList.innerHTML = '';
+        const list = document.getElementById('taskList');
+        list.innerHTML = '';
+        
+        // SIDEBAR FIX: Tally filtered data accurately
         let filtered = tasks.filter(t => t.week === selectedWeek);
         if (selectedDay !== null) filtered = filtered.filter(t => t.day === selectedDay);
 
@@ -267,9 +201,8 @@
         filtered.forEach(t => {
             const li = document.createElement('li');
             li.className = "task-item";
-            li.innerHTML = `<div><strong>${t.subject}</strong><small>${t.title}</small></div>
-                            <button class="delete-btn" onclick="deleteTask('${t.id}')">✕</button>`;
-            taskList.appendChild(li);
+            li.innerHTML = `<div><strong>${t.subject}</strong><br><small>${t.title}</small></div>`;
+            list.appendChild(li);
             counts[t.type]++;
         });
 
@@ -277,54 +210,6 @@
         document.getElementById("testCount").textContent = counts.test;
         document.getElementById("eventCount").textContent = counts.event;
     }
-
-    function deleteTask(id) {
-        if(confirm("Delete this entry?")) {
-            tasks = tasks.filter(t => t.id !== id);
-            save();
-            renderTasks();
-        }
-    }
-
-    document.getElementById('btnAdd').onclick = () => {
-        const weekSelect = document.getElementById('modal-week');
-        weekSelect.innerHTML = '';
-        for(let i=1; i<=14; i++) {
-            let opt = document.createElement('option');
-            opt.value = i; opt.textContent = "Week " + i;
-            if(i === selectedWeek) opt.selected = true;
-            weekSelect.appendChild(opt);
-        }
-        if(selectedDay !== null) document.getElementById('modal-day').value = selectedDay;
-        modalBack.style.display = 'flex';
-    };
-
-    document.getElementById('modal-save').onclick = () => {
-        const title = document.getElementById('task-title').value;
-        const subject = document.getElementById('task-subject').value;
-        if(!title || !subject) return alert("Please fill in title and subject!");
-
-        tasks.push({
-            id: Date.now().toString(),
-            type: document.getElementById('task-type').value,
-            title, subject,
-            week: parseInt(document.getElementById('modal-week').value),
-            day: parseInt(document.getElementById('modal-day').value)
-        });
-
-        save();
-        modalBack.style.display = 'none';
-        renderTasks();
-    };
-
-    document.getElementById('modal-cancel').onclick = () => modalBack.style.display = 'none';
-
-    document.querySelectorAll('.day').forEach(el => {
-        el.onclick = () => {
-            selectedDay = parseInt(el.dataset.day);
-            renderTasks();
-        };
-    });
 
     function updateBadges() {
         for (let d = 0; d < 7; d++) {
@@ -335,42 +220,43 @@
         }
     }
 
-    function updateGlobalSummary() {
-        let a=0, t=0, e=0;
-        tasks.forEach(x => { if(x.type==='assignment') a++; if(x.type==='test') t++; if(x.type==='event') e++; });
-        document.getElementById('gAssign').textContent = a;
-        document.getElementById('gTest').textContent = t;
-        document.getElementById('gEvent').textContent = e;
-    }
-
-    // SEARCH
-    document.getElementById('searchInput').oninput = (e) => {
-        const q = e.target.value.toLowerCase();
-        searchResults.innerHTML = '';
-        if(!q) { searchResults.style.display='none'; return; }
-        const res = tasks.filter(t => t.title.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q));
-        if(res.length) {
-            searchResults.style.display = 'block';
-            res.forEach(t => {
-                const li = document.createElement('li');
-                li.textContent = `W${t.week}: ${t.title}`;
-                li.onclick = () => {
-                    selectedWeek = t.week;
-                    selectedDay = t.day;
-                    generateWeeks(); renderTasks(); updateBadges();
-                    searchResults.style.display = 'none';
-                };
-                searchResults.appendChild(li);
-            });
+    document.getElementById('btnAdd').onclick = () => {
+        const ws = document.getElementById('modal-week');
+        ws.innerHTML = '';
+        for(let i=1; i<=14; i++) {
+            let o = document.createElement('option');
+            o.value = i; o.textContent = "Week " + i;
+            if(i === selectedWeek) o.selected = true;
+            ws.appendChild(o);
         }
+        document.getElementById('modal-back').style.display = 'flex';
     };
 
-    // INIT
+    document.getElementById('modal-save').onclick = () => {
+        tasks.push({
+            id: Date.now().toString(),
+            type: document.getElementById('task-type').value,
+            title: document.getElementById('task-title').value,
+            subject: document.getElementById('task-subject').value,
+            week: parseInt(document.getElementById('modal-week').value),
+            day: parseInt(document.getElementById('modal-day').value)
+        });
+        save();
+        document.getElementById('modal-back').style.display = 'none';
+        renderTasks();
+    };
+
+    document.querySelectorAll('.day').forEach(el => {
+        el.onclick = () => {
+            selectedDay = parseInt(el.dataset.day);
+            renderTasks();
+            updateBadges();
+        };
+    });
+
     generateWeeks();
     renderTasks();
     updateBadges();
-    updateGlobalSummary();
 </script>
-
 </body>
 </html>
