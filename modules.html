@@ -27,13 +27,17 @@
         .handwritten { font-family: 'Caveat', cursive; }
         .serif { font-family: 'Playfair Display', serif; }
 
-        /* SIDEBAR */
+        /* SIDEBAR STYLES */
         .sidebar-panel {
             background-color: var(--espresso-dark);
-            width: 320px;
+            width: 100%; /* Default for mobile */
             padding: 25px;
             border-right: 3px solid #3E2723;
             box-shadow: 10px 0 30px rgba(0,0,0,0.6);
+        }
+
+        @media (min-width: 1024px) {
+            .sidebar-panel { width: 320px; min-height: 100vh; }
         }
 
         .module-category-button {
@@ -49,10 +53,7 @@
             font-weight: 600;
             font-size: 0.8rem;
             text-transform: uppercase;
-        }
-
-        .module-category-button:hover {
-            background: rgba(255,255,255,0.1);
+            width: 100%;
         }
 
         .module-category-button.active {
@@ -68,6 +69,7 @@
             font-size: 0.95rem;
             transition: 0.2s;
             opacity: 0.8;
+            display: block;
         }
         
         .method-button.active {
@@ -77,13 +79,12 @@
             text-decoration: underline;
         }
 
-        /* CARDS */
+        /* CARD STYLES */
         .napkin-card { 
             background-color: var(--latte-cream); 
             color: var(--text-main);
-            padding: 40px;
+            padding: 30px;
             box-shadow: 15px 15px 35px rgba(0,0,0,0.4);
-            transform: rotate(-1deg);
             border-radius: 4px;
         }
 
@@ -92,7 +93,6 @@
             color: #4E342E;
             padding: 25px;
             box-shadow: 8px 8px 20px rgba(0,0,0,0.2);
-            transform: rotate(1.5deg);
             border-bottom-right-radius: 50px 15px;
         }
 
@@ -106,69 +106,89 @@
         }
 
         .cup-loader {
-            font-size: 80px;
+            font-size: 60px;
             animation: steam 1.5s infinite ease-in-out;
         }
 
         @keyframes steam {
             0%, 100% { transform: translateY(0); opacity: 0.8; }
-            50% { transform: translateY(-20px); opacity: 1; }
+            50% { transform: translateY(-15px); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <header class="flex justify-between items-center px-10 py-5 sticky top-0 z-50 shadow-2xl" style="background-color: var(--espresso-dark); border-bottom: 3px solid var(--caramel);">
-        <div class="flex items-center">
-            <span class="text-3xl mr-3">☕</span>
-            <span class="text-2xl font-bold tracking-tighter serif">THE STUDY <span style="color: var(--caramel);">CAFE</span></span>
+    <header class="sticky top-0 z-50 shadow-2xl" style="background-color: var(--espresso-dark); border-bottom: 3px solid var(--caramel);">
+        <div class="flex justify-between items-center px-6 lg:px-10 py-5">
+            <div class="flex items-center">
+                <span class="text-3xl mr-3">☕</span>
+                <span class="text-2xl font-bold tracking-tighter serif">THE STUDY <span style="color: var(--caramel);">CAFE</span></span>
+            </div>
+
+            <button id="menu-toggle" class="lg:hidden text-white text-3xl focus:outline-none">☰</button>
+
+            <nav class="hidden lg:flex space-x-8 text-xs font-bold uppercase tracking-widest">
+                <a href="index.html" class="text-gray-400 hover:text-white">DASHBOARD</a>
+                <a href="tools.html" class="text-gray-400 hover:text-white">TOOLS</a>
+                <a href="modules.html" class="text-white border-b-2 border-caramel">MODULES</a>
+                <a href="Quiz.html" class="text-gray-400 hover:text-white">QUIZ</a>
+                <a href="community.html" class="text-gray-400 hover:text-white">COMMUNITY</a>
+            </nav>
         </div>
-        <nav class="flex space-x-8 text-xs font-bold uppercase tracking-widest">
-            <a href="#" class="text-gray-400 hover:text-white">DASHBOARD</a>
-            <a href="#" class="text-gray-400 hover:text-white">TOOLS</a>
-            <a href="#" class="text-white border-b-2 border-caramel">MODULES</a>
-            <a href="#" class="text-gray-400 hover:text-white">QUIZ</a>
-            <a href="#" class="text-gray-400 hover:text-white">COMMUNITY</a>
-        </nav>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#1F120D] px-6 pb-6 flex flex-col space-y-4 text-sm font-bold uppercase">
+            <a href="index.html" class="text-gray-400">DASHBOARD</a>
+            <a href="tools.html" class="text-gray-400">TOOLS</a>
+            <a href="modules.html" class="text-caramel">MODULES</a>
+            <a href="Quiz.html" class="text-gray-400">QUIZ</a>
+            <a href="community.html" class="text-gray-400">COMMUNITY</a>
+        </div>
     </header>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
         <aside class="sidebar-panel">
             <h2 class="text-4xl handwritten text-center mb-10" style="color: var(--caramel);">Today's Specials</h2>
-            <div id="module-list" class="flex flex-col">
-                </div>
+            <div id="module-list" class="flex flex-col"></div>
         </aside>
 
-        <main class="flex-1 p-10 lg:p-20">
-            <div id="content-area">
-                </div>
+        <main class="flex-1 p-6 lg:p-20">
+            <div id="content-area"></div>
         </main>
     </div>
 
     <script>
+        // NAVIGATION LOGIC
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.onclick = () => {
+            mobileMenu.classList.toggle('hidden');
+        };
+
+        // CONTENT DATA
         const methodsData = {
             'pomodoro': {
                 name: "The Pomodoro Espresso",
                 category: 'time',
-                info: "Break your work into 25-minute 'brews' followed by a quick 5-minute 'sip'. This rhythm keeps your brain from burning out and maintains high energy.",
-                secret: "The Secret: Use a physical timer. Seeing the time tick down creates a healthy sense of urgency.",
+                info: "Break your work into 25-minute 'brews' followed by a quick 5-minute 'sip'. Keeps energy high and focus sharp.",
+                secret: "The Secret: Use a physical timer for a healthy sense of urgency.",
                 recipe: "1. Pick one task<br>2. Set timer for 25m<br>3. Work until bell rings<br>4. Take 5m break",
                 video: "Mastering the Timer"
             },
             'frog': {
                 name: "The Morning Frog Shot",
                 category: 'focus',
-                info: "Tackle your biggest, scariest task first thing in the morning. Once the 'frog' is eaten, everything else in your day will feel light and easy.",
-                secret: "The Secret: Do not check your email or phone until the frog is finished. No distractions allowed!",
+                info: "Tackle your biggest, scariest task first thing in the morning. Once done, everything else feels easy.",
+                secret: "The Secret: Do not check your phone until the frog is finished!",
                 recipe: "1. Identify your hardest task<br>2. Block first 90m of day<br>3. Eat the frog!<br>4. Enjoy momentum",
                 video: "Frog Method Guide"
             },
             'active-recall': {
                 name: "The Recall Roast",
                 category: 'study',
-                info: "Instead of just re-reading notes, force your brain to pull information out. It’s like testing the strength of your coffee—Active Recall builds long-term memory.",
-                secret: "The Secret: Close the book. Try to explain the concept to an empty chair before looking at your notes again.",
-                recipe: "1. Read one section<br>2. Close the book<br>3. Write down everything you remember<br>4. Check & fill gaps",
+                info: "Force your brain to pull information out instead of just re-reading. Builds permanent long-term memory.",
+                secret: "The Secret: Try to explain the concept to an empty chair without looking at notes.",
+                recipe: "1. Read one section<br>2. Close the book<br>3. Write down everything you remember<br>4. Fill gaps",
                 video: "Active Recall Tutorial"
             }
         };
@@ -179,59 +199,57 @@
             'study': { name: "Master Blends", methods: ['active-recall'] }
         };
 
-        // This tracks which category is visually "open" in the sidebar
         let currentOpenCategory = 'time';
 
+        // RENDERING LOGIC
         function render(mId) {
             const data = methodsData[mId];
-            currentOpenCategory = data.category; // Ensure sidebar matches content
-            
+            if (!data) return;
+
+            currentOpenCategory = data.category;
             const area = document.getElementById('content-area');
             const list = document.getElementById('module-list');
 
-            // 1. Update Sidebar UI
+            // 1. Sidebar Update
             list.innerHTML = '';
             Object.keys(modules).forEach(catKey => {
                 const isActiveCat = (catKey === currentOpenCategory);
                 
-                // Add the main Category Button
-                list.innerHTML += `
-                    <div class="module-category-button ${isActiveCat ? 'active' : ''}" 
-                         onclick="selectCategory('${catKey}')">
-                        ${modules[catKey].name}
-                    </div>`;
+                const catBtn = document.createElement('div');
+                catBtn.className = `module-category-button ${isActiveCat ? 'active' : ''}`;
+                catBtn.innerText = modules[catKey].name;
+                catBtn.onclick = () => selectCategory(catKey);
+                list.appendChild(catBtn);
 
-                // If this category is active, show the methods inside it
                 if(isActiveCat) {
                     modules[catKey].methods.forEach(methodId => {
                         const isSelectedMethod = (methodId === mId);
-                        list.innerHTML += `
-                            <div class="method-button ${isSelectedMethod ? 'active' : ''}" 
-                                 onclick="render('${methodId}')">
-                                ${methodsData[methodId].name}
-                            </div>`;
+                        const methodBtn = document.createElement('div');
+                        methodBtn.className = `method-button ${isSelectedMethod ? 'active' : ''}`;
+                        methodBtn.innerText = methodsData[methodId].name;
+                        methodBtn.onclick = () => render(methodId);
+                        list.appendChild(methodBtn);
                     });
                 }
             });
 
-            // 2. Brewing Animation for Main Content
+            // 2. Main Content Update
             area.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-20">
+                <div class="flex flex-col items-center justify-center py-10 lg:py-20">
                     <div class="cup-loader">☕</div>
                     <h2 class="handwritten text-3xl mt-5">Steaming your ${data.name}...</h2>
                 </div>`;
             
-            // 3. Load actual content after animation delay
             setTimeout(() => {
                 area.innerHTML = `
-                    <h1 class="serif text-5xl text-center mb-16" style="color: var(--caramel)">${data.name}</h1>
-                    <div class="grid lg:grid-cols-2 gap-12">
+                    <h1 class="serif text-3xl lg:text-5xl text-center mb-10 lg:mb-16" style="color: var(--caramel)">${data.name}</h1>
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
                         <div class="napkin-card">
                             <span class="card-header-label">The Secret Ingredient</span>
-                            <p class="text-xl leading-relaxed mb-6 font-medium">${data.info}</p>
+                            <p class="text-lg lg:text-xl leading-relaxed mb-6 font-medium">${data.info}</p>
                             <div class="p-4 bg-orange-100 border-l-4 border-orange-500 font-bold italic text-orange-900">${data.secret}</div>
                         </div>
-                        <div class="space-y-10">
+                        <div class="space-y-8">
                             <div class="post-it-card">
                                 <span class="card-header-label" style="color: #5D4037">The Recipe</span>
                                 <p class="font-mono text-sm leading-loose">${data.recipe}</p>
@@ -244,19 +262,15 @@
                                 <span class="text-2xl">📽️</span>
                             </div>
                         </div>
-                    </div>
-                `;
-            }, 700);
+                    </div>`;
+            }, 600);
         }
 
-        // Helper function for when a user clicks a main Category header
         function selectCategory(catKey) {
-            const firstMethod = modules[catKey].methods[0];
-            render(firstMethod);
+            render(modules[catKey].methods[0]);
         }
 
-        // Initialize with Pomodoro
-        render('pomodoro');
+        window.onload = () => render('pomodoro');
     </script>
 </body>
 </html>
