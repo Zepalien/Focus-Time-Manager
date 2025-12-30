@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Study Cafe | Clean Light Edition</title>
+    <title>The Study Cafe | Premium Light Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Caveat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
@@ -26,32 +26,39 @@
         .handwritten { font-family: 'Caveat', cursive; }
         .serif { font-family: 'Playfair Display', serif; }
 
-        /* SIDEBAR - Clean & Light */
+        /* SIDEBAR - Now with more character */
         .sidebar-panel {
             background-color: var(--sidebar-cream);
+            background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
             width: 100%;
             padding: 25px;
-            border-right: 1px solid #E5E0DA;
+            border-right: 2px solid #E5E0DA;
+            display: flex;
+            flex-direction: column;
         }
         @media (min-width: 1024px) { .sidebar-panel { width: 320px; min-height: 100vh; } }
 
+        /* Category Buttons with a "Stamped" feel */
         .module-category-button {
             background: white;
             color: var(--coffee-text);
             padding: 12px 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
+            margin-bottom: 12px;
+            border-radius: 4px;
             border: 1px solid #DDD6CF;
             text-align: left;
             transition: 0.3s;
             cursor: pointer;
             font-weight: 600;
             width: 100%;
+            box-shadow: 2px 2px 0px #E5E0DA;
         }
         .module-category-button.active { 
             background-color: var(--accent-gold); 
             color: white;
             border-color: var(--accent-gold);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px #A15905;
         }
 
         .method-button {
@@ -61,16 +68,25 @@
             font-size: 0.95rem;
             display: block;
             transition: 0.2s;
+            position: relative;
         }
-        .method-button.active { color: var(--accent-gold); font-weight: bold; text-decoration: underline; }
+        .method-button::before {
+            content: '•';
+            position: absolute;
+            left: 15px;
+            color: #DDD6CF;
+        }
+        .method-button.active { color: var(--accent-gold); font-weight: bold; }
+        .method-button.active::before { color: var(--accent-gold); content: '☕'; font-size: 0.7rem; left: 10px; }
 
-        /* CARDS - Enhanced Readability */
+        /* CONTENT CARDS */
         .content-card {
             background-color: var(--paper-white);
             padding: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(62, 39, 35, 0.05);
+            border-radius: 2px;
             border: 1px solid #F0EDE9;
+            position: relative;
         }
 
         .card-label {
@@ -85,6 +101,19 @@
             background-color: white;
             border-bottom: 2px solid var(--sidebar-cream);
         }
+        
+        /* New decorative badge */
+        .special-badge {
+            background: #FDFBFA;
+            border: 1px dashed var(--accent-gold);
+            padding: 10px;
+            text-align: center;
+            font-size: 0.75rem;
+            margin-top: auto;
+            border-radius: 8px;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -97,19 +126,32 @@
             </div>
 
             <nav class="hidden lg:flex space-x-8 text-xs font-bold uppercase tracking-widest">
-                <a href="index.html" class="text-gray-500 hover:text-black">DASHBOARD</a>
-                <a href="tools.html" class="text-gray-500 hover:text-black">TOOLS</a>
+                <a href="index.html" class="text-gray-400 hover:text-black">DASHBOARD</a>
+                <a href="tools.html" class="text-gray-400 hover:text-black">TOOLS</a>
                 <a href="modules.html" class="text-black border-b-2 border-amber-600">MODULES</a>
-                <a href="Quiz.html" class="text-gray-500 hover:text-black">QUIZ</a>
-                <a href="community.html" class="text-gray-500 hover:text-black">COMMUNITY</a>
+                <a href="Quiz.html" class="text-gray-400 hover:text-black">QUIZ</a>
+                <a href="community.html" class="text-gray-400 hover:text-black">COMMUNITY</a>
             </nav>
         </div>
     </header>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
         <aside class="sidebar-panel">
-            <h2 class="text-4xl handwritten text-center mb-10 text-amber-900">Study Menu</h2>
-            <div id="module-list" class="flex flex-col"></div>
+            <div class="mb-10 text-center">
+                <h2 class="text-4xl handwritten text-amber-900">Study Menu</h2>
+                <div class="w-16 h-px bg-amber-200 mx-auto mt-2"></div>
+            </div>
+
+            <div id="module-list" class="flex flex-col mb-10"></div>
+
+            <div class="special-badge">
+                <p class="uppercase tracking-widest mb-1">Barista's Tip</p>
+                <p class="handwritten text-lg text-amber-800">"A fresh mind learns faster than a tired one."</p>
+            </div>
+            
+            <div class="mt-6 text-center opacity-20">
+                <span class="text-4xl">🌿</span>
+            </div>
         </aside>
 
         <main class="flex-1 p-6 lg:p-16">
@@ -136,12 +178,22 @@
                 recipe: "1. List your daily tasks\n2. Identify the hardest one (the frog)\n3. Do it first thing\n4. Feel the relief!",
                 video: "The 'Eat That Frog' Method",
                 videoUrl: "https://www.youtube.com/watch?v=ntSraUH4Rlo"
+            },
+            'active-recall': {
+                name: "Active Recall",
+                category: 'study',
+                info: "Testing yourself is better than re-reading. Force your brain to retrieve info to make it stick forever.",
+                secret: "Pro Tip: Try teaching the topic to an imaginary student to see where your gaps are.",
+                recipe: "1. Read a small section\n2. Close your notes\n3. Write down everything you remember\n4. Check for mistakes",
+                video: "How to use Active Recall",
+                videoUrl: "https://www.youtube.com/watch?v=IyvlgRf7u3Y"
             }
         };
 
         const modules = {
             'time': { name: "Time Management", methods: ['pomodoro'] },
-            'focus': { name: "Deep Focus", methods: ['frog'] }
+            'focus': { name: "Deep Focus", methods: ['frog'] },
+            'study': { name: "Master Blends", methods: ['active-recall'] }
         };
 
         function render(mId) {
@@ -149,7 +201,6 @@
             const area = document.getElementById('content-area');
             const list = document.getElementById('module-list');
 
-            // Render Sidebar
             list.innerHTML = '';
             Object.keys(modules).forEach(cat => {
                 const isActive = (cat === data.category);
@@ -170,7 +221,6 @@
                 }
             });
 
-            // Render Content
             area.innerHTML = `
                 <h1 class="serif text-5xl text-center mb-12 text-amber-950">${data.name}</h1>
                 
@@ -184,7 +234,7 @@
                     </div>
 
                     <div class="space-y-8">
-                        <div class="content-card" style="background-color: #FFFDE7;">
+                        <div class="content-card" style="background-color: #FFFDE7; border-bottom: 3px solid #FBC02D;">
                             <span class="card-label" style="color: #5D4037;">The Steps</span>
                             <pre class="whitespace-pre-wrap font-sans text-lg text-gray-700 leading-loose">${data.recipe}</pre>
                         </div>
