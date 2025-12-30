@@ -1,492 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOCUS - Quiz Page</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
-<style>
-    /* ADDED: CSS Variables from community.html */
-    :root {
-        --primary: #4f46e5; /* Indigo-600 (Analyzer highlight color) */
-        --primary-light: #6366f1; /* Indigo-500 */
-        --dark-header-bg: #1e293b; /* Slate-800, for the top bar */
-        --hero-bg: #2c3e50; 
-        --teal-card-bg: #2dd4bf; /* Teal/Cyan for logo and submit button */
-        --button-dark: #283c60; /* Darker blue for buttons */
-        --card-bg: #f9edd5; /* Light card background */
-    }
-
-    /* ADDED: Header/Nav Bar Styles from community.html */
-    .header {
-        background-color: var(--dark-header-bg);
-        color: white;
-        padding: 0.75rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .logo-section {
-        display: flex;
-        align-items: center;
-        font-weight: 700;
-        font-size: 1.25rem;
-    }
-    .logo-circle {
-        background-color: var(--teal-card-bg);
-        color: white;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        margin-right: 0.5rem;
-    }
-    .nav-menu a {
-        color: white;
-        margin-left: 1.5rem;
-        text-decoration: none;
-        font-weight: 500;
-        padding: 0.5rem 0;
-    }
-    .nav-menu a[style*="font-weight: 700;"] {
-        color: var(--teal-card-bg);
-    }
-
-
-    /* Original Quiz Styles */
-    body {
-        font-family: 'Inter', Arial, sans-serif; 
-        background: #3e536e; 
-        margin: 0;
-        padding: 0; 
-        color: #222;
-    }
-
-    .hero-section {
-        background-color: #3e536e; 
-        color: white;
-        padding: 4rem 2rem 20px 2rem; 
-        text-align: center;
-    }
-    .hero-title {
-        font-size: 2.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    .hero-subtitle {
-        font-size: 1.125rem;
-        font-weight: 400;
-    }
-
-    .container {
-        max-width: 800px; /* Base width for games */
-        margin: auto;
-        background: var(--card-bg);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 6px 18px rgba(20,20,50,0.06);
-        margin-top: 20px; 
-        margin-bottom: 40px;
-    }
-
-    /* Flex layout for 3 kotak horizontal */
-    ul#quiz-list {
-        display: flex;
-        gap: 15px;
-        padding: 0;
-        list-style: none;
-        flex-wrap: wrap; 
-        justify-content: center;
-    }
-
-    ul#quiz-list li {
-        flex: 1 1 250px; 
-        text-align: center;
-    }
-
-    a.quiz-link {
-        display: flex;
-        flex-direction: column; 
-        align-items: center;
-        text-decoration: none;
-        background: #6389bf;
-        padding: 30px 20px;
-        border-radius: 12px;
-        font-weight: 600;
-        color: black;
-        transition: 0.3s;
-    }
-
-    a.quiz-link:hover {
-        background: #283c60;
-        color: white; 
-        transform: translateY(-3px);
-    }
-
-    .quiz-img {
-        width: 100px;
-        height: 90px;
-        margin-bottom: 12px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    /* Back Button Style */
-    button.back-btn {
-        margin-top: 20px;
-        padding: 10px 16px;
-        border: none;
-        border-radius: 8px;
-        background: var(--button-dark);
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    button.back-btn:hover {
-        background: gray;
-        color: #222;
-    }
-
-    @media (max-width: 700px) {
-        ul#quiz-list {
-            gap: 10px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus | Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Quicksand', sans-serif; }
+        
+        body {
+            background: #F3F4F9;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #5A67D8;
         }
-    }
-    
-    /* --- Diagnostic Analyzer Styles (ADJUSTED FOR SMALLER SIZE) --- */
-    .analyzer-title-section {
-        background-color: #3e536e;
-        color: white;
-        padding: 20px 2rem 0 2rem; 
-        text-align: center;
-    }
-    .analyzer-title-section .hero-title {
-        font-size: 2rem;
-    }
-    
-    .analyzer-card {
-        /* NEW: Reduced max width to make the card smaller */
-        max-width: 700px; 
-        margin: auto;
-        /* NEW: Reduced padding */
-        padding: 30px 20px 20px 20px; 
-        background: var(--card-bg);
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(20,20,50,0.06);
-        margin-top: 20px; 
-        margin-bottom: 40px;
-    }
 
-    .analyzer-card h3 {
-        color: var(--primary);
-        font-size: 1.5em;
-        margin-top: 0;
-        margin-bottom: 20px;
-        text-align: center;
-        font-family: 'Poppins', sans-serif;
-    }
+        /* --- STANDARDIZED HEADER STYLES --- */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-    .quiz-question {
-        margin-bottom: 15px; /* Slightly reduced margin */
-        padding: 12px; /* Slightly reduced padding */
-        background: #fff; 
-        border-radius: 6px;
-        border-left: 5px solid var(--primary);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .question-text {
-        font-weight: 600;
-        margin-bottom: 10px; /* Slightly reduced margin */
-        display: block;
-        color: #333;
-    }
-    .likert-scale {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8em; /* Slightly smaller font for scale */
-        color: #555;
-    }
-    .likert-scale label {
-        flex-grow: 1;
-        text-align: center;
-        cursor: pointer;
-        padding: 6px 0; /* Reduced padding */
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin: 0 2px;
-        transition: all 0.2s;
-    }
-    /* ... (rest of the analyzer styles remain the same) ... */
-    
-    .likert-scale input:checked + label {
-        background-color: var(--primary);
-        color: white;
-        border-color: var(--primary);
-        font-weight: 700;
-    }
-    .likert-scale input {
-        display: none;
-    }
-    .submit-btn {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        background-color: var(--teal-card-bg);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 1.1em;
-        cursor: pointer;
-        font-weight: 700;
-        margin-top: 30px;
-        transition: background-color 0.2s;
-    }
-    .submit-btn:hover {
-        background-color: #1eada0;
-    }
-    /* --- End Analyzer Styles --- */
-</style>
+        /* --- BACKGROUND DECORATION --- */
+        .blob {
+            position: fixed; z-index: -1; filter: blur(60px);
+            border-radius: 50%; opacity: 0.4;
+            animation: float 20s infinite alternate;
+        }
+        @keyframes float {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100px, 50px); }
+        }
+
+        /* --- CUTE CARDS (HIGH POP) --- */
+        .cute-card {
+            background: white;
+            border: 6px solid #FFFFFF;
+            border-radius: 50px;
+            box-shadow: 0 20px 40px rgba(157, 161, 203, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cute-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 40px 70px rgba(157, 161, 203, 0.35);
+        }
+
+        /* --- BUTTONS --- */
+        .btn-bubbly { transition: all 0.2s ease; box-shadow: 0 6px 0px rgba(0,0,0,0.1); }
+        .btn-bubbly:active { transform: translateY(4px); box-shadow: 0 2px 0px rgba(0,0,0,0.1); }
+        .btn-mint { background: #6EE7B7; border-bottom: 6px solid #059669; color: white; }
+        .btn-pink { background: #F472B6; border-bottom: 6px solid #DB2777; color: white; }
+        .btn-amber { background: #FCD34D; border-bottom: 6px solid #D97706; color: white; }
+
+        /* --- MOVING ANIMATIONS --- */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        @keyframes tick-tock {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .animating-ring { animation: breathe 3s ease-in-out infinite; }
+        .animating-text { animation: tick-tock 1s ease-in-out infinite; }
+
+        #progress-ring { transition: stroke-dashoffset 1s linear, stroke 0.3s ease; }
+        #quote-text { transition: opacity 0.8s ease-in-out; }
+        .fade-out { opacity: 0; }
+    </style>
 </head>
-<body>
+<body class="pb-12">
 
-<header class="header">
-    <div class="logo-section">
-        <div class="logo-circle">F</div>
-        FOCUS
-    </div>
-    <nav class="nav-menu">
-        <a href="index.html">DASHBOARD</a>
-        <a href="tools.html">TOOLS</a>
-        <a href="modules.html">MODULE</a>
-        <a href="quiz.html" style="font-weight: 700;">QUIZ</a> 
-        <a href="community.html">COMMUNITIY</a> 
-    </nav>
-</header>
-
-
-<section class="hero-section">
-    <h1 class="hero-title">🎮 Exercise & Mini Games</h1>
-    <p class="hero-subtitle">Click on a box to start the exercise or mini game:</p>
-</section>
-
-<div class="container">
-    <ul id="quiz-list">
-        <li>
-            <a href="https://kahoot.it/challenge/02465461?challenge-id=d4008628-cfe2-47c4-9c94-ea5cf2cb528a_1763394407513" target="_blank" class="quiz-link">
-                <img src="set1.png" alt="Set 1 Image" class="quiz-img">
-            Set 1
-            </a>
-        </li>
-        <li>
-            <a href="https://kahoot.it/challenge/067060?challenge-id=18c0860c-b698-4ea5-beb7-e09e8028ccd0_1763435855670" target="_blank" class="quiz-link">
-                <img src="set1.png" alt="Set 2 Image" class="quiz-img">
-                Set 2
-            </a>
-        </li>
-        <li>
-            <a href="https://www.educandy.com/site/html5/bin/main.php?activity=wordsearch&quizid=234" target="_blank" class="quiz-link">
-                <img src="set2.png" alt="Mini Game Image" class="quiz-img">
-                Mini Game: Kahoot Information Science
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-<section class="analyzer-title-section">
-    <h1 class="hero-title">🔬 Focus Style Diagnostic Analyzer</h1>
-    <p class="hero-subtitle">Find your most effective study method.</p>
-</section>
-
-<div class="container analyzer-card">
-    <h3>Rate your agreement with the statements (1 = Strongly Disagree, 5 = Strongly Agree).</h3>
-
-    <form id="focusQuiz">
-
-        <div class="quiz-question">
-            <span class="question-text">P1. I often start on the easiest tasks first, even if they aren't the most important.</span>
-            <div class="likert-scale">
-                <input type="radio" name="p1" id="p1_1" value="1" required><label for="p1_1">1</label>
-                <input type="radio" name="p1" id="p1_2" value="2"><label for="p1_2">2</label>
-                <input type="radio" name="p1" id="p1_3" value="3"><label for="p1_3">3</label>
-                <input type="radio" name="p1" id="p1_4" value="4"><label for="p1_4">4</label>
-                <input type="radio" name="p1" id="p1_5" value="5"><label for="p1_5">5</label>
+    <header class="py-4 px-8 mb-12">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl">F</span>
+                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 tracking-tighter">FOCUS</span>
             </div>
+            <nav class="hidden md:flex space-x-8 font-bold text-gray-500 text-sm uppercase tracking-wider">
+                <a href="index.html" class="hover:text-pink-500 transition">Dashboard</a>
+                <a href="tools.html" class="text-pink-500 border-b-2 border-pink-400 pb-1">Tools</a>
+                <a href="modules.html" class="hover:text-pink-500 transition">Module</a>
+                <a href="Quiz.html" class="hover:text-pink-500 transition">Quiz</a>
+                <a href="community.html" class="hover:text-pink-500 transition">Community</a>
+            </nav>
+            <div class="md:hidden text-2xl">≡</div>
         </div>
-        <div class="quiz-question">
-            <span class="question-text">P2. I feel overwhelmed and unsure which of my tasks I should work on next.</span>
-            <div class="likert-scale">
-                <input type="radio" name="p2" id="p2_1" value="1" required><label for="p2_1">1</label>
-                <input type="radio" name="p2" id="p2_2" value="2"><label for="p2_2">2</label>
-                <input type="radio" name="p2" id="p2_3" value="3"><label for="p2_3">3</label>
-                <input type="radio" name="p2" id="p2_4" value="4"><label for="p2_4">4</label>
-                <input type="radio" name="p2" id="p2_5" value="5"><label for="p2_5">5</label>
+    </header>
+
+    <div class="blob w-96 h-96 bg-purple-200 top-[20%] left-[-5%]"></div>
+    <div class="blob w-80 h-80 bg-pink-100 bottom-[5%] right-[-5%]" style="animation-delay: -5s;"></div>
+
+    <main class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-4 gap-6">
+            <div>
+                <h1 class="text-5xl font-extrabold text-gray-800 mb-2">My Tools</h1>
+                <p id="quote-text" class="text-lg font-semibold text-purple-400 italic">"Believe you can and you're halfway there. 🌟"</p>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">P3. I always know which assignment has the highest impact on my grade. (Reverse Score)</span>
-            <div class="likert-scale">
-                <input type="radio" name="p3" id="p3_1" value="1" required><label for="p3_1">1</label>
-                <input type="radio" name="p3" id="p3_2" value="2"><label for="p3_2">2</label>
-                <input type="radio" name="p3" id="p3_3" value="3"><label for="p3_3">3</label>
-                <input type="radio" name="p3" id="p3_4" value="4"><label for="p3_4">4</label>
-                <input type="radio" name="p3" id="p3_5" value="5"><label for="p3_5">5</label>
+            <div class="bg-white border-4 border-pink-100 px-8 py-2 rounded-full shadow-sm flex items-center gap-2 mb-2">
+                <span class="text-xl">⭐</span>
+                <span class="font-bold text-pink-500 uppercase text-xs">Streak: <span id="streak-count" class="text-lg">0</span></span>
             </div>
         </div>
 
-        <div class="quiz-question">
-            <span class="question-text">I1. I check my phone or social media every few minutes while studying.</span>
-            <div class="likert-scale">
-                <input type="radio" name="i1" id="i1_1" value="1" required><label for="i1_1">1</label>
-                <input type="radio" name="i1" id="i1_2" value="2"><label for="i1_2">2</label>
-                <input type="radio" name="i1" id="i1_3" value="3"><label for="i1_3">3</label>
-                <input type="radio" name="i1" id="i1_4" value="4"><label for="i1_4">4</label>
-                <input type="radio" name="i1" id="i1_5" value="5"><label for="i1_5">5</label>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mt-10">
+
+            <div class="cute-card p-10 flex flex-col items-center">
+                <div class="flex gap-4 mb-8">
+                    <button id="focus-btn" class="px-6 py-2 rounded-full font-bold text-xs btn-mint btn-bubbly">FOCUS</button>
+                    <button id="break-btn" class="px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400 hover:bg-gray-200">BREAK</button>
+                </div>
+
+                <div class="relative flex items-center justify-center mb-8">
+                    <svg class="w-60 h-60 transform -rotate-90">
+                        <circle cx="120" cy="120" r="105" stroke="#F1F5F9" stroke-width="14" fill="transparent" />
+                        <circle id="progress-ring" cx="120" cy="120" r="105" stroke="#6EE7B7" stroke-width="14" fill="transparent" 
+                                stroke-dasharray="660" stroke-dashoffset="0" stroke-linecap="round" />
+                    </svg>
+                    <div id="timer-display" class="absolute text-6xl font-black text-gray-700 tracking-tighter">25:00</div>
+                </div>
+
+                <button id="start-btn" class="w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4 uppercase">Start</button>
+                <button id="reset-btn" class="text-gray-300 hover:text-gray-500 text-xs font-bold transition">↺ reset timer</button>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">I2. It's hard for me to focus for more than 20 minutes without getting up or changing tasks.</span>
-            <div class="likert-scale">
-                <input type="radio" name="i2" id="i2_1" value="1" required><label for="i2_1">1</label>
-                <input type="radio" name="i2" id="i2_2" value="2"><label for="i2_2">2</label>
-                <input type="radio" name="i2" id="i2_3" value="3"><label for="i2_3">3</label>
-                <input type="radio" name="i2" id="i2_4" value="4"><label for="i2_4">4</label>
-                <input type="radio" name="i2" id="i2_5" value="5"><label for="i2_5">5</label>
+
+            <div class="cute-card p-10 flex flex-col items-center justify-center text-center">
+                <div class="text-7xl mb-6 animate-bounce" style="animation-duration: 3s;">📅</div>
+                <h2 class="text-2xl font-black text-gray-700 mb-2 uppercase">Planner</h2>
+                <p class="text-gray-400 text-sm mb-10 leading-relaxed px-4">Organize your dreams into small, achievable steps! ✨</p>
+                <a href="Time_Management.html" class="w-full py-5 rounded-3xl btn-amber btn-bubbly font-black text-xl inline-block uppercase tracking-widest">Open</a>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">I3. I can easily ignore noisy environments or chat notifications when I'm working. (Reverse Score)</span>
-            <div class="likert-scale">
-                <input type="radio" name="i3" id="i3_1" value="1" required><label for="i3_1">1</label>
-                <input type="radio" name="i3" id="i3_2" value="2"><label for="i3_2">2</label>
-                <input type="radio" name="i3" id="i3_3" value="3"><label for="i3_3">3</label>
-                <input type="radio" name="i3" id="i3_4" value="4"><label for="i3_4">4</label>
-                <input type="radio" name="i3" id="i3_5" value="5"><label for="i3_5">5</label>
+
+            <div class="cute-card p-10 flex flex-col items-center">
+                <div class="text-5xl mb-6">🛡️</div>
+                <h2 class="text-2xl font-black text-pink-500 mb-8 uppercase">Shield</h2>
+                
+                <div class="w-full space-y-4">
+                    <div class="relative">
+                        <input type="text" id="domain-input" placeholder="youtube.com" 
+                               class="w-full bg-gray-50 border-4 border-pink-50 p-4 rounded-3xl text-sm outline-none focus:border-pink-200">
+                        <button id="add-domain-btn" class="absolute right-2 top-2 bottom-2 px-5 rounded-2xl btn-pink btn-bubbly font-bold text-xl">+</button>
+                    </div>
+                    
+                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[120px] p-4 bg-pink-50/30 rounded-[2.5rem] border-4 border-dashed border-pink-100 items-start">
+                        <p id="empty-msg" class="text-pink-200 text-xs italic m-auto">Shield is empty!</p>
+                    </div>
+                    <button id="clear-list-btn" class="w-full text-pink-300 text-[10px] font-black uppercase hover:text-pink-500 tracking-widest transition">Clear All</button>
+                </div>
             </div>
+
         </div>
+    </main>
 
-        <div class="quiz-question">
-            <span class="question-text">M1. I put off big assignments until the very last day (procrastination).</span>
-            <div class="likert-scale">
-                <input type="radio" name="m1" id="m1_1" value="1" required><label for="m1_1">1</label>
-                <input type="radio" name="m1" id="m1_2" value="2"><label for="m1_2">2</label>
-                <input type="radio" name="m1" id="m1_3" value="3"><label for="m1_3">3</label>
-                <input type="radio" name="m1" id="m1_4" value="4"><label for="m1_4">4</label>
-                <input type="radio" name="m1" id="m1_5" value="5"><label for="m1_5">5</label>
-            </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">M2. I usually feel energetic and ready to begin my work sessions. (Reverse Score)</span>
-            <div class="likert-scale">
-                <input type="radio" name="m2" id="m2_1" value="1" required><label for="m2_1">1</label>
-                <input type="radio" name="m2" id="m2_2" value="2"><label for="m2_2">2</label>
-                <input type="radio" name="m2" id="m2_3" value="3"><label for="m2_3">3</label>
-                <input type="radio" name="m2" id="m2_4" value="4"><label for="m2_4">4</label>
-                <input type="radio" name="m2" id="m2_5" value="5"><label for="m2_5">5</label>
-            </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">M3. I often feel bored or restless when working on a long-term project.</span>
-            <div class="likert-scale">
-                <input type="radio" name="m3" id="m3_1" value="1" required><label for="m3_1">1</label>
-                <input type="radio" name="m3" id="m3_2" value="2"><label for="m3_2">2</label>
-                <input type="radio" name="m3" id="m3_3" value="3"><label for="m3_3">3</label>
-                <input type="radio" name="m3" id="m3_4" value="4"><label for="m3_4">4</label>
-                <input type="radio" name="m3" id="m3_5" value="5"><label for="m3_5">5</label>
-            </div>
-        </div>
-
-        <button type="submit" class="submit-btn">Analyze My Focus Style & Get My Method</button>
-
-    </form>
-    
-    <button class="back-btn" onclick="window.location.href='index.html'">Back</button>
-
-</div>
-
-<script>
-    const quizForm = document.getElementById('focusQuiz');
-
-    // Maps question names to their dimension (P, I, M) and if they need reverse scoring (R).
-    const questionMap = {
-        p1: { dim: 'P', reverse: false }, 
-        p2: { dim: 'P', reverse: false }, 
-        p3: { dim: 'P', reverse: true },  
-        
-        i1: { dim: 'I', reverse: false }, 
-        i2: { dim: 'I', reverse: false }, 
-        i3: { dim: 'I', reverse: true },  
-        
-        m1: { dim: 'M', reverse: false }, 
-        m2: { dim: 'M', reverse: true },  
-        m3: { dim: 'M', reverse: false }  
-    };
-
-    function calculateScores(event) {
-        event.preventDefault(); 
-
-        const formData = new FormData(quizForm);
-        let scores = { P: 0, I: 0, M: 0 };
-        
-        // 1. Calculate and adjust scores
-        for (const [name, data] of Object.entries(questionMap)) {
-            const value = parseInt(formData.get(name)); 
-            if (isNaN(value)) {
-                alert("Please answer all questions in the diagnostic analyzer before submitting.");
-                return;
-            }
-            let score = value;
-
-            // Reverse scoring: Score = 6 - Response
-            if (data.reverse) {
-                score = 6 - value;
-            }
-            
-            scores[data.dim] += score;
-        }
-
-        // 2. Determine Primary Struggle (Highest score = Biggest problem)
-        const dimensions = [
-            { dim: 'P', score: scores.P, name: 'Prioritization Skill', slug: 'eat-the-frog' },
-            { dim: 'I', score: scores.I, name: 'Interruption Vulnerability', slug: 'pomodoro-technique' },
-            { dim: 'M', score: scores.M, name: 'Motivation & Initiation', slug: 'pomodoro-technique' }
+    <script>
+        // --- QUOTES LOGIC ---
+        const quotes = [
+            "Believe you can and you're halfway there. 🌟",
+            "Small progress is still progress. Keep going! 🐾",
+            "Focus on being productive, not being busy. 🍯",
+            "Your only limit is your mind. ✨",
+            "Do something today that your future self will thank you for. 🌸",
+            "Mistakes are proof that you are trying. 🎨",
+            "You don't have to be perfect to be amazing. ⭐",
+            "One step at a time, darling. You've got this! 🦢"
         ];
+        let quoteIndex = 0;
+        const quoteElement = document.getElementById('quote-text');
+        setInterval(() => {
+            quoteElement.classList.add('fade-out');
+            setTimeout(() => {
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                quoteElement.textContent = `"${quotes[quoteIndex]}"`;
+                quoteElement.classList.remove('fade-out');
+            }, 800);
+        }, 30000);
 
-        dimensions.sort((a, b) => b.score - a.score);
-        
-        const primaryStruggle = dimensions[0];
-        const secondaryStruggle = dimensions[1];
-        
-        let recommendation;
-        if (primaryStruggle.dim === 'P') {
-            recommendation = { method: "Eat the Frog", slug: "eat-the-frog" };
-        } else {
-            recommendation = { method: "Pomodoro Technique", slug: "pomodoro-technique" };
+        // --- TIMER LOGIC ---
+        const TIMER_MODES = { 'focus': 25 * 60, 'break': 5 * 60 };
+        let currentMode = 'focus';
+        let timeLeft = TIMER_MODES[currentMode];
+        let timerInterval;
+        let isRunning = false;
+        let sessions = 0;
+
+        const display = document.getElementById('timer-display');
+        const ring = document.getElementById('progress-ring');
+        const startBtn = document.getElementById('start-btn');
+
+        function updateDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            const offset = 660 - (timeLeft / TIMER_MODES[currentMode]) * 660;
+            ring.style.strokeDashoffset = offset;
         }
-        
-        // 3. Save results to localStorage
-        localStorage.setItem('focusScores', JSON.stringify(scores));
-        localStorage.setItem('primaryStruggle', primaryStruggle.name);
-        localStorage.setItem('secondaryStruggle', secondaryStruggle.name);
-        localStorage.setItem('primaryMethod', recommendation.method);
-        localStorage.setItem('methodSlug', recommendation.slug);
 
-        // 4. Redirect to the results page
-        window.location.href = 'results.html';
-    }
+        function switchMode(mode) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            currentMode = mode;
+            timeLeft = TIMER_MODES[mode];
+            startBtn.textContent = "START";
+            ring.classList.remove('animating-ring');
+            display.classList.remove('animating-text');
 
-    quizForm.addEventListener('submit', calculateScores);
-</script>
+            if (mode === 'focus') {
+                document.getElementById('focus-btn').className = "px-6 py-2 rounded-full font-bold text-xs btn-mint btn-bubbly";
+                document.getElementById('break-btn').className = "px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400";
+                ring.style.stroke = "#6EE7B7";
+                startBtn.className = "w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4 uppercase";
+            } else {
+                document.getElementById('break-btn').className = "px-6 py-2 rounded-full font-bold text-xs btn-pink btn-bubbly";
+                document.getElementById('focus-btn').className = "px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400";
+                ring.style.stroke = "#F472B6";
+                startBtn.className = "w-full py-5 rounded-3xl btn-pink btn-bubbly font-black text-xl mb-4 uppercase";
+            }
+            updateDisplay();
+        }
 
+        startBtn.onclick = () => {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                startBtn.textContent = "RESUME";
+                ring.classList.remove('animating-ring');
+                display.classList.remove('animating-text');
+            } else {
+                ring.classList.add('animating-ring');
+                display.classList.add('animating-text');
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        if(currentMode === 'focus') {
+                            sessions++;
+                            document.getElementById('streak-count').textContent = sessions;
+                            confetti({ particleCount: 150, spread: 70, colors: ['#6EE7B7', '#F472B6'] });
+                        }
+                        alert("Session complete! 🌸");
+                    }
+                }, 1000);
+                startBtn.textContent = "PAUSE";
+            }
+            isRunning = !isRunning;
+        };
+
+        document.getElementById('reset-btn').onclick = () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = TIMER_MODES[currentMode];
+            startBtn.textContent = "START";
+            ring.classList.remove('animating-ring');
+            display.classList.remove('animating-text');
+            updateDisplay();
+        };
+
+        document.getElementById('focus-btn').onclick = () => switchMode('focus');
+        document.getElementById('break-btn').onclick = () => switchMode('break');
+
+        document.getElementById('add-domain-btn').onclick = () => {
+            const input = document.getElementById('domain-input');
+            const container = document.getElementById('domain-tags');
+            if (input.value) {
+                document.getElementById('empty-msg')?.remove();
+                const tag = document.createElement('div');
+                tag.className = "bg-white text-pink-500 px-4 py-2 rounded-full text-xs font-bold border-2 border-pink-100 shadow-sm animate-pulse";
+                tag.textContent = input.value;
+                container.appendChild(tag);
+                input.value = "";
+            }
+        };
+
+        updateDisplay();
+    </script>
 </body>
 </html>
