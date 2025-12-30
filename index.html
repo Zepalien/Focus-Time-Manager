@@ -221,13 +221,11 @@ nav a.active{
     color:#6a7a99;
 }
 
-.learning-grid{
-    max-width:1200px;
-    margin:0 auto;
-    display: grid; 
-    grid-template-columns:repeat(4,1fr);
-    gap:25px;
-    justify-items: center;   
+.learning-grid{ 
+    max-width:1200px; 
+    margin:0 auto; 
+    grid-template-columns:repeat(3,1fr); 
+    gap:25px; 
 }
 
 .learning-card{
@@ -453,6 +451,7 @@ document.getElementById('assignCount').textContent =
 document.getElementById('testCount').textContent =
     localStorage.getItem('globalTestCount') || 0;
 </script>
+
 
 
 
