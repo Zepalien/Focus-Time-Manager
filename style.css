@@ -1,213 +1,146 @@
-/*===================================================================*/
-/* 0. GLOBAL SETUP & VARIABLES                                       */
-/*===================================================================*/
+/* =========================================
+   1. GLOBAL THEME & GLASSMORPHISM
+   ========================================= */
+:root {
+    /* Modern Dark Palette */
+    --bg-main: #0f172a; /* Deep Midnight */
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    
+    /* Energetic Accents */
+    --accent-teal: #2dd4bf;   /* Cyan-Teal Glow */
+    --accent-amber: #fbbf24;  /* Warm Amber Glow */
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --shadow-glow: 0 0 20px rgba(45, 212, 191, 0.2);
+}
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; padding: 0; box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
 
-:root {
-    /* New Energetic Palette */
-    --main-gradient: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-    --glass-bg: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    
-    --accent-teal: #00d2ff;       /* Electric Cyan */
-    --accent-yellow: #ffee00;     /* Neon Yellow */
-    --text-light: #ffffff;
-    --text-dark: #2d3436;
-    --card-light: rgba(255, 255, 255, 0.95);
-    --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-}
-
 body {
-    background: var(--main-gradient);
-    background-attachment: fixed; /* Keeps background still while scrolling */
-    color: var(--text-light);
-    line-height: 1.6;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-primary);
     min-height: 100vh;
 }
 
-/*===================================================================*/
-/* 1. NAVIGATION BAR (Floating Style)                                */
-/*===================================================================*/
-
+/* =========================================
+   2. FLOATING NAVIGATION BAR
+   ========================================= */
 .navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    padding: 1rem 5%;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--glass-border);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .logo {
-    width: 35px;
-    height: 35px;
-    background: linear-gradient(to right, var(--accent-teal), #3a1c71);
-    border-radius: 12px; /* Squircle shape is more modern */
+    width: 32px; height: 32px;
+    background: var(--accent-teal);
+    border-radius: 10px;
     box-shadow: 0 0 15px var(--accent-teal);
 }
 
+.site-title {
+    font-weight: 800; letter-spacing: 2px;
+    color: var(--accent-teal);
+    margin-left: 10px;
+}
+
 .nav a {
-    color: white;
+    color: var(--text-muted);
     text-decoration: none;
     margin-left: 25px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     transition: 0.3s;
-    opacity: 0.8;
+    font-size: 0.9rem;
 }
 
 .nav a:hover, .nav a.active {
-    opacity: 1;
-    color: var(--accent-yellow);
-    text-shadow: 0 0 10px rgba(255, 238, 0, 0.5);
+    color: var(--accent-teal);
+    text-shadow: 0 0 10px var(--accent-teal);
 }
 
-/*===================================================================*/
-/* 2. MAIN DASHBOARD & CARDS (Glassmorphism)                        */
-/*===================================================================*/
-
-.dashboard-container {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    gap: 25px;
-    padding: 30px 40px;
-    max-width: 1400px;
-    margin: 0 auto;
+/* =========================================
+   3. UNIVERSAL GLASS CARDS
+   ========================================= */
+.sidebar-box, .slideshow-container, .quiz-card, .module-btn, .day, .container {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-/* Slideshow / Hero */
-.slideshow-container {
-    background: var(--glass-bg);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 40px;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.3s ease;
-}
-
-.slide-title {
-    font-size: 2.5em;
-    background: linear-gradient(to right, #fff, var(--accent-yellow));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-/* Quiz Card */
-.quiz-card {
-    background: var(--card-light);
-    border-radius: 20px;
-    padding: 25px;
-    color: var(--text-dark);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.quiz-card:hover {
-    transform: scale(1.02) rotate(-1deg);
-}
-
-/* Module Buttons */
-.module-btn {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(4px);
-    color: white;
-    border-radius: 15px;
-    padding: 20px;
-    transition: all 0.3s ease;
-}
-
-.module-btn:hover {
-    background: var(--accent-teal);
-    color: var(--text-dark);
+.sidebar-box:hover, .quiz-card:hover {
     transform: translateY(-5px);
+    border-color: var(--accent-teal) !important;
 }
 
-/*===================================================================*/
-/* 3. SIDEBAR STYLING                                                */
-/*===================================================================*/
-
-.sidebar-box {
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow-soft);
-}
-
-.date-time-box {
-    background: var(--accent-yellow);
-    color: var(--text-dark);
-    font-size: 1.2em;
+/* =========================================
+   4. BUTTONS & UI ELEMENTS (Vibrant)
+   ========================================= */
+.btn, .btn-go, .btn-explore, button {
+    background: var(--accent-amber) !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    padding: 10px 24px !important;
     border: none;
-}
-
-.tool-icon {
-    transition: 0.3s;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-}
-
-.tool-item:hover .tool-icon {
-    transform: rotate(15deg) scale(1.1);
-}
-
-/*===================================================================*/
-/* 4. BUTTONS & INTERACTION                                          */
-/*===================================================================*/
-
-.btn {
-    border-radius: 50px; /* Pill shape is friendlier */
-    padding: 12px 25px;
+    cursor: pointer;
+    transition: all 0.3s;
     text-transform: uppercase;
-    font-size: 0.8em;
-    letter-spacing: 1px;
-    transition: 0.3s;
+    font-size: 0.8rem;
 }
 
-.btn-explore {
-    background: var(--text-dark);
-    color: white;
+.btn:hover, .btn-go:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--accent-amber);
 }
 
-.btn-explore:hover {
-    background: var(--accent-teal);
-    box-shadow: 0 0 20px var(--accent-teal);
+/* =========================================
+   5. PAGE-SPECIFIC ADJUSTMENTS
+   ========================================= */
+
+/* Dashboard Hero */
+.slide-title {
+    color: var(--accent-amber);
+    font-weight: 800;
+    font-size: 2.2rem;
 }
 
-.btn-go {
-    background: var(--accent-yellow);
-    color: var(--text-dark);
+/* Semester Planner Badges */
+.badge {
+    background: #ef4444 !important; /* Urgent Red */
+    box-shadow: 0 0 10px #ef4444;
 }
 
-/* Progress Circle Animation */
+/* Progress Circles */
 .progress-circle {
-    transition: transform 0.5s ease;
+    background: conic-gradient(var(--accent-teal) 45%, #1e293b 45%) !important;
+    border: 5px solid var(--glass-border) !important;
 }
 
-.progress-widget:hover .progress-circle {
-    transform: scale(1.1);
+/* Quiz Selection Boxes */
+.quiz-link {
+    background: var(--glass-bg);
+    border-radius: 15px;
+    padding: 15px;
+    border: 2px solid transparent;
 }
-
-/*===================================================================*/
-/* 5. RESPONSIVENESS                                                 */
-/*===================================================================*/
-
-@media (max-width: 900px) {
-    .dashboard-container { grid-template-columns: 1fr; }
-    .navigation { padding: 15px; }
+.quiz-link:hover {
+    border-color: var(--accent-teal);
+    background: rgba(45, 212, 191, 0.1);
 }
