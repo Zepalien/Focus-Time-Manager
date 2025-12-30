@@ -367,29 +367,37 @@ footer{
     </div>
 </section>
 
-<!-- LEARNING STYLE -->
-<div class="section-title">
-    <h2>What’s Your Learning Style?</h2>
-    <p>Understand how you learn best.</p>
-</div>
+<section class="learning-grid">
+    <a href="visual.html" class="learning-link">
+        <div class="learning-card">
+            <span>👀</span>
+            <h4>Visual</h4>
+        </div>
+    </a>
 
-<div class="module-links" id="modules">
-    <div class="module-btn">
-        <p>Time Management</p>
-        <a href="#" class="btn btn-go">Go</a>
-    </div>
+    <a href="tools.html" class="learning-link">
+        <div class="learning-card">
+            <span>🎧</span>
+            <h4>Time Management</h4>
+        </div>
+    </a>
 
-    <div class="module-btn">
-        <p>Focus Methods</p>
-        <a href="#" class="btn btn-go">Go</a>
-    </div>
+    <a href="tools.html" class="learning-link">
+        <div class="learning-card">
+            <span>📖</span>
+            <h4>Focus Methonds</h4>
+        </div>
+    </a>
 
-    <div class="module-btn">
-        <img src="gambar_coding/4.png" alt="study" class="study">
-        <p>Study Methods</p>
-        <a href="#" class="btn btn-go">Go</a>
-    </div>
-</div>
+    <a href="tools.html" class="learning-link">
+        <div class="learning-card">
+            <span>🤸</span>
+            <h4>Study Methonds</h4>
+        </div>
+    </a>
+
+</section>
+
 
 
 <footer>
@@ -446,4 +454,5 @@ document.getElementById('assignCount').textContent =
 document.getElementById('testCount').textContent =
     localStorage.getItem('globalTestCount') || 0;
 </script>
+
 
