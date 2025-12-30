@@ -142,8 +142,8 @@
     </header>
 
     <section class="hero-section">
-        <h1 class="serif-title text-5xl mb-3 italic">Welcome to the Meadow</h1>
-        <p class="handwritten text-3xl">Rest, learn, and grow with us...</p>
+        <h1 class="serif-title text-5xl mb-3 italic">Focus Community</h1>
+        <p class="handwritten text-3xl">Connect with us</p>
     </section>
 
     <main class="content-container">
@@ -184,17 +184,17 @@
                         <div class="cottage-card">
                             <h3 class="font-bold text-lg text-emerald-800">Mastering Focus 🍵</h3>
                             <p class="text-sm text-stone-600 mt-2">How to use our timers to create a peaceful workflow.</p>
-                            <a href="#" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
+                            <a href="tools.html" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
                         </div>
                         <div class="cottage-card">
-                            <h3 class="font-bold text-lg text-emerald-800">Journaling ✍️</h3>
-                            <p class="text-sm text-stone-600 mt-2">Tips for taking notes that clear your mind.</p>
-                            <a href="#" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
+                            <h3 class="font-bold text-lg text-emerald-800">Structured work ✍️</h3>
+                            <p class="text-sm text-stone-600 mt-2">Tools to keep track your work.</p>
+                            <a href="Time_Management.html" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
                         </div>
                         <div class="cottage-card">
-                            <h3 class="font-bold text-lg text-emerald-800">Patch Notes 🍄</h3>
-                            <p class="text-sm text-stone-600 mt-2">See what's new in our little cottage.</p>
-                            <a href="#" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
+                            <h3 class="font-bold text-lg text-emerald-800">Deep Focus 🍄</h3>
+                            <p class="text-sm text-stone-600 mt-2">Spend some time for focusing your work.</p>
+                            <a href="tools.html" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
                         </div>
                     </div>
                 </div>
@@ -279,8 +279,69 @@
                 
                 document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
                 if (!isOpen) content.style.maxHeight = content.scrollHeight + 'px';
+        
+
+
+            // --- 3. Contact Form Mailto Logic (NEW) ---
+
+            const contactForm = document.getElementById('contact-form');
+
+
+
+            if (contactForm) {
+
+                contactForm.addEventListener('submit', function(e) {
+
+                    e.preventDefault();
+
+                    
+
+                    // 1. Get user input
+
+                    const name = document.getElementById('name-mail').value;
+
+                    const email = document.getElementById('email-mail').value;
+
+                    const message = document.getElementById('message-mail').value;
+
+                    
+
+                    // 2. Define the recipient email
+
+                    const recipient = 'support@yourdomain.com';
+
+
+
+                    // 3. Construct the mailto link parameters
+
+                    // URL-encode all values
+
+                    const subject = encodeURIComponent(`Inquiry from ${name}`);
+
+                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+
+
+
+                    // 4. Construct the full mailto link
+
+                    const mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
+
+
+                    // 5. Open the mail client
+
+                    window.location.href = mailtoLink;
+
+                    
+
+                    // Optional: Reset the form after a short delay
+
+                    setTimeout(() => this.reset(), 100); 
+
+                });
             });
         });
     </script>
 </body>
 </html>
+
