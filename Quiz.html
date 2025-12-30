@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOCUS - Quiz Page</title>
+<title>FOCUS - Game Zone</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;500;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-    /* ADDED: CSS Variables from community.html */
     :root {
-        --primary: #4f46e5; /* Indigo-600 (Analyzer highlight color) */
-        --primary-light: #6366f1; /* Indigo-500 */
-        --dark-header-bg: #1e293b; /* Slate-800, for the top bar */
-        --hero-bg: #2c3e50; 
-        --teal-card-bg: #2dd4bf; /* Teal/Cyan for logo and submit button */
-        --button-dark: #283c60; /* Darker blue for buttons */
-        --card-bg: #f9edd5; /* Light card background */
+        /* Game Theme Colors */
+        --primary: #4f46e5;
+        --primary-light: #6366f1;
+        --dark-header-bg: #1e293b;
+        --hero-bg: #1a1a2e; /* Darker for Game Theme */
+        --teal-card-bg: #2dd4bf;
+        --button-dark: #283c60;
+        --card-bg: #16213e; /* Dark Blue Game Card */
+        --accent-yellow: #fcd34d;
     }
 
-    /* ADDED: Header/Nav Bar Styles from community.html */
+    /* Standardized Header */
     .header {
         background-color: var(--dark-header-bg);
         color: white;
@@ -27,7 +27,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 0px rgba(0, 0, 0, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
     .logo-section {
         display: flex;
@@ -52,209 +55,176 @@
         margin-left: 1.5rem;
         text-decoration: none;
         font-weight: 500;
-        padding: 0.5rem 0;
+        font-size: 0.85rem;
+        transition: color 0.3s;
     }
-    .nav-menu a[style*="font-weight: 700;"] {
-        color: var(--teal-card-bg);
-    }
+    .nav-menu a:hover { color: var(--teal-card-bg); }
 
-
-    /* Original Quiz Styles */
+    /* Game Theme Body */
     body {
-        font-family: 'Inter', Arial, sans-serif; 
-        background: #3e536e; 
+        font-family: 'Poppins', sans-serif;
+        background: #0f3460;
         margin: 0;
-        padding: 0; 
-        color: #222;
+        padding: 0;
+        color: #e0e0e0;
     }
+
+    .font-pixel { font-family: 'Press Start 2P', cursive; }
 
     .hero-section {
-        background-color: #3e536e; 
+        background: linear-gradient(180deg, #1e293b 0%, #0f3460 100%);
         color: white;
-        padding: 4rem 2rem 20px 2rem; 
+        padding: 4rem 2rem 2rem 2rem;
         text-align: center;
     }
-    .hero-title {
-        font-size: 2.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    .hero-subtitle {
-        font-size: 1.125rem;
-        font-weight: 400;
-    }
 
+    /* Game Stage Cards */
     .container {
-        max-width: 800px; /* Base width for games */
+        max-width: 900px;
         margin: auto;
-        background: var(--card-bg);
-        border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 6px 18px rgba(20,20,50,0.06);
-        margin-top: 20px; 
-        margin-bottom: 40px;
     }
 
-    /* Flex layout for 3 kotak horizontal */
     ul#quiz-list {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         padding: 0;
         list-style: none;
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         justify-content: center;
     }
 
     ul#quiz-list li {
-        flex: 1 1 250px; 
-        text-align: center;
+        flex: 1 1 250px;
     }
 
     a.quiz-link {
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
         align-items: center;
         text-decoration: none;
-        background: #6389bf;
+        background: var(--card-bg);
         padding: 30px 20px;
-        border-radius: 12px;
-        font-weight: 600;
-        color: black;
-        transition: 0.3s;
+        border: 4px solid #4e4eba;
+        border-radius: 20px;
+        color: white;
+        transition: all 0.3s;
+        box-shadow: 0 8px 0px #091a33;
     }
 
     a.quiz-link:hover {
-        background: #283c60;
-        color: white; 
-        transform: translateY(-3px);
+        transform: translateY(-8px);
+        border-color: var(--teal-card-bg);
+        box-shadow: 0 12px 20px rgba(45, 212, 191, 0.2);
     }
 
     .quiz-img {
-        width: 100px;
-        height: 90px;
-        margin-bottom: 12px;
-        object-fit: cover;
-        border-radius: 8px;
+        width: 100%;
+        height: 120px;
+        margin-bottom: 15px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
     }
 
-    /* Back Button Style */
-    button.back-btn {
-        margin-top: 20px;
-        padding: 10px 16px;
-        border: none;
-        border-radius: 8px;
-        background: var(--button-dark);
-        color: white;
-        cursor: pointer;
-        font-weight: 600;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    button.back-btn:hover {
-        background: gray;
-        color: #222;
-    }
-
-    @media (max-width: 700px) {
-        ul#quiz-list {
-            gap: 10px;
-        }
-    }
-    
-    /* --- Diagnostic Analyzer Styles (ADJUSTED FOR SMALLER SIZE) --- */
+    /* Diagnostic Analyzer - Level Form */
     .analyzer-title-section {
-        background-color: #3e536e;
-        color: white;
-        padding: 20px 2rem 0 2rem; 
         text-align: center;
+        padding: 40px 20px 10px;
     }
-    .analyzer-title-section .hero-title {
-        font-size: 2rem;
-    }
-    
+
     .analyzer-card {
-        /* NEW: Reduced max width to make the card smaller */
-        max-width: 700px; 
-        margin: auto;
-        /* NEW: Reduced padding */
-        padding: 30px 20px 20px 20px; 
         background: var(--card-bg);
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(20,20,50,0.06);
-        margin-top: 20px; 
-        margin-bottom: 40px;
+        border: 4px solid var(--accent-yellow);
+        border-radius: 24px;
+        padding: 40px;
+        box-shadow: 0 0 30px rgba(252, 211, 77, 0.1);
+        margin-bottom: 60px;
     }
 
     .analyzer-card h3 {
-        color: var(--primary);
-        font-size: 1.5em;
-        margin-top: 0;
-        margin-bottom: 20px;
+        color: var(--accent-yellow);
+        font-size: 1.2rem;
+        margin-bottom: 30px;
         text-align: center;
-        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
     }
 
     .quiz-question {
-        margin-bottom: 15px; /* Slightly reduced margin */
-        padding: 12px; /* Slightly reduced padding */
-        background: #fff; 
-        border-radius: 6px;
-        border-left: 5px solid var(--primary);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
+        padding: 20px;
+        background: #1a1a2e;
+        border-radius: 12px;
+        border-left: 6px solid var(--teal-card-bg);
     }
+
     .question-text {
-        font-weight: 600;
-        margin-bottom: 10px; /* Slightly reduced margin */
+        font-weight: 500;
+        margin-bottom: 15px;
         display: block;
-        color: #333;
+        color: #fff;
     }
+
     .likert-scale {
         display: flex;
         justify-content: space-between;
-        font-size: 0.8em; /* Slightly smaller font for scale */
-        color: #555;
+        gap: 8px;
     }
+
     .likert-scale label {
-        flex-grow: 1;
+        flex: 1;
         text-align: center;
         cursor: pointer;
-        padding: 6px 0; /* Reduced padding */
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin: 0 2px;
+        padding: 10px 0;
+        background: #0f3460;
+        border: 2px solid #4e4eba;
+        border-radius: 8px;
+        font-weight: 700;
         transition: all 0.2s;
     }
-    /* ... (rest of the analyzer styles remain the same) ... */
-    
+
     .likert-scale input:checked + label {
-        background-color: var(--primary);
-        color: white;
-        border-color: var(--primary);
-        font-weight: 700;
-    }
-    .likert-scale input {
-        display: none;
-    }
-    .submit-btn {
-        display: block;
-        width: 100%;
-        padding: 15px;
         background-color: var(--teal-card-bg);
-        color: white;
+        color: #1a1a2e;
+        border-color: white;
+        transform: scale(1.05);
+    }
+
+    .likert-scale input { display: none; }
+
+    /* Arcade Style Buttons */
+    .submit-btn {
+        width: 100%;
+        padding: 20px;
+        background-color: var(--teal-card-bg);
+        color: #1a1a2e;
         border: none;
-        border-radius: 6px;
-        font-size: 1.1em;
+        border-radius: 12px;
+        font-size: 1.1rem;
         cursor: pointer;
-        font-weight: 700;
+        font-weight: 800;
+        text-transform: uppercase;
         margin-top: 30px;
-        transition: background-color 0.2s;
+        box-shadow: 0 6px 0px #1eada0;
+        transition: all 0.1s;
     }
-    .submit-btn:hover {
-        background-color: #1eada0;
+
+    .submit-btn:active {
+        transform: translateY(4px);
+        box-shadow: 0 2px 0px #1eada0;
     }
-    /* --- End Analyzer Styles --- */
+
+    .back-btn {
+        margin: 30px auto;
+        padding: 12px 24px;
+        background: #4e4eba;
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        display: block;
+        box-shadow: 0 4px 0px #283c60;
+    }
+
+    .back-btn:hover { background: #6366f1; }
 </style>
 </head>
 <body>
@@ -268,194 +238,181 @@
         <a href="index.html">DASHBOARD</a>
         <a href="tools.html">TOOLS</a>
         <a href="modules.html">MODULE</a>
-        <a href="quiz.html" style="font-weight: 700;">QUIZ</a> 
-        <a href="community.html">COMMUNITIY</a> 
+        <a href="quiz.html" style="color: var(--teal-card-bg); font-weight: 700;">QUIZ</a> 
+        <a href="community.html">COMMUNITY</a> 
     </nav>
 </header>
 
-
 <section class="hero-section">
-    <h1 class="hero-title">🎮 Exercise & Mini Games</h1>
-    <p class="hero-subtitle">Click on a box to start the exercise or mini game:</p>
+    <h1 class="font-pixel text-yellow-400 text-xl md:text-2xl mb-4">🎮 SELECT YOUR STAGE</h1>
+    <p class="hero-subtitle text-blue-200 uppercase tracking-widest text-sm font-bold">Earn focus points by completing tasks</p>
 </section>
 
 <div class="container">
     <ul id="quiz-list">
         <li>
             <a href="https://kahoot.it/challenge/02465461?challenge-id=d4008628-cfe2-47c4-9c94-ea5cf2cb528a_1763394407513" target="_blank" class="quiz-link">
-                <img src="set1.png" alt="Set 1 Image" class="quiz-img">
-            Set 1
+                <img src="set1.png" alt="Set 1" class="quiz-img">
+                <span class="font-pixel text-[10px] mb-2 text-teal-400">LVL 01</span>
+                SET 1: CHALLENGE
             </a>
         </li>
         <li>
             <a href="https://kahoot.it/challenge/067060?challenge-id=18c0860c-b698-4ea5-beb7-e09e8028ccd0_1763435855670" target="_blank" class="quiz-link">
-                <img src="set1.png" alt="Set 2 Image" class="quiz-img">
-                Set 2
+                <img src="set1.png" alt="Set 2" class="quiz-img">
+                <span class="font-pixel text-[10px] mb-2 text-purple-400">LVL 02</span>
+                SET 2: MASTERY
             </a>
         </li>
         <li>
             <a href="https://www.educandy.com/site/html5/bin/main.php?activity=wordsearch&quizid=234" target="_blank" class="quiz-link">
-                <img src="set2.png" alt="Mini Game Image" class="quiz-img">
-                Mini Game: Kahoot Information Science
+                <img src="set2.png" alt="Mini Game" class="quiz-img">
+                <span class="font-pixel text-[10px] mb-2 text-pink-400">BOSS</span>
+                WORD SEARCH: FOCUS
             </a>
         </li>
     </ul>
 </div>
 
-
 <section class="analyzer-title-section">
-    <h1 class="hero-title">🔬 Focus Style Diagnostic Analyzer</h1>
-    <p class="hero-subtitle">Find your most effective study method.</p>
+    <h1 class="font-pixel text-teal-400 text-lg md:text-xl">🔬 ANALYZER LAB</h1>
+    <p class="text-blue-200 mt-2 uppercase text-xs font-bold">Scan your brain for the best study method</p>
 </section>
 
-<div class="container analyzer-card">
-    <h3>Rate your agreement with the statements (1 = Strongly Disagree, 5 = Strongly Agree).</h3>
+<div class="container">
+    <div class="analyzer-card">
+        <h3>Rate your agreement (1 = Newbie, 5 = Pro)</h3>
 
-    <form id="focusQuiz">
+        <form id="focusQuiz">
+            <div class="quiz-question">
+                <span class="question-text">P1. I often start on the easiest tasks first, even if they aren't the most important.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="p1" id="p1_1" value="1" required><label for="p1_1">1</label>
+                    <input type="radio" name="p1" id="p1_2" value="2"><label for="p1_2">2</label>
+                    <input type="radio" name="p1" id="p1_3" value="3"><label for="p1_3">3</label>
+                    <input type="radio" name="p1" id="p1_4" value="4"><label for="p1_4">4</label>
+                    <input type="radio" name="p1" id="p1_5" value="5"><label for="p1_5">5</label>
+                </div>
+            </div>
+            
+            <div class="quiz-question">
+                <span class="question-text">P2. I feel overwhelmed and unsure which of my tasks I should work on next.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="p2" id="p2_1" value="1" required><label for="p2_1">1</label>
+                    <input type="radio" name="p2" id="p2_2" value="2"><label for="p2_2">2</label>
+                    <input type="radio" name="p2" id="p2_3" value="3"><label for="p2_3">3</label>
+                    <input type="radio" name="p2" id="p2_4" value="4"><label for="p2_4">4</label>
+                    <input type="radio" name="p2" id="p2_5" value="5"><label for="p2_5">5</label>
+                </div>
+            </div>
 
-        <div class="quiz-question">
-            <span class="question-text">P1. I often start on the easiest tasks first, even if they aren't the most important.</span>
-            <div class="likert-scale">
-                <input type="radio" name="p1" id="p1_1" value="1" required><label for="p1_1">1</label>
-                <input type="radio" name="p1" id="p1_2" value="2"><label for="p1_2">2</label>
-                <input type="radio" name="p1" id="p1_3" value="3"><label for="p1_3">3</label>
-                <input type="radio" name="p1" id="p1_4" value="4"><label for="p1_4">4</label>
-                <input type="radio" name="p1" id="p1_5" value="5"><label for="p1_5">5</label>
+            <div class="quiz-question">
+                <span class="question-text">P3. I always know which assignment has the highest impact on my grade.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="p3" id="p3_1" value="1" required><label for="p3_1">1</label>
+                    <input type="radio" name="p3" id="p3_2" value="2"><label for="p3_2">2</label>
+                    <input type="radio" name="p3" id="p3_3" value="3"><label for="p3_3">3</label>
+                    <input type="radio" name="p3" id="p3_4" value="4"><label for="p3_4">4</label>
+                    <input type="radio" name="p3" id="p3_5" value="5"><label for="p3_5">5</label>
+                </div>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">P2. I feel overwhelmed and unsure which of my tasks I should work on next.</span>
-            <div class="likert-scale">
-                <input type="radio" name="p2" id="p2_1" value="1" required><label for="p2_1">1</label>
-                <input type="radio" name="p2" id="p2_2" value="2"><label for="p2_2">2</label>
-                <input type="radio" name="p2" id="p2_3" value="3"><label for="p2_3">3</label>
-                <input type="radio" name="p2" id="p2_4" value="4"><label for="p2_4">4</label>
-                <input type="radio" name="p2" id="p2_5" value="5"><label for="p2_5">5</label>
-            </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">P3. I always know which assignment has the highest impact on my grade. (Reverse Score)</span>
-            <div class="likert-scale">
-                <input type="radio" name="p3" id="p3_1" value="1" required><label for="p3_1">1</label>
-                <input type="radio" name="p3" id="p3_2" value="2"><label for="p3_2">2</label>
-                <input type="radio" name="p3" id="p3_3" value="3"><label for="p3_3">3</label>
-                <input type="radio" name="p3" id="p3_4" value="4"><label for="p3_4">4</label>
-                <input type="radio" name="p3" id="p3_5" value="5"><label for="p3_5">5</label>
-            </div>
-        </div>
 
-        <div class="quiz-question">
-            <span class="question-text">I1. I check my phone or social media every few minutes while studying.</span>
-            <div class="likert-scale">
-                <input type="radio" name="i1" id="i1_1" value="1" required><label for="i1_1">1</label>
-                <input type="radio" name="i1" id="i1_2" value="2"><label for="i1_2">2</label>
-                <input type="radio" name="i1" id="i1_3" value="3"><label for="i1_3">3</label>
-                <input type="radio" name="i1" id="i1_4" value="4"><label for="i1_4">4</label>
-                <input type="radio" name="i1" id="i1_5" value="5"><label for="i1_5">5</label>
+            <div class="quiz-question">
+                <span class="question-text">I1. I check my phone or social media every few minutes while studying.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="i1" id="i1_1" value="1" required><label for="i1_1">1</label>
+                    <input type="radio" name="i1" id="i1_2" value="2"><label for="i1_2">2</label>
+                    <input type="radio" name="i1" id="i1_3" value="3"><label for="i1_3">3</label>
+                    <input type="radio" name="i1" id="i1_4" value="4"><label for="i1_4">4</label>
+                    <input type="radio" name="i1" id="i1_5" value="5"><label for="i1_5">5</label>
+                </div>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">I2. It's hard for me to focus for more than 20 minutes without getting up or changing tasks.</span>
-            <div class="likert-scale">
-                <input type="radio" name="i2" id="i2_1" value="1" required><label for="i2_1">1</label>
-                <input type="radio" name="i2" id="i2_2" value="2"><label for="i2_2">2</label>
-                <input type="radio" name="i2" id="i2_3" value="3"><label for="i2_3">3</label>
-                <input type="radio" name="i2" id="i2_4" value="4"><label for="i2_4">4</label>
-                <input type="radio" name="i2" id="i2_5" value="5"><label for="i2_5">5</label>
-            </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">I3. I can easily ignore noisy environments or chat notifications when I'm working. (Reverse Score)</span>
-            <div class="likert-scale">
-                <input type="radio" name="i3" id="i3_1" value="1" required><label for="i3_1">1</label>
-                <input type="radio" name="i3" id="i3_2" value="2"><label for="i3_2">2</label>
-                <input type="radio" name="i3" id="i3_3" value="3"><label for="i3_3">3</label>
-                <input type="radio" name="i3" id="i3_4" value="4"><label for="i3_4">4</label>
-                <input type="radio" name="i3" id="i3_5" value="5"><label for="i3_5">5</label>
-            </div>
-        </div>
 
-        <div class="quiz-question">
-            <span class="question-text">M1. I put off big assignments until the very last day (procrastination).</span>
-            <div class="likert-scale">
-                <input type="radio" name="m1" id="m1_1" value="1" required><label for="m1_1">1</label>
-                <input type="radio" name="m1" id="m1_2" value="2"><label for="m1_2">2</label>
-                <input type="radio" name="m1" id="m1_3" value="3"><label for="m1_3">3</label>
-                <input type="radio" name="m1" id="m1_4" value="4"><label for="m1_4">4</label>
-                <input type="radio" name="m1" id="m1_5" value="5"><label for="m1_5">5</label>
+            <div class="quiz-question">
+                <span class="question-text">I2. It's hard for me to focus for more than 20 minutes without getting up.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="i2" id="i2_1" value="1" required><label for="i2_1">1</label>
+                    <input type="radio" name="i2" id="i2_2" value="2"><label for="i2_2">2</label>
+                    <input type="radio" name="i2" id="i2_3" value="3"><label for="i2_3">3</label>
+                    <input type="radio" name="i2" id="i2_4" value="4"><label for="i2_4">4</label>
+                    <input type="radio" name="i2" id="i2_5" value="5"><label for="i2_5">5</label>
+                </div>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">M2. I usually feel energetic and ready to begin my work sessions. (Reverse Score)</span>
-            <div class="likert-scale">
-                <input type="radio" name="m2" id="m2_1" value="1" required><label for="m2_1">1</label>
-                <input type="radio" name="m2" id="m2_2" value="2"><label for="m2_2">2</label>
-                <input type="radio" name="m2" id="m2_3" value="3"><label for="m2_3">3</label>
-                <input type="radio" name="m2" id="m2_4" value="4"><label for="m2_4">4</label>
-                <input type="radio" name="m2" id="m2_5" value="5"><label for="m2_5">5</label>
+
+            <div class="quiz-question">
+                <span class="question-text">I3. I can easily ignore noisy environments or chat notifications.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="i3" id="i3_1" value="1" required><label for="i3_1">1</label>
+                    <input type="radio" name="i3" id="i3_2" value="2"><label for="i3_2">2</label>
+                    <input type="radio" name="i3" id="i3_3" value="3"><label for="i3_3">3</label>
+                    <input type="radio" name="i3" id="i3_4" value="4"><label for="i3_4">4</label>
+                    <input type="radio" name="i3" id="i3_5" value="5"><label for="i3_5">5</label>
+                </div>
             </div>
-        </div>
-        <div class="quiz-question">
-            <span class="question-text">M3. I often feel bored or restless when working on a long-term project.</span>
-            <div class="likert-scale">
-                <input type="radio" name="m3" id="m3_1" value="1" required><label for="m3_1">1</label>
-                <input type="radio" name="m3" id="m3_2" value="2"><label for="m3_2">2</label>
-                <input type="radio" name="m3" id="m3_3" value="3"><label for="m3_3">3</label>
-                <input type="radio" name="m3" id="m3_4" value="4"><label for="m3_4">4</label>
-                <input type="radio" name="m3" id="m3_5" value="5"><label for="m3_5">5</label>
+
+            <div class="quiz-question">
+                <span class="question-text">M1. I put off big assignments until the very last day (procrastination).</span>
+                <div class="likert-scale">
+                    <input type="radio" name="m1" id="m1_1" value="1" required><label for="m1_1">1</label>
+                    <input type="radio" name="m1" id="m1_2" value="2"><label for="m1_2">2</label>
+                    <input type="radio" name="m1" id="m1_3" value="3"><label for="m1_3">3</label>
+                    <input type="radio" name="m1" id="m1_4" value="4"><label for="m1_4">4</label>
+                    <input type="radio" name="m1" id="m1_5" value="5"><label for="m1_5">5</label>
+                </div>
             </div>
-        </div>
 
-        <button type="submit" class="submit-btn">Analyze My Focus Style & Get My Method</button>
+            <div class="quiz-question">
+                <span class="question-text">M2. I usually feel energetic and ready to begin my work sessions.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="m2" id="m2_1" value="1" required><label for="m2_1">1</label>
+                    <input type="radio" name="m2" id="m2_2" value="2"><label for="m2_2">2</label>
+                    <input type="radio" name="m2" id="m2_3" value="3"><label for="m2_3">3</label>
+                    <input type="radio" name="m2" id="m2_4" value="4"><label for="m2_4">4</label>
+                    <input type="radio" name="m2" id="m2_5" value="5"><label for="m2_5">5</label>
+                </div>
+            </div>
 
-    </form>
-    
-    <button class="back-btn" onclick="window.location.href='index.html'">Back</button>
+            <div class="quiz-question">
+                <span class="question-text">M3. I often feel bored or restless when working on a project.</span>
+                <div class="likert-scale">
+                    <input type="radio" name="m3" id="m3_1" value="1" required><label for="m3_1">1</label>
+                    <input type="radio" name="m3" id="m3_2" value="2"><label for="m3_2">2</label>
+                    <input type="radio" name="m3" id="m3_3" value="3"><label for="m3_3">3</label>
+                    <input type="radio" name="m3" id="m3_4" value="4"><label for="m3_4">4</label>
+                    <input type="radio" name="m3" id="m3_5" value="5"><label for="m3_5">5</label>
+                </div>
+            </div>
 
+            <button type="submit" class="submit-btn font-pixel text-sm">Analyze Results</button>
+        </form>
+        
+        <button class="back-btn" onclick="window.location.href='index.html'">EXIT TO MENU</button>
+    </div>
 </div>
 
 <script>
     const quizForm = document.getElementById('focusQuiz');
-
-    // Maps question names to their dimension (P, I, M) and if they need reverse scoring (R).
     const questionMap = {
-        p1: { dim: 'P', reverse: false }, 
-        p2: { dim: 'P', reverse: false }, 
-        p3: { dim: 'P', reverse: true },  
-        
-        i1: { dim: 'I', reverse: false }, 
-        i2: { dim: 'I', reverse: false }, 
-        i3: { dim: 'I', reverse: true },  
-        
-        m1: { dim: 'M', reverse: false }, 
-        m2: { dim: 'M', reverse: true },  
-        m3: { dim: 'M', reverse: false }  
+        p1: { dim: 'P', reverse: false }, p2: { dim: 'P', reverse: false }, p3: { dim: 'P', reverse: true }, 
+        i1: { dim: 'I', reverse: false }, i2: { dim: 'I', reverse: false }, i3: { dim: 'I', reverse: true }, 
+        m1: { dim: 'M', reverse: false }, m2: { dim: 'M', reverse: true }, m3: { dim: 'M', reverse: false }  
     };
 
     function calculateScores(event) {
         event.preventDefault(); 
-
         const formData = new FormData(quizForm);
         let scores = { P: 0, I: 0, M: 0 };
         
-        // 1. Calculate and adjust scores
         for (const [name, data] of Object.entries(questionMap)) {
             const value = parseInt(formData.get(name)); 
             if (isNaN(value)) {
-                alert("Please answer all questions in the diagnostic analyzer before submitting.");
+                alert("Complete the diagnostic scan first!");
                 return;
             }
-            let score = value;
-
-            // Reverse scoring: Score = 6 - Response
-            if (data.reverse) {
-                score = 6 - value;
-            }
-            
+            let score = data.reverse ? (6 - value) : value;
             scores[data.dim] += score;
         }
 
-        // 2. Determine Primary Struggle (Highest score = Biggest problem)
         const dimensions = [
             { dim: 'P', score: scores.P, name: 'Prioritization Skill', slug: 'eat-the-frog' },
             { dim: 'I', score: scores.I, name: 'Interruption Vulnerability', slug: 'pomodoro-technique' },
@@ -463,25 +420,16 @@
         ];
 
         dimensions.sort((a, b) => b.score - a.score);
-        
         const primaryStruggle = dimensions[0];
         const secondaryStruggle = dimensions[1];
+        const recommendation = (primaryStruggle.dim === 'P') ? { method: "Eat the Frog", slug: "eat-the-frog" } : { method: "Pomodoro Technique", slug: "pomodoro-technique" };
         
-        let recommendation;
-        if (primaryStruggle.dim === 'P') {
-            recommendation = { method: "Eat the Frog", slug: "eat-the-frog" };
-        } else {
-            recommendation = { method: "Pomodoro Technique", slug: "pomodoro-technique" };
-        }
-        
-        // 3. Save results to localStorage
         localStorage.setItem('focusScores', JSON.stringify(scores));
         localStorage.setItem('primaryStruggle', primaryStruggle.name);
         localStorage.setItem('secondaryStruggle', secondaryStruggle.name);
         localStorage.setItem('primaryMethod', recommendation.method);
         localStorage.setItem('methodSlug', recommendation.slug);
 
-        // 4. Redirect to the results page
         window.location.href = 'results.html';
     }
 
