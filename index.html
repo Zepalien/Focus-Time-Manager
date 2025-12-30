@@ -1,286 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* --- 0.1. RESET --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOCUS | Dashboard</title>
 
-        :root {
-            --dark-blue: #2F3E50;
-            --mid-blue: #3E536E;
-            --accent-teal: #49B2AA;
-            --accent-yellow: #FFC300;
-            --text-light: #F0F0F0;
-            --text-dark: #222222;
-            --card-light: #FFFFFF;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        body { 
-            background-color: var(--dark-blue); 
-            color: var(--text-light); 
-            line-height: 1.6; 
-        }
+<style>
+/* ================= RESET ================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-        /* --- 1. NAVIGATION --- */
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            background-color: var(--dark-blue);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+/* ================= BRANDING FOCUS ================= */
+:root{
+    --dark-blue:#2F3E50;
+    --mid-blue:#3E536E;
+    --accent-yellow:#FFC300;
+    --accent-teal:#49B2AA;
+    --light-bg:#f4f8ff;
+    --white:#ffffff;
+    --text-dark:#1f2a44;
+}
 
-        .logo-area { display: flex; align-items: center; }
-        .logo { height: auto; border-radius: 50%; margin-right: 10px; }
-        .site-title { font-size: 1.5em; font-weight: 700; letter-spacing: 1px; }
-        .nav a.active { color: var(--accent-yellow); }
+body{
+    background:var(--light-bg);
+    color:var(--text-dark);
+}
 
-        /* --- 2. DASHBOARD LAYOUT --- */
-        .dashboard-container {
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 20px;
-            padding: 20px 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+/* ================= NAVBAR ================= */
+header{
+    background:var(--white);
+    padding:15px 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+}
 
-        /* --- 3. SLIDESHOW --- */
-        .slideshow-container {
-            position: relative;
-            background-color: var(--mid-blue);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            padding: 40px;
-            min-height: 250px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
-        .slide { display: none; } /* Hidden by default */
-        
-        .fade {
-            animation: fadeAnim 1.5s;
-        }
+.logo-box{
+    width:42px;
+    height:42px;
+    background:var(--dark-blue);
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--accent-yellow);
+    font-weight:800;
+}
 
-        @keyframes fadeAnim {
-            from { opacity: 0.4; }
-            to { opacity: 1; }
-        }
+.site-title{
+    font-size:1.5rem;
+    font-weight:800;
+}
 
-        .slide-title { font-size: 2em; font-weight: 800; color: var(--accent-yellow); margin-bottom: 10px; }
-        .slide-text { font-size: 1.1em; max-width: 80%; }
+nav a{
+    margin-left:25px;
+    text-decoration:none;
+    color:#5b6b88;
+    font-weight:500;
+}
 
-        .dot-container {
-            text-align: center;
-            margin-top: 20px;
-        }
+nav a.active{
+    color:var(--dark-blue);
+    border-bottom:3px solid var(--accent-yellow);
+    padding-bottom:5px;
+}
 
-        .dot {
-            height: 10px; width: 10px; margin: 0 5px;
-            background-color: #bbb; border-radius: 50%;
-            display: inline-block; transition: 0.6s ease;
-        }
+/* ================= HERO SLIDESHOW ================= */
+.hero{
+    max-width:1200px;
+    margin:50px auto;
+    padding:50px;
+    background:linear-gradient(135deg,#eaf2ff,#ffffff);
+    border-radius:26px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:40px;
+    align-items:center;
+}
 
-        .active-dot { background-color: var(--accent-teal); }
+.slide{
+    display:none;
+}
 
-        /* --- 4. CARDS & SIDEBAR --- */
-        .quiz-card {
-            background-color: var(--card-light);
-            color: var(--text-dark);
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
+.slide.active{
+    display:block;
+}
 
-        .sidebar-box {
-            background-color: var(--mid-blue);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+.hero h1{
+    font-size:2.8rem;
+    font-weight:800;
+    margin-bottom:15px;
+    color:var(--dark-blue);
+}
 
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .btn-explore { background: var(--accent-yellow); color: var(--text-dark); }
-        .btn-go { background: var(--accent-teal); color: white; margin-top: 10px; width: 100%; text-align: center; }
+.hero p{
+    color:#556789;
+    margin-bottom:25px;
+    max-width:520px;
+}
 
-        .module-links { display: flex; gap: 15px; }
-        .module-btn { background: white; color: black; padding: 15px; border-radius: 8px; flex: 1; text-align: center; }
-        .module-btn .study { width: 100%; max-width: 180px; height: auto; }
+.hero-buttons a{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:12px;
+    font-weight:600;
+    text-decoration:none;
+    margin-right:15px;
+}
 
+.btn-primary{
+    background:var(--accent-yellow);
+    color:#1a1a1a;
+}
 
-        @media (max-width: 900px) {
-            .dashboard-container { grid-template-columns: 1fr; }
-            .module-links { flex-direction: column; }
-        }
-    </style>
+.btn-secondary{
+    background:white;
+    border:2px solid #dde6ff;
+    color:var(--dark-blue);
+}
+
+.hero-illus{
+    background:white;
+    border-radius:22px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.hero-illus span{
+    font-size:100px;
+}
+
+/* dots */
+.dots{
+    margin-top:20px;
+}
+
+.dot{
+    height:10px;
+    width:10px;
+    background:#ccc;
+    border-radius:50%;
+    display:inline-block;
+    margin-right:6px;
+}
+
+.dot.active{
+    background:var(--accent-teal);
+}
+
+/* ================= FEATURE CARDS ================= */
+.features{
+    max-width:1200px;
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.feature-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.06);
+}
+
+.feature-card h3{
+    margin-bottom:8px;
+}
+
+.feature-card p{
+    color:#6a7a99;
+    font-size:0.95rem;
+}
+
+.feature-card a{
+    margin-top:15px;
+    display:inline-block;
+    padding:10px 20px;
+    background:var(--dark-blue);
+    color:white;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.feature-icon{
+    font-size:70px;
+}
+
+/* ================= LEARNING STYLE ================= */
+.section-title{
+    text-align:center;
+    margin:80px 0 40px;
+}
+
+.section-title h2{
+    font-size:2rem;
+    font-weight:700;
+}
+
+.section-title p{
+    color:#6a7a99;
+}
+
+.learning-grid{
+    max-width:1200px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.learning-card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.06);
+}
+
+.learning-card span{
+    font-size:60px;
+}
+
+/* ================= PLANNER SUMMARY (localStorage) ================= */
+.planner-box{
+    max-width:600px;
+    margin:60px auto;
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.08);
+    text-align:center;
+}
+
+.planner-box h3{
+    margin-bottom:15px;
+}
+
+.planner-box p{
+    font-size:1.1rem;
+    margin:8px 0;
+}
+
+/* ================= FOOTER ================= */
+footer{
+    margin-top:80px;
+    padding:30px;
+    background:#eaf1ff;
+    text-align:center;
+    color:#6a7a99;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:1000px){
+    .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+    .features{
+        grid-template-columns:1fr;
+    }
+    .learning-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+    nav{display:none;}
+    .learning-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <header class="navigation">
+<header>
     <div class="logo-area">
-        <img src="gambar_coding/logo.png" alt="Logo" class="logo">
+        <div class="logo-box">🎯</div>
         <span class="site-title">FOCUS</span>
     </div>
-        
-        <nav class="nav">
-            <a href="index.html" class="active">DASHBOARD</a>
-            <a href="tools.html">TOOLS</a>
-            <a href="modules.html">MODULE</a>
-            <a href="Quiz.html">QUIZ</a>
-        </nav>
-    </header>
+    <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#">Study Planner</a>
+        <a href="#">Learning Styles</a>
+        <a href="Quiz.html">Quiz</a>
+    </nav>
+</header>
 
-    <main class="dashboard-container">
-        <section class="main-content">
-            <div class="slideshow-container">
-                <div class="slide fade">
-                    <h2 class="slide-title">Prioritize Better: The 80/20 Principle 🔑</h2>
-                    <p class="slide-text">Focus 80% of your effort on the 20% of tasks that produce the most significant results.</p>
-                </div>
+<!-- HERO SLIDESHOW -->
+<section class="hero">
 
-                <div class="slide fade">
-                    <h2 class="slide-title">Combat Burnout: Digital Detox 🧘</h2>
-                    <p class="slide-text">Mental health check: Dedicate at least 30 minutes a day to screen-free activities. Your brain needs rest!</p>
-                </div>
-                
-                <div class="slide fade">
-                    <h2 class="slide-title">Master Your Time: Two-Minute Rule ⏱️</h2>
-                    <p class="slide-text">If a task takes less than two minutes to complete, do it immediately! Don't let small tasks clutter your list.</p>
-                </div>
+    <div>
+        <div class="slide active">
+            <h1>Prioritize Better: 80/20 Principle 🔑</h1>
+            <p>Focus 80% of your effort on the 20% of tasks that give the biggest impact.</p>
+        </div>
 
-                <div class="dot-container">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
+        <div class="slide">
+            <h1>Combat Burnout: Digital Detox 🧘</h1>
+            <p>Dedicate at least 30 minutes a day to screen-free activities.</p>
+        </div>
 
-            <h2 style="margin: 20px 0;">Your personalized path</h2>
-            
-            <div class="quiz-card">
-                <div style="display:flex; align-items:center;">
-                    <div style="margin-right:20px; font-size: 40px;">📝</div>
-                    <div>
-                        <h3>Diagnosed Quiz</h3>
-                        <p>Find your focus style</p>
-                    </div>
-                </div>
-                <a href="Quiz.html" class="btn btn-explore">Explore</a>
-            </div>
+        <div class="slide">
+            <h1>Master Time: Two-Minute Rule ⏱️</h1>
+            <p>If a task takes less than two minutes, do it immediately.</p>
+        </div>
 
-            <div class="module-links">
-                <div class="module-btn">
-                    <p>Time Management</p>
-                    <a href="#" class="btn btn-go">Go</a>
-                </div>
-                <div class="module-btn">
-                    <p>Focus Methods</p>
-                    <a href="#" class="btn btn-go">Go</a>
-                </div>
-                <div class="module-btn">
-                    <img src="gambar_coding/4.png" alt="study" class="study">
-                    <p>Study Methods</p>
-                    <a href="#" class="btn btn-go">Go</a>
-                </div>
-            </div>
-        </section>
+        <div class="hero-buttons">
+            <a href="Quiz.html" class="btn-primary">Get Started</a>
+            <a href="#" class="btn-secondary">Learn More</a>
+        </div>
 
-        <aside class="sidebar">
-            <div class="sidebar-box" style="background: white; color: black; text-align: center;">
-                <p id="current-date-time" style="font-weight: bold;">Loading...</p>
-            </div>
+        <div class="dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
 
-            <div class="sidebar-box">
-                <h3 style="border-bottom: 1px solid #555; padding-bottom: 10px; margin-bottom: 10px;">Planner Summary</h3>
-                <p>Assignments: <span id="dashboardAssignCount">0</span></p>
-                <p>Tests/Quizzes: <span id="dashboardTestCount">0</span></p>
-            </div>
-        </aside>
-    </main>
+    <div class="hero-illus">
+        <span>🧑‍💻📚</span>
+        <p style="margin-top:15px;color:#6a7a99;">Stay Focused, Study Smart</p>
+    </div>
+</section>
 
-    <script>
-        // 1. DATE & TIME LOGIC
-        function updateDateTime() {
-            const now = new Date();
-            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            document.getElementById('current-date-time').textContent = now.toLocaleString('en-US', options);
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
+<!-- FEATURE -->
+<section class="features">
+    <div class="feature-card">
+        <div>
+            <h3>Create Your Study Plan</h3>
+            <p>Set goals, schedule tasks and stay on track.</p>
+            <a href="#">Build Plan</a>
+        </div>
+        <div class="feature-icon">📅</div>
+    </div>
 
-        // 2. SLIDESHOW LOGIC
-        let slideIndex = 0;
-        function showSlides() {
-            let i;
-            let slides = document.getElementsByClassName("slide");
-            let dots = document.getElementsByClassName("dot");
-            
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";  
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) {slideIndex = 1}    
-            
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active-dot", "");
-            }
-            
-            slides[slideIndex-1].style.display = "block";  
-            dots[slideIndex-1].className += " active-dot";
-            setTimeout(showSlides, 5000); // Change image every 5 seconds
-        }
-        showSlides();
+    <div class="feature-card">
+        <div>
+            <h3>Find Your Learning Style</h3>
+            <p>Discover what type of learner you are.</p>
+            <a href="Quiz.html">Take Quiz</a>
+        </div>
+        <div class="feature-icon">🧠</div>
+    </div>
+</section>
 
-        // 3. LOAD LOCALSTORAGE COUNTS
-        function loadCounts() {
-            document.getElementById('dashboardAssignCount').textContent = localStorage.getItem('globalAssignCount') || 0;
-            document.getElementById('dashboardTestCount').textContent = localStorage.getItem('globalTestCount') || 0;
-        }
-        loadCounts();
-    </script>
+<!-- LEARNING STYLE -->
+<div class="section-title">
+    <h2>What’s Your Learning Style?</h2>
+    <p>Understand how you learn best.</p>
+</div>
+
+<section class="learning-grid">
+    <div class="learning-card"><span>👀</span><h4>Visual</h4></div>
+    <div class="learning-card"><span>🎧</span><h4>Auditory</h4></div>
+    <div class="learning-card"><span>📖</span><h4>Reading</h4></div>
+    <div class="learning-card"><span>🤸</span><h4>Kinesthetic</h4></div>
+</section>
+
+<!-- PLANNER SUMMARY -->
+<div class="planner-box">
+    <h3>Planner Summary</h3>
+    <p>Assignments: <strong id="assignCount">0</strong></p>
+    <p>Tests / Quizzes: <strong id="testCount">0</strong></p>
+</div>
+
+<footer>
+    © 2024 FOCUS. All rights reserved.
+</footer>
+
+<script>
+/* ============ SLIDESHOW ============ */
+let slideIndex = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+
+function showSlide(){
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add('active');
+    dots[slideIndex].classList.add('active');
+}
+
+setInterval(showSlide, 5000);
+
+/* ============ localStorage Planner ============ */
+document.getElementById('assignCount').textContent =
+    localStorage.getItem('globalAssignCount') || 0;
+
+document.getElementById('testCount').textContent =
+    localStorage.getItem('globalTestCount') || 0;
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
