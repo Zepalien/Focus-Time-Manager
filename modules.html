@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Caveat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --espresso-dark: #1F120D;   /* Darker for better contrast */
-            --wood-bg: #2D1B14;         /* Richer wood tone */
-            --caramel: #E6A15C;         /* Brighter accent for readability */
-            --latte-cream: #FFFDF5;     /* Brighter Napkin */
-            --post-it: #FFF9C4;         /* Classic Post-it Yellow */
+            --espresso-dark: #1F120D;
+            --wood-bg: #2D1B14;
+            --caramel: #E6A15C;
+            --latte-cream: #FFFDF5;
+            --post-it: #FFF9C4;
             --text-main: #2D1B14;
         }
 
@@ -21,12 +21,13 @@
             background-color: var(--wood-bg);
             background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); 
             color: white;
+            margin: 0;
         }
 
         .handwritten { font-family: 'Caveat', cursive; }
         .serif { font-family: 'Playfair Display', serif; }
 
-        /* SIDEBAR - High Contrast Chalkboard */
+        /* SIDEBAR */
         .sidebar-panel {
             background-color: var(--espresso-dark);
             width: 320px;
@@ -48,6 +49,10 @@
             font-weight: 600;
             font-size: 0.8rem;
             text-transform: uppercase;
+        }
+
+        .module-category-button:hover {
+            background: rgba(255,255,255,0.1);
         }
 
         .module-category-button.active {
@@ -72,7 +77,7 @@
             text-decoration: underline;
         }
 
-        /* CARDS - Enhanced Visibility */
+        /* CARDS */
         .napkin-card { 
             background-color: var(--latte-cream); 
             color: var(--text-main);
@@ -119,22 +124,24 @@
             <span class="text-2xl font-bold tracking-tighter serif">THE STUDY <span style="color: var(--caramel);">CAFE</span></span>
         </div>
         <nav class="flex space-x-8 text-xs font-bold uppercase tracking-widest">
-            <a href="index.html" class="text-gray-400 hover:text-white">DASHBOARD</a>
-            <a href="tools.html" class="text-gray-400 hover:text-white">TOOLS</a>
-            <a href="modules.html" class="text-white border-b-2 border-caramel">MODULES</a>
-            <a href="Quiz.html" class="text-gray-400 hover:text-white">QUIZ</a>
-            <a href="community.html" class="text-gray-400 hover:text-white">COMMUNITY</a>
+            <a href="#" class="text-gray-400 hover:text-white">DASHBOARD</a>
+            <a href="#" class="text-gray-400 hover:text-white">TOOLS</a>
+            <a href="#" class="text-white border-b-2 border-caramel">MODULES</a>
+            <a href="#" class="text-gray-400 hover:text-white">QUIZ</a>
+            <a href="#" class="text-gray-400 hover:text-white">COMMUNITY</a>
         </nav>
     </header>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
         <aside class="sidebar-panel">
             <h2 class="text-4xl handwritten text-center mb-10" style="color: var(--caramel);">Today's Specials</h2>
-            <div id="module-list" class="flex flex-col"></div>
+            <div id="module-list" class="flex flex-col">
+                </div>
         </aside>
 
         <main class="flex-1 p-10 lg:p-20">
-            <div id="content-area"></div>
+            <div id="content-area">
+                </div>
         </main>
     </div>
 
@@ -172,26 +179,49 @@
             'study': { name: "Master Blends", methods: ['active-recall'] }
         };
 
+        // This tracks which category is visually "open" in the sidebar
+        let currentOpenCategory = 'time';
+
         function render(mId) {
             const data = methodsData[mId];
-            const area = document.getElementById('content-area');
+            currentOpenCategory = data.category; // Ensure sidebar matches content
             
-            // Sidebar Update
+            const area = document.getElementById('content-area');
             const list = document.getElementById('module-list');
+
+            // 1. Update Sidebar UI
             list.innerHTML = '';
-            Object.keys(modules).forEach(cat => {
-                const isActive = modules[cat].methods.includes(mId);
-                list.innerHTML += `<div class="module-category-button ${isActive ? 'active' : ''}">${modules[cat].name}</div>`;
-                if(isActive) {
-                    modules[cat].methods.forEach(id => {
-                        list.innerHTML += `<div class="method-button ${id === mId ? 'active' : ''}" onclick="render('${id}')">${methodsData[id].name}</div>`;
+            Object.keys(modules).forEach(catKey => {
+                const isActiveCat = (catKey === currentOpenCategory);
+                
+                // Add the main Category Button
+                list.innerHTML += `
+                    <div class="module-category-button ${isActiveCat ? 'active' : ''}" 
+                         onclick="selectCategory('${catKey}')">
+                        ${modules[catKey].name}
+                    </div>`;
+
+                // If this category is active, show the methods inside it
+                if(isActiveCat) {
+                    modules[catKey].methods.forEach(methodId => {
+                        const isSelectedMethod = (methodId === mId);
+                        list.innerHTML += `
+                            <div class="method-button ${isSelectedMethod ? 'active' : ''}" 
+                                 onclick="render('${methodId}')">
+                                ${methodsData[methodId].name}
+                            </div>`;
                     });
                 }
             });
 
-            // Brewing Animation
-            area.innerHTML = `<div class="flex flex-col items-center justify-center py-20"><div class="cup-loader">☕</div><h2 class="handwritten text-3xl mt-5">Steaming your ${data.name}...</h2></div>`;
+            // 2. Brewing Animation for Main Content
+            area.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-20">
+                    <div class="cup-loader">☕</div>
+                    <h2 class="handwritten text-3xl mt-5">Steaming your ${data.name}...</h2>
+                </div>`;
             
+            // 3. Load actual content after animation delay
             setTimeout(() => {
                 area.innerHTML = `
                     <h1 class="serif text-5xl text-center mb-16" style="color: var(--caramel)">${data.name}</h1>
@@ -219,8 +249,14 @@
             }, 700);
         }
 
+        // Helper function for when a user clicks a main Category header
+        function selectCategory(catKey) {
+            const firstMethod = modules[catKey].methods[0];
+            render(firstMethod);
+        }
+
+        // Initialize with Pomodoro
         render('pomodoro');
     </script>
 </body>
 </html>
-
