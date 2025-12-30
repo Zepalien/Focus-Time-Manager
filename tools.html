@@ -3,112 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Productivity Tools</title>
+    <title>Focus | Cute Productivity</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * { font-family: 'Poppins', sans-serif; }
+        * { font-family: 'Quicksand', sans-serif; }
         
         body {
-            background-color: #0F172A; /* Deep Indigo Night */
-            color: white;
+            /* Soft Pastel Gradient Background */
+            background: linear-gradient(135deg, #CFD9DF 0%, #E2EBF0 100%), 
+                        linear-gradient(to bottom, #a18cd1 0%, #fbc2eb 100%);
+            background-blend-mode: screen;
+            min-height: 100vh;
+            color: #4A5568;
         }
 
-        /* Glassmorphism Card Style */
-        .tool-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+        /* Soft Glass Cards */
+        .cute-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 4px solid #FFFFFF;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
         }
 
-        /* Neon Glows on Hover */
-        .timer-card:hover { border-color: #2DD4BF; box-shadow: 0 0 30px rgba(45, 212, 191, 0.2); }
-        .planner-card:hover { border-color: #F0AB3F; box-shadow: 0 0 30px rgba(240, 171, 63, 0.2); }
-        .blocker-card:hover { border-color: #F472B6; box-shadow: 0 0 30px rgba(244, 114, 182, 0.2); }
-
-        /* Timer Text Glow */
-        #timer-display {
-            text-shadow: 0 0 15px rgba(45, 212, 191, 0.6);
+        .cute-card:hover {
+            transform: translateY(-5px);
         }
 
-        .btn-gradient-teal { background: linear-gradient(135deg, #2DD4BF 0%, #0891B2 100%); color: #0F172A; }
-        .btn-gradient-amber { background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%); color: #0F172A; }
+        /* Bubbly Buttons */
+        .btn-mint { background-color: #4FD1C5; color: white; border-bottom: 4px solid #38B2AC; }
+        .btn-pink { background-color: #F687B3; color: white; border-bottom: 4px solid #D53F8C; }
+        .btn-peach { background-color: #FBD38D; color: white; border-bottom: 4px solid #ED8936; }
+
+        .btn-mint:active, .btn-pink:active, .btn-peach:active {
+            transform: translateY(2px);
+            border-bottom-width: 0;
+            margin-bottom: 4px;
+        }
+
+        /* Timer Circle Styling */
+        #progress-ring {
+            filter: drop-shadow(0 0 8px rgba(79, 209, 197, 0.4));
+        }
+
+        .streak-pill {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #F687B3;
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="p-4 md:p-8">
 
-    <header class="p-4 flex justify-between items-center bg-[#0B1120] border-b border-white/5">
-        <div class="text-2xl font-extrabold text-teal-400 tracking-tighter">FOCUS</div>
-        <nav class="space-x-6 text-sm font-medium">
-            <a href="index.html" class="text-gray-400 hover:text-teal-400">DASHBOARD</a>
-            <a href="#" class="text-teal-400 border-b-2 border-teal-400 pb-1">TOOLS</a>
-            <a href="modules.html" class="text-gray-400 hover:text-teal-400">MODULE</a>
-            <a href="Quiz.html" class="text-gray-400 hover:text-teal-400">QUIZ</a>
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
+        <div class="text-3xl font-bold text-[#805AD5] tracking-tight">FOCUS ✨</div>
+        <nav class="hidden md:flex space-x-8 font-bold text-sm">
+            <a href="index.html" class="hover:text-pink-500 transition">DASHBOARD</a>
+            <a href="#" class="text-pink-500 underline decoration-4 underline-offset-8">TOOLS</a>
+            <a href="modules.html" class="hover:text-pink-500 transition">MODULE</a>
+            <a href="Quiz.html" class="hover:text-pink-500 transition">QUIZ</a>
         </nav>
     </header>
 
-    <main class="p-8 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-            <h1 class="text-5xl font-extrabold tracking-tight">Productivity <span class="text-teal-400">Tools</span></h1>
-            <div class="bg-slate-800/50 px-6 py-3 rounded-3xl border border-orange-500/30 flex items-center gap-3">
-                <span class="text-2xl animate-pulse">🔥</span>
-                <span class="font-bold text-orange-400 uppercase tracking-widest text-xs">Session Streak: <span id="streak-count" class="text-lg">0</span></span>
+    <main class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <h1 class="text-4xl font-bold text-gray-800">Productivity <span class="text-pink-500">Tools</span></h1>
+            <div class="streak-pill px-6 py-2 rounded-full flex items-center gap-2 shadow-sm">
+                <span class="text-xl">⭐</span>
+                <span class="font-bold text-pink-600">Streak: <span id="streak-count">0</span></span>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            <div class="tool-card timer-card p-8 rounded-[2rem] flex flex-col items-center">
-                <h2 class="text-xl font-bold text-teal-400 mb-6 uppercase tracking-widest">Pomodoro</h2>
-                
-                <div class="flex gap-2 mb-8">
-                    <button id="focus-btn" class="text-[10px] px-4 py-2 rounded-full font-bold btn-gradient-teal">FOCUS</button>
-                    <button id="short-break-btn" class="text-[10px] px-4 py-2 rounded-full font-bold bg-slate-700 text-gray-300">BREAK</button>
+            <div class="cute-card p-8 flex flex-col items-center">
+                <div class="flex gap-3 mb-6">
+                    <button id="focus-btn" class="px-4 py-1 rounded-full text-xs font-bold btn-mint">FOCUS</button>
+                    <button id="break-btn" class="px-4 py-1 rounded-full text-xs font-bold bg-gray-200 text-gray-500">BREAK</button>
                 </div>
 
                 <div class="relative flex items-center justify-center mb-8">
-                    <svg class="w-56 h-56 transform -rotate-90">
-                        <circle cx="112" cy="112" r="100" stroke="rgba(255,255,255,0.05)" stroke-width="12" fill="transparent" />
-                        <circle id="progress-ring" cx="112" cy="112" r="100" stroke="#2DD4BF" stroke-width="12" fill="transparent" 
-                                stroke-dasharray="628" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-1000 ease-linear" />
+                    <svg class="w-52 h-52 transform -rotate-90">
+                        <circle cx="104" cy="104" r="90" stroke="#EDF2F7" stroke-width="12" fill="transparent" />
+                        <circle id="progress-ring" cx="104" cy="104" r="90" stroke="#4FD1C5" stroke-width="12" fill="transparent" 
+                                stroke-dasharray="565" stroke-dashoffset="0" stroke-linecap="round" class="transition-all duration-1000 ease-linear" />
                     </svg>
-                    <div id="timer-display" class="absolute text-6xl font-black text-teal-400">25:00</div>
+                    <div id="timer-display" class="absolute text-5xl font-bold text-gray-700">25:00</div>
                 </div>
 
-                <div class="flex gap-4 w-full">
-                    <button id="start-btn" class="flex-1 py-4 rounded-2xl btn-gradient-teal font-black text-sm uppercase transition-transform active:scale-95">Start</button>
-                    <button id="reset-btn" class="px-6 py-4 rounded-2xl bg-slate-700 font-bold text-sm hover:bg-slate-600 transition-colors">↺</button>
-                </div>
+                <button id="start-btn" class="w-full py-4 rounded-2xl btn-mint font-bold text-lg mb-2">START</button>
+                <button id="reset-btn" class="text-gray-400 text-sm font-bold hover:text-gray-600">reset timer</button>
             </div>
 
-            <div class="tool-card planner-card p-8 rounded-[2rem] flex flex-col items-center justify-center text-center">
-                <h2 class="text-xl font-bold text-amber-400 mb-6 uppercase tracking-widest">Planner</h2>
-                <div class="group relative py-10">
-                    <div class="absolute inset-0 bg-amber-400/20 blur-3xl rounded-full group-hover:bg-amber-400/40 transition-all"></div>
-                    <svg class="relative w-24 h-24 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+            <div class="cute-card p-8 flex flex-col items-center justify-center text-center">
+                <div class="bg-orange-50 p-6 rounded-full mb-6">
+                    <span class="text-6xl">🗓️</span>
                 </div>
-                <p class="text-gray-400 text-sm mb-8 px-4">Ready to organize your next big project?</p>
-                <a href="Time_Management.html" class="w-full py-4 rounded-2xl btn-gradient-amber font-black text-sm uppercase transition-transform hover:scale-105 inline-block">Open Planner</a>
+                <h2 class="text-xl font-bold text-gray-700 mb-2">PLANNER</h2>
+                <p class="text-gray-500 text-sm mb-8">Ready to organize your next big project?</p>
+                <a href="Time_Management.html" class="w-full py-4 rounded-2xl btn-peach font-bold text-lg inline-block">OPEN PLANNER</a>
             </div>
 
-            <div class="tool-card blocker-card p-8 rounded-[2rem]">
-                <h2 class="text-xl font-bold text-pink-400 mb-6 uppercase tracking-widest text-center">Focus Shield</h2>
+            <div class="cute-card p-8">
+                <h2 class="text-xl font-bold text-pink-500 mb-6 text-center">FOCUS SHIELD</h2>
                 <div class="space-y-4">
-                    <div class="relative">
-                        <input type="text" id="domain-input" placeholder="Block domain..." class="w-full bg-slate-900/50 border border-white/10 p-4 rounded-2xl text-sm focus:border-pink-500 outline-none transition-all">
-                        <button id="add-domain-btn" class="absolute right-2 top-2 bottom-2 px-4 rounded-xl btn-gradient-teal text-xs font-bold">+</button>
+                    <div class="flex gap-2">
+                        <input type="text" id="domain-input" placeholder="Block a site..." class="w-full bg-white/50 border-2 border-pink-100 p-3 rounded-2xl text-sm outline-none focus:border-pink-300">
+                        <button id="add-domain-btn" class="px-4 rounded-2xl btn-pink font-bold">+</button>
                     </div>
                     
-                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[100px] p-2">
-                        <span class="bg-pink-500/10 border border-pink-500/30 px-3 py-1 rounded-full text-[10px] text-pink-400">youtube.com</span>
+                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[120px] p-2 bg-white/30 rounded-2xl">
+                        <div class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-xs font-bold border border-pink-200">facebook.com</div>
                     </div>
 
-                    <button id="clear-list-btn" class="w-full py-3 rounded-xl border border-pink-500/30 text-pink-500 text-[10px] font-bold uppercase hover:bg-pink-500 hover:text-white transition-all">Deactivate All Shields</button>
+                    <button id="clear-list-btn" class="w-full py-2 text-pink-300 text-xs font-bold uppercase hover:text-pink-500 transition-colors">Clear All Shields</button>
                 </div>
             </div>
 
@@ -116,9 +127,7 @@
     </main>
 
     <script>
-        // Copy the previous script logic here (Timer, Streak, Domain Adding)
-        // I've updated the Ring Circumference for the new size (r=100 -> 628)
-        const TIMER_MODES = { 'focus': 25*60, 'short-break': 5*60 };
+        const TIMER_MODES = { 'focus': 25*60, 'break': 5*60 };
         let currentMode = 'focus';
         let timeLeft = TIMER_MODES[currentMode];
         let timerInterval;
@@ -130,14 +139,14 @@
             const secs = timeLeft % 60;
             document.getElementById('timer-display').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             
-            const offset = 628 - (timeLeft / TIMER_MODES[currentMode]) * 628;
+            const offset = 565 - (timeLeft / TIMER_MODES[currentMode]) * 565;
             document.getElementById('progress-ring').style.strokeDashoffset = offset;
         }
 
         document.getElementById('start-btn').onclick = () => {
             if (isRunning) {
                 clearInterval(timerInterval);
-                document.getElementById('start-btn').textContent = "Start";
+                document.getElementById('start-btn').textContent = "START";
             } else {
                 timerInterval = setInterval(() => {
                     if (timeLeft > 0) { timeLeft--; updateDisplay(); }
@@ -146,21 +155,29 @@
                         if(currentMode === 'focus') {
                             sessions++;
                             document.getElementById('streak-count').textContent = sessions;
-                            confetti({ particleCount: 150, spread: 70, colors: ['#2DD4BF', '#F472B6'] });
+                            confetti({ particleCount: 150, spread: 70, colors: ['#4FD1C5', '#F687B3', '#FBD38D'] });
                         }
-                        alert("Session Complete!");
+                        alert("Great job! Session complete 🌸");
                     }
                 }, 1000);
-                document.getElementById('start-btn').textContent = "Pause";
+                document.getElementById('start-btn').textContent = "PAUSE";
             }
             isRunning = !isRunning;
+        };
+
+        document.getElementById('reset-btn').onclick = () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = TIMER_MODES[currentMode];
+            document.getElementById('start-btn').textContent = "START";
+            updateDisplay();
         };
 
         document.getElementById('add-domain-btn').onclick = () => {
             const input = document.getElementById('domain-input');
             if(input.value) {
-                const tag = document.createElement('span');
-                tag.className = "bg-pink-500/10 border border-pink-500/30 px-3 py-1 rounded-full text-[10px] text-pink-400 animate-bounce";
+                const tag = document.createElement('div');
+                tag.className = "bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-xs font-bold border border-pink-200 animate-bounce";
                 tag.textContent = input.value;
                 document.getElementById('domain-tags').appendChild(tag);
                 input.value = "";
