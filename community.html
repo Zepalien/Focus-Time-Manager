@@ -27,24 +27,21 @@
         .serif-title { font-family: 'Playfair Display', serif; }
         .handwritten { font-family: 'Dancing Script', cursive; }
 
-        /* --- COTTAGE HEADER --- */
         .cottage-header {
             background-color: white;
             border-bottom: 3px dashed var(--sage);
             padding: 1rem 2rem;
         }
 
-        /* --- HERO SECTION --- */
         .hero-section {
             background-color: var(--sage);
             background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
             color: white;
             padding: 5rem 2rem;
             text-align: center;
-            border-bottom: 8px solid #f2cc8f; /* "Wooden" divider */
+            border-bottom: 8px solid #f2cc8f;
         }
 
-        /* --- THE MAIN CONTENT CARD --- */
         .content-container {
             max-width: 1000px;
             margin: -40px auto 4rem auto;
@@ -61,7 +58,6 @@
             overflow: hidden;
         }
 
-        /* --- TABS --- */
         .tab-bar {
             display: flex;
             background-color: #e9edc9;
@@ -78,6 +74,7 @@
             color: var(--wood);
             transition: 0.3s;
             border: none;
+            cursor: pointer;
         }
 
         .tab-button.active {
@@ -86,7 +83,6 @@
             transform: translateY(2px);
         }
 
-        /* --- COTTAGE CARDS --- */
         .cottage-card {
             background: white;
             border: 2px dashed #faedcd;
@@ -96,7 +92,6 @@
         }
         .cottage-card:hover { transform: scale(1.02); }
 
-        /* --- ACCORDION --- */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
@@ -118,14 +113,43 @@
             font-weight: bold;
             transition: 0.3s;
             border-bottom: 4px solid var(--sage-dark);
+            cursor: pointer;
+            width: 100%;
         }
         .btn-green:hover { background-color: var(--sage-dark); }
         .btn-green:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+        /* Success Toast Notification */
+        #success-toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--sage-dark);
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        #success-toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
         .flower-icon { color: #e5989b; }
     </style>
 </head>
 <body>
+
+    <div id="success-toast">🕊️ Letter posted! Check your mail app.</div>
 
     <header class="cottage-header flex justify-between items-center">
         <div class="flex items-center gap-2">
@@ -208,7 +232,7 @@
                                 <input type="text" id="name-mail" placeholder="Your Name" required class="w-full p-4">
                                 <input type="email" id="email-mail" placeholder="Your Email" required class="w-full p-4">
                                 <textarea id="message-mail" rows="4" placeholder="Write your thoughts here..." class="w-full p-4"></textarea>
-                                <button type="submit" class="w-full btn-green">Send Letter 🕊️</button>
+                                <button type="submit" class="btn-green">Send Letter 🕊️</button>
                             </form>
                         </div>
                         <div class="bg-white p-8 rounded-2xl shadow-inner border border-stone-100 space-y-6">
@@ -237,7 +261,7 @@
                                 <span class="faq-icon">🌿</span>
                             </button>
                             <div class="accordion-content">
-                                <p class="pb-4 text-stone-500 italic">Yes, your notes are tucked away securely in our digital shed (Firebase), protected by the highest garden fences (Security Rules).</p>
+                                <p class="p-4 text-stone-500 italic">Yes, your notes are tucked away securely in our digital shed, protected by the highest garden fences.</p>
                             </div>
                         </div>
                         <div class="border-b border-stone-100">
@@ -246,85 +270,69 @@
                                 <span class="faq-icon">🌿</span>
                             </button>
                             <div class="accordion-content">
-                                <p class="pb-4 text-stone-500 italic">Named after a tomato, but here we treat it like a planting cycle. 25 minutes of tending your garden, followed by a short rest in the shade.</p>
+                                <p class="p-4 text-stone-500 italic">Named after a tomato, but here we treat it like a planting cycle. 25 minutes of work, followed by a short rest.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </main>
 
     <script>
-       <script>
-    // --- 1. Tab Logic ---
-    const tabs = document.querySelectorAll('.tab-button');
-    const contents = document.querySelectorAll('.tab-content');
+        // --- TAB LOGIC ---
+        const tabs = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active state from all tabs and hide all content
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.add('hidden'));
-            
-            // Activate clicked tab and show corresponding content
-            tab.classList.add('active');
-            const targetContent = document.getElementById(tab.dataset.tab);
-            if (targetContent) {
-                targetContent.classList.remove('hidden');
-            }
-        });
-    });
-
-    // --- 2. Accordion Logic ---
-    document.querySelectorAll('.faq-toggle').forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            const content = toggle.nextElementSibling;
-            const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
-            
-            // Close all other accordions
-            document.querySelectorAll('.accordion-content').forEach(c => {
-                c.style.maxHeight = '0px';
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.add('hidden'));
+                tab.classList.add('active');
+                const targetId = tab.getAttribute('data-tab');
+                document.getElementById(targetId).classList.remove('hidden');
             });
-
-            // If it wasn't open, open it now
-            if (!isOpen) {
-                content.style.maxHeight = content.scrollHeight + 'px';
-            }
         });
-    });
 
-    // --- 3. Contact Form Mailto Logic ---
-    const contactForm = document.getElementById('contact-form');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Get user input
-            const name = document.getElementById('name-mail').value;
-            const email = document.getElementById('email-mail').value;
-            const message = document.getElementById('message-mail').value;
-            
-            // Recipient
-            const recipient = 'support@yourdomain.com';
-
-            // Construct link
-            const subject = encodeURIComponent(`Inquiry from ${name}`);
-            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-
-            const mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
-
-            // Open mail client
-            window.location.href = mailtoLink;
-            
-            // Reset form
-            setTimeout(() => this.reset(), 100); 
+        // --- FAQ LOGIC ---
+        document.querySelectorAll('.faq-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
+                document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
+                if (!isOpen) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
         });
-    }
-</script> 
+
+        // --- FORM LOGIC WITH SUCCESS MESSAGE ---
+        const contactForm = document.getElementById('contact-form');
+        const toast = document.getElementById('success-toast');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name-mail').value;
+                const email = document.getElementById('email-mail').value;
+                const message = document.getElementById('message-mail').value;
+                
+                const recipient = 'hello@focuscottage.com';
+                const subject = encodeURIComponent(`Inquiry from ${name}`);
+                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+                
+                // Show Success Toast
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+
+                // Trigger Email Client
+                window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+                
+                // Reset Form
+                this.reset();
+            });
+        }
+    </script>
 </body>
 </html>
-
-
