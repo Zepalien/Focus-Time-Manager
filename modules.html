@@ -30,7 +30,7 @@
         /* SIDEBAR STYLES */
         .sidebar-panel {
             background-color: var(--espresso-dark);
-            width: 100%; /* Default for mobile */
+            width: 100%;
             padding: 25px;
             border-right: 3px solid #3E2723;
             box-shadow: 10px 0 30px rgba(0,0,0,0.6);
@@ -53,6 +53,7 @@
             font-weight: 600;
             font-size: 0.8rem;
             text-transform: uppercase;
+            display: block;
             width: 100%;
         }
 
@@ -83,9 +84,10 @@
         .napkin-card { 
             background-color: var(--latte-cream); 
             color: var(--text-main);
-            padding: 30px;
+            padding: 35px;
             box-shadow: 15px 15px 35px rgba(0,0,0,0.4);
             border-radius: 4px;
+            transform: rotate(-0.5deg);
         }
 
         .post-it-card { 
@@ -94,6 +96,7 @@
             padding: 25px;
             box-shadow: 8px 8px 20px rgba(0,0,0,0.2);
             border-bottom-right-radius: 50px 15px;
+            transform: rotate(1deg);
         }
 
         .card-header-label {
@@ -106,7 +109,7 @@
         }
 
         .cup-loader {
-            font-size: 60px;
+            font-size: 70px;
             animation: steam 1.5s infinite ease-in-out;
         }
 
@@ -148,7 +151,7 @@
     <div class="flex flex-col lg:flex-row min-h-screen">
         <aside class="sidebar-panel">
             <h2 class="text-4xl handwritten text-center mb-10" style="color: var(--caramel);">Today's Specials</h2>
-            <div id="module-list" class="flex flex-col"></div>
+            <div id="module-list" class="flex flex-col space-y-2"></div>
         </aside>
 
         <main class="flex-1 p-6 lg:p-20">
@@ -157,15 +160,12 @@
     </div>
 
     <script>
-        // NAVIGATION LOGIC
+        // MOBILE MENU LOGIC
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.onclick = () => mobileMenu.classList.toggle('hidden');
 
-        menuToggle.onclick = () => {
-            mobileMenu.classList.toggle('hidden');
-        };
-
-        // CONTENT DATA
+        // CONTENT DATA WITH YT LINKS
         const methodsData = {
             'pomodoro': {
                 name: "The Pomodoro Espresso",
@@ -173,7 +173,8 @@
                 info: "Break your work into 25-minute 'brews' followed by a quick 5-minute 'sip'. Keeps energy high and focus sharp.",
                 secret: "The Secret: Use a physical timer for a healthy sense of urgency.",
                 recipe: "1. Pick one task<br>2. Set timer for 25m<br>3. Work until bell rings<br>4. Take 5m break",
-                video: "Mastering the Timer"
+                video: "Mastering the Timer",
+                videoUrl: "https://www.youtube.com/watch?v=mNBmG24djoY"
             },
             'frog': {
                 name: "The Morning Frog Shot",
@@ -181,7 +182,8 @@
                 info: "Tackle your biggest, scariest task first thing in the morning. Once done, everything else feels easy.",
                 secret: "The Secret: Do not check your phone until the frog is finished!",
                 recipe: "1. Identify your hardest task<br>2. Block first 90m of day<br>3. Eat the frog!<br>4. Enjoy momentum",
-                video: "Frog Method Guide"
+                video: "Frog Method Guide",
+                videoUrl: "https://www.youtube.com/watch?v=ntSraUH4Rlo"
             },
             'active-recall': {
                 name: "The Recall Roast",
@@ -189,7 +191,8 @@
                 info: "Force your brain to pull information out instead of just re-reading. Builds permanent long-term memory.",
                 secret: "The Secret: Try to explain the concept to an empty chair without looking at notes.",
                 recipe: "1. Read one section<br>2. Close the book<br>3. Write down everything you remember<br>4. Fill gaps",
-                video: "Active Recall Tutorial"
+                video: "Active Recall Tutorial",
+                videoUrl: "https://www.youtube.com/watch?v=IyvlgRf7u3Y"
             }
         };
 
@@ -201,7 +204,7 @@
 
         let currentOpenCategory = 'time';
 
-        // RENDERING LOGIC
+        // MAIN RENDER FUNCTION
         function render(mId) {
             const data = methodsData[mId];
             if (!data) return;
@@ -210,12 +213,12 @@
             const area = document.getElementById('content-area');
             const list = document.getElementById('module-list');
 
-            // 1. Sidebar Update
+            // 1. Sidebar Re-build
             list.innerHTML = '';
             Object.keys(modules).forEach(catKey => {
                 const isActiveCat = (catKey === currentOpenCategory);
                 
-                const catBtn = document.createElement('div');
+                const catBtn = document.createElement('button');
                 catBtn.className = `module-category-button ${isActiveCat ? 'active' : ''}`;
                 catBtn.innerText = modules[catKey].name;
                 catBtn.onclick = () => selectCategory(catKey);
@@ -224,7 +227,7 @@
                 if(isActiveCat) {
                     modules[catKey].methods.forEach(methodId => {
                         const isSelectedMethod = (methodId === mId);
-                        const methodBtn = document.createElement('div');
+                        const methodBtn = document.createElement('button');
                         methodBtn.className = `method-button ${isSelectedMethod ? 'active' : ''}`;
                         methodBtn.innerText = methodsData[methodId].name;
                         methodBtn.onclick = () => render(methodId);
@@ -233,13 +236,14 @@
                 }
             });
 
-            // 2. Main Content Update
+            // 2. Loading Animation
             area.innerHTML = `
                 <div class="flex flex-col items-center justify-center py-10 lg:py-20">
                     <div class="cup-loader">☕</div>
                     <h2 class="handwritten text-3xl mt-5">Steaming your ${data.name}...</h2>
                 </div>`;
             
+            // 3. Update Actual Content
             setTimeout(() => {
                 area.innerHTML = `
                     <h1 class="serif text-3xl lg:text-5xl text-center mb-10 lg:mb-16" style="color: var(--caramel)">${data.name}</h1>
@@ -249,27 +253,31 @@
                             <p class="text-lg lg:text-xl leading-relaxed mb-6 font-medium">${data.info}</p>
                             <div class="p-4 bg-orange-100 border-l-4 border-orange-500 font-bold italic text-orange-900">${data.secret}</div>
                         </div>
+
                         <div class="space-y-8">
                             <div class="post-it-card">
                                 <span class="card-header-label" style="color: #5D4037">The Recipe</span>
                                 <p class="font-mono text-sm leading-loose">${data.recipe}</p>
                             </div>
-                            <div class="bg-black/40 p-5 rounded-lg border-l-4 border-caramel flex justify-between items-center">
+
+                            <a href="${data.videoUrl}" target="_blank" class="bg-black/40 p-5 rounded-lg border-l-4 border-caramel flex justify-between items-center hover:bg-black/60 transition-all group">
                                 <div>
                                     <p class="text-[10px] uppercase tracking-tighter text-gray-400">Barista's Guide</p>
-                                    <p class="font-bold text-caramel">${data.video}</p>
+                                    <p class="font-bold text-caramel group-hover:underline">${data.video}</p>
                                 </div>
-                                <span class="text-2xl">📽️</span>
-                            </div>
+                                <span class="text-2xl group-hover:scale-110 transition-transform">📽️</span>
+                            </a>
                         </div>
                     </div>`;
             }, 600);
         }
 
         function selectCategory(catKey) {
-            render(modules[catKey].methods[0]);
+            const firstId = modules[catKey].methods[0];
+            render(firstId);
         }
 
+        // Initialize the app
         window.onload = () => render('pomodoro');
     </script>
 </body>
