@@ -385,21 +385,47 @@ footer{
 </footer>
 
 <script>
-/* ============ SLIDESHOW ============ */
+/* ============ CAROUSEL WITH CLICKABLE DOTS ============ */
 let slideIndex = 0;
+let slideTimer;
+
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.dot');
 
-function showSlide(){
+function showSlideByIndex(index){
     slides.forEach(s => s.classList.remove('active'));
     dots.forEach(d => d.classList.remove('active'));
 
-    slideIndex = (slideIndex + 1) % slides.length;
+    slideIndex = index;
     slides[slideIndex].classList.add('active');
     dots[slideIndex].classList.add('active');
 }
 
-setInterval(showSlide, 5000);
+function nextSlide(){
+    slideIndex = (slideIndex + 1) % slides.length;
+    showSlideByIndex(slideIndex);
+}
+
+function startAutoSlide(){
+    slideTimer = setInterval(nextSlide, 5000);
+}
+
+function resetAutoSlide(){
+    clearInterval(slideTimer);
+    startAutoSlide();
+}
+
+/* === DOT CLICK EVENT === */
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        showSlideByIndex(index);
+        resetAutoSlide(); // reset timer bila user klik
+    });
+});
+
+/* INIT */
+showSlideByIndex(0);
+startAutoSlide();
 
 /* ============ localStorage Planner ============ */
 document.getElementById('assignCount').textContent =
@@ -408,15 +434,3 @@ document.getElementById('assignCount').textContent =
 document.getElementById('testCount').textContent =
     localStorage.getItem('globalTestCount') || 0;
 </script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
-
