@@ -3,31 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Tools</title>
+    <title>Matcha Strawberry | Focus Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --matcha-green: #89A478;
+            --matcha-light: #C1D0B5;
+            --strawberry-pink: #FF8BA7;
+            --strawberry-light: #FFC6D3;
+            --cream-bg: #FAF9F6;
+        }
+
         * { font-family: 'Quicksand', sans-serif; }
         
         body {
-            background: #F3F4F9;
+            background: var(--cream-bg);
             min-height: 100vh;
             overflow-x: hidden;
-            color: #5A67D8;
+            color: #4A5D3B; /* Darker Matcha Text */
         }
 
-        /* --- STANDARDIZED HEADER STYLES --- */
+        /* --- HEADER --- */
         header {
             background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--matcha-light);
         }
 
-        /* --- BACKGROUND DECORATION --- */
+        /* --- DECORATION --- */
         .blob {
             position: fixed; z-index: -1; filter: blur(60px);
-            border-radius: 50%; opacity: 0.4;
+            border-radius: 50%; opacity: 0.5;
             animation: float 20s infinite alternate;
         }
         @keyframes float {
@@ -35,40 +43,56 @@
             to { transform: translate(100px, 50px); }
         }
 
-        /* --- CUTE CARDS (HIGH POP) --- */
+        /* --- CARDS --- */
         .cute-card {
             background: white;
             border: 6px solid #FFFFFF;
             border-radius: 50px;
-            box-shadow: 0 20px 40px rgba(157, 161, 203, 0.2);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 0px var(--matcha-light); /* Bubbly shadow */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .cute-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 40px 70px rgba(157, 161, 203, 0.35);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 0px var(--strawberry-light);
         }
 
         /* --- BUTTONS --- */
-        .btn-bubbly { transition: all 0.2s ease; box-shadow: 0 6px 0px rgba(0,0,0,0.1); }
-        .btn-bubbly:active { transform: translateY(4px); box-shadow: 0 2px 0px rgba(0,0,0,0.1); }
-        .btn-mint { background: #6EE7B7; border-bottom: 6px solid #059669; color: white; }
-        .btn-pink { background: #F472B6; border-bottom: 6px solid #DB2777; color: white; }
-        .btn-amber { background: #FCD34D; border-bottom: 6px solid #D97706; color: white; }
-
-        /* --- MOVING ANIMATIONS --- */
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
+        .btn-bubbly { 
+            transition: all 0.2s ease; 
+            box-shadow: 0 6px 0px rgba(0,0,0,0.1); 
         }
-        @keyframes tick-tock {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+        .btn-bubbly:active { 
+            transform: translateY(4px); 
+            box-shadow: 0 2px 0px rgba(0,0,0,0.1); 
+        }
+        
+        /* Matcha Button */
+        .btn-matcha { 
+            background: var(--matcha-green); 
+            border-bottom: 6px solid #6B825B; 
+            color: white; 
+        }
+        /* Strawberry Button */
+        .btn-strawberry { 
+            background: var(--strawberry-pink); 
+            border-bottom: 6px solid #E06C86; 
+            color: white; 
+        }
+        /* Cream/Amber Button */
+        .btn-cream { 
+            background: #FFD97D; 
+            border-bottom: 6px solid #F9BC2D; 
+            color: #5D4037; 
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; }
         }
         .animating-ring { animation: breathe 3s ease-in-out infinite; }
-        .animating-text { animation: tick-tock 1s ease-in-out infinite; }
 
-        #progress-ring { transition: stroke-dashoffset 1s linear, stroke 0.3s ease; }
-        #quote-text { transition: opacity 0.8s ease-in-out; }
+        #progress-ring { transition: stroke-dashoffset 0.5s linear, stroke 0.3s ease; }
         .fade-out { opacity: 0; }
     </style>
 </head>
@@ -77,32 +101,32 @@
     <header class="py-4 px-8 mb-12">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <span class="text-3xl">F</span>
-                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 tracking-tighter">FOCUS</span>
+                <span class="text-3xl">🍓</span>
+                <span class="text-2xl font-bold tracking-tighter text-matcha" style="color: var(--matcha-green)">FOCUS</span>
             </div>
-            <nav class="hidden md:flex space-x-8 font-bold text-gray-500 text-sm uppercase tracking-wider">
-                <a href="index.html" class="hover:text-pink-500 transition">Dashboard</a>
-                <a href="tools.html" class="text-pink-500 border-b-2 border-pink-400 pb-1">Tools</a>
-                <a href="modules.html" class="hover:text-pink-500 transition">Module</a>
-                <a href="Quiz.html" class="hover:text-pink-500 transition">Quiz</a>
-                <a href="community.html" class="hover:text-pink-500 transition">Community</a>
+            <nav class="hidden md:flex space-x-8 font-bold text-gray-400 text-sm uppercase tracking-wider">
+                <a href="index.html" class="hover:text-strawberry transition">Dashboard</a>
+                <a href="tools.html" class="pb-1" style="color: var(--strawberry-pink); border-bottom: 3px solid var(--strawberry-pink)">Tools</a>
+                <a href="modules.html" class="hover:text-strawberry transition">Module</a>
+                <a href="Quiz.html" class="hover:text-strawberry transition">Quiz</a>
+                <a href="community.html" class="hover:text-strawberry transition">Community</a>
             </nav>
-            <div class="md:hidden text-2xl">≡</div>
+            <div class="md:hidden text-2xl" style="color: var(--matcha-green)">≡</div>
         </div>
     </header>
 
-    <div class="blob w-96 h-96 bg-purple-200 top-[20%] left-[-5%]"></div>
-    <div class="blob w-80 h-80 bg-pink-100 bottom-[5%] right-[-5%]" style="animation-delay: -5s;"></div>
+    <div class="blob w-96 h-96 bg-[#C1D0B5] top-[20%] left-[-5%]"></div>
+    <div class="blob w-80 h-80 bg-[#FFC6D3] bottom-[5%] right-[-5%]" style="animation-delay: -5s;"></div>
 
     <main class="max-w-7xl mx-auto px-6">
         <div class="flex flex-col md:flex-row justify-between items-end mb-4 gap-6">
             <div>
-                <h1 class="text-5xl font-extrabold text-gray-800 mb-2">My Tools</h1>
-                <p id="quote-text" class="text-lg font-semibold text-purple-400 italic">"Believe you can and you're halfway there. 🌟"</p>
+                <h1 class="text-5xl font-extrabold mb-2" style="color: var(--matcha-green)">My Tools</h1>
+                <p id="quote-text" class="text-lg font-semibold italic" style="color: var(--strawberry-pink)">"Matcha in my cup, focus in my mind. 🍵"</p>
             </div>
-            <div class="bg-white border-4 border-pink-100 px-8 py-2 rounded-full shadow-sm flex items-center gap-2 mb-2">
-                <span class="text-xl">⭐</span>
-                <span class="font-bold text-pink-500 uppercase text-xs">Streak: <span id="streak-count" class="text-lg">0</span></span>
+            <div class="bg-white border-4 border-strawberry px-8 py-2 rounded-full shadow-sm flex items-center gap-2 mb-2" style="border-color: var(--strawberry-light)">
+                <span class="text-xl">🍓</span>
+                <span class="font-bold uppercase text-xs" style="color: var(--strawberry-pink)">Streak: <span id="streak-count" class="text-lg">0</span></span>
             </div>
         </div>
 
@@ -110,45 +134,45 @@
 
             <div class="cute-card p-10 flex flex-col items-center">
                 <div class="flex gap-4 mb-8">
-                    <button id="focus-btn" class="px-6 py-2 rounded-full font-bold text-xs btn-mint btn-bubbly">FOCUS</button>
-                    <button id="break-btn" class="px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400 hover:bg-gray-200">BREAK</button>
+                    <button id="focus-btn" class="px-6 py-2 rounded-full font-bold text-xs btn-matcha btn-bubbly">FOCUS</button>
+                    <button id="break-btn" class="px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400">BREAK</button>
                 </div>
 
                 <div class="relative flex items-center justify-center mb-8">
                     <svg class="w-60 h-60 transform -rotate-90">
                         <circle cx="120" cy="120" r="105" stroke="#F1F5F9" stroke-width="14" fill="transparent" />
-                        <circle id="progress-ring" cx="120" cy="120" r="105" stroke="#6EE7B7" stroke-width="14" fill="transparent" 
+                        <circle id="progress-ring" cx="120" cy="120" r="105" stroke="#89A478" stroke-width="14" fill="transparent" 
                                 stroke-dasharray="660" stroke-dashoffset="0" stroke-linecap="round" />
                     </svg>
                     <div id="timer-display" class="absolute text-6xl font-black text-gray-700 tracking-tighter">25:00</div>
                 </div>
 
-                <button id="start-btn" class="w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4 uppercase">Start</button>
-                <button id="reset-btn" class="text-gray-300 hover:text-gray-500 text-xs font-bold transition">↺ reset timer</button>
+                <button id="start-btn" class="w-full py-5 rounded-3xl btn-matcha btn-bubbly font-black text-xl mb-4 uppercase">Start</button>
+                <button id="reset-btn" class="text-gray-300 hover:text-matcha text-xs font-bold transition">↺ reset timer</button>
             </div>
 
             <div class="cute-card p-10 flex flex-col items-center justify-center text-center">
-                <div class="text-7xl mb-6 animate-bounce" style="animation-duration: 3s;">📅</div>
-                <h2 class="text-2xl font-black text-gray-700 mb-2 uppercase">Planner</h2>
-                <p class="text-gray-400 text-sm mb-10 leading-relaxed px-4">Organize your dreams into small, achievable steps! ✨</p>
-                <a href="Time_Management.html" class="w-full py-5 rounded-3xl btn-amber btn-bubbly font-black text-xl inline-block uppercase tracking-widest">Open</a>
+                <div class="text-7xl mb-6 animate-bounce" style="animation-duration: 3s;">🍓</div>
+                <h2 class="text-2xl font-black mb-2 uppercase" style="color: var(--matcha-green)">Planner</h2>
+                <p class="text-gray-400 text-sm mb-10 leading-relaxed px-4">Sweeten your day by organizing your goals! 🌸</p>
+                <a href="Time_Management.html" class="w-full py-5 rounded-3xl btn-cream btn-bubbly font-black text-xl inline-block uppercase tracking-widest text-center">Open</a>
             </div>
 
             <div class="cute-card p-10 flex flex-col items-center">
-                <div class="text-5xl mb-6">🛡️</div>
-                <h2 class="text-2xl font-black text-pink-500 mb-8 uppercase">Shield</h2>
+                <div class="text-5xl mb-6">🍵</div>
+                <h2 class="text-2xl font-black mb-8 uppercase" style="color: var(--strawberry-pink)">Shield</h2>
                 
                 <div class="w-full space-y-4">
                     <div class="relative">
                         <input type="text" id="domain-input" placeholder="youtube.com" 
-                               class="w-full bg-gray-50 border-4 border-pink-50 p-4 rounded-3xl text-sm outline-none focus:border-pink-200">
-                        <button id="add-domain-btn" class="absolute right-2 top-2 bottom-2 px-5 rounded-2xl btn-pink btn-bubbly font-bold text-xl">+</button>
+                               class="w-full bg-gray-50 border-4 border-strawberry-light p-4 rounded-3xl text-sm outline-none focus:border-strawberry-pink" style="border-color: var(--strawberry-light)">
+                        <button id="add-domain-btn" class="absolute right-2 top-2 bottom-2 px-5 rounded-2xl btn-strawberry btn-bubbly font-bold text-xl">+</button>
                     </div>
                     
-                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[120px] p-4 bg-pink-50/30 rounded-[2.5rem] border-4 border-dashed border-pink-100 items-start">
+                    <div id="domain-tags" class="flex flex-wrap gap-2 min-h-[120px] p-4 bg-pink-50/30 rounded-[2.5rem] border-4 border-dashed border-strawberry-light items-start">
                         <p id="empty-msg" class="text-pink-200 text-xs italic m-auto">Shield is empty!</p>
                     </div>
-                    <button id="clear-list-btn" class="w-full text-pink-300 text-[10px] font-black uppercase hover:text-pink-500 tracking-widest transition">Clear All</button>
+                    <button id="clear-list-btn" class="w-full text-pink-300 text-[10px] font-black uppercase hover:text-strawberry-pink tracking-widest transition">Clear All</button>
                 </div>
             </div>
 
@@ -158,14 +182,12 @@
     <script>
         // --- QUOTES LOGIC ---
         const quotes = [
-            "Believe you can and you're halfway there. 🌟",
-            "Small progress is still progress. Keep going! 🐾",
-            "Focus on being productive, not being busy. 🍯",
-            "Your only limit is your mind. ✨",
+            "Matcha in my cup, focus in my mind. 🍵",
+            "Slow and steady, like a perfect brew. 🍃",
+            "Berry productive today! 🍓",
+            "Keep it sweet, keep it simple. ✨",
             "Do something today that your future self will thank you for. 🌸",
-            "Mistakes are proof that you are trying. 🎨",
-            "You don't have to be perfect to be amazing. ⭐",
-            "One step at a time, darling. You've got this! 🦢"
+            "Focus like a matcha master. 🍵"
         ];
         let quoteIndex = 0;
         const quoteElement = document.getElementById('quote-text');
@@ -176,7 +198,7 @@
                 quoteElement.textContent = `"${quotes[quoteIndex]}"`;
                 quoteElement.classList.remove('fade-out');
             }, 800);
-        }, 30000);
+        }, 15000);
 
         // --- TIMER LOGIC ---
         const TIMER_MODES = { 'focus': 25 * 60, 'break': 5 * 60 };
@@ -205,18 +227,17 @@
             timeLeft = TIMER_MODES[mode];
             startBtn.textContent = "START";
             ring.classList.remove('animating-ring');
-            display.classList.remove('animating-text');
 
             if (mode === 'focus') {
-                document.getElementById('focus-btn').className = "px-6 py-2 rounded-full font-bold text-xs btn-mint btn-bubbly";
+                document.getElementById('focus-btn').className = "px-6 py-2 rounded-full font-bold text-xs btn-matcha btn-bubbly";
                 document.getElementById('break-btn').className = "px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400";
-                ring.style.stroke = "#6EE7B7";
-                startBtn.className = "w-full py-5 rounded-3xl btn-mint btn-bubbly font-black text-xl mb-4 uppercase";
+                ring.style.stroke = "#89A478"; // Matcha
+                startBtn.className = "w-full py-5 rounded-3xl btn-matcha btn-bubbly font-black text-xl mb-4 uppercase";
             } else {
-                document.getElementById('break-btn').className = "px-6 py-2 rounded-full font-bold text-xs btn-pink btn-bubbly";
+                document.getElementById('break-btn').className = "px-6 py-2 rounded-full font-bold text-xs btn-strawberry btn-bubbly";
                 document.getElementById('focus-btn').className = "px-6 py-2 rounded-full font-bold text-xs bg-gray-100 text-gray-400";
-                ring.style.stroke = "#F472B6";
-                startBtn.className = "w-full py-5 rounded-3xl btn-pink btn-bubbly font-black text-xl mb-4 uppercase";
+                ring.style.stroke = "#FF8BA7"; // Strawberry
+                startBtn.className = "w-full py-5 rounded-3xl btn-strawberry btn-bubbly font-black text-xl mb-4 uppercase";
             }
             updateDisplay();
         }
@@ -226,10 +247,8 @@
                 clearInterval(timerInterval);
                 startBtn.textContent = "RESUME";
                 ring.classList.remove('animating-ring');
-                display.classList.remove('animating-text');
             } else {
                 ring.classList.add('animating-ring');
-                display.classList.add('animating-text');
                 timerInterval = setInterval(() => {
                     if (timeLeft > 0) {
                         timeLeft--;
@@ -240,9 +259,9 @@
                         if(currentMode === 'focus') {
                             sessions++;
                             document.getElementById('streak-count').textContent = sessions;
-                            confetti({ particleCount: 150, spread: 70, colors: ['#6EE7B7', '#F472B6'] });
+                            confetti({ particleCount: 150, spread: 70, colors: ['#89A478', '#FF8BA7', '#FFFFFF'] });
                         }
-                        alert("Session complete! 🌸");
+                        alert("Session complete! Time for a matcha break? 🍵");
                     }
                 }, 1000);
                 startBtn.textContent = "PAUSE";
@@ -256,7 +275,6 @@
             timeLeft = TIMER_MODES[currentMode];
             startBtn.textContent = "START";
             ring.classList.remove('animating-ring');
-            display.classList.remove('animating-text');
             updateDisplay();
         };
 
@@ -269,7 +287,8 @@
             if (input.value) {
                 document.getElementById('empty-msg')?.remove();
                 const tag = document.createElement('div');
-                tag.className = "bg-white text-pink-500 px-4 py-2 rounded-full text-xs font-bold border-2 border-pink-100 shadow-sm animate-pulse";
+                tag.className = "bg-white text-strawberry px-4 py-2 rounded-full text-xs font-bold border-2 border-strawberry-light shadow-sm";
+                tag.style.color = "var(--strawberry-pink)";
                 tag.textContent = input.value;
                 container.appendChild(tag);
                 input.value = "";
