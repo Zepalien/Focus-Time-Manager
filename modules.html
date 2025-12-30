@@ -3,284 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus Cafe | The Study Menu</title>
+    <title>The Study Cafe | Enhanced Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=Caveat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Caveat:wght@700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --espresso-dark: #2D1B14;   /* Deepest Coffee */
-            --wood-bg: #3E2723;         /* Dark Roast Brown */
-            --caramel: #D4A373;        /* Warm Golden Brown */
-            --latte-cream: #F5EBE0;    /* Napkin Color */
-            --post-it: #FEFAE0;        /* Pale Yellow Parchment */
-            --matcha: #A3B18A;         /* Soft Accent Green */
-            --text-light: #E9EDC9;
+            --espresso-dark: #1F120D;   /* Darker for better contrast */
+            --wood-bg: #2D1B14;         /* Richer wood tone */
+            --caramel: #E6A15C;         /* Brighter accent for readability */
+            --latte-cream: #FFFDF5;     /* Brighter Napkin */
+            --post-it: #FFF9C4;         /* Classic Post-it Yellow */
+            --text-main: #2D1B14;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--wood-bg);
-            /* Subtle wood grain texture */
             background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); 
+            color: white;
         }
 
         .handwritten { font-family: 'Caveat', cursive; }
         .serif { font-family: 'Playfair Display', serif; }
 
-        /* 1. SIDEBAR - The Chalkboard Menu */
+        /* SIDEBAR - High Contrast Chalkboard */
         .sidebar-panel {
             background-color: var(--espresso-dark);
             width: 320px;
-            flex-shrink: 0;
             padding: 25px;
-            border-right: 2px solid rgba(212, 163, 115, 0.2);
-            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+            border-right: 3px solid #3E2723;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.6);
         }
 
         .module-category-button {
-            background: rgba(255,255,255,0.03);
-            color: var(--text-light);
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 4px;
-            border: 1px solid rgba(212, 163, 115, 0.3);
+            background: rgba(255,255,255,0.05);
+            color: #D1D1D1;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(230, 161, 92, 0.2);
             text-align: left;
             transition: 0.3s;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
         }
 
         .module-category-button.active {
             background-color: var(--caramel);
             color: var(--espresso-dark);
-            font-weight: 800;
-            border-color: white;
-            box-shadow: 0 0 15px rgba(212, 163, 115, 0.4);
+            border-color: #fff;
         }
 
         .method-button {
-            color: #bc6c25;
+            color: var(--caramel);
             padding: 8px 15px 8px 30px;
-            margin-bottom: 5px;
             cursor: pointer;
             font-size: 0.95rem;
-            font-weight: 500;
-            border-left: 2px solid transparent;
             transition: 0.2s;
+            opacity: 0.8;
         }
         
         .method-button.active {
-            color: var(--text-light);
-            border-left: 2px solid var(--caramel);
-            background: rgba(212, 163, 115, 0.1);
+            opacity: 1;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: underline;
         }
 
-        /* 2. CONTENT CARDS - Napkin & Post-it */
+        /* CARDS - Enhanced Visibility */
         .napkin-card { 
             background-color: var(--latte-cream); 
-            color: var(--espresso-dark);
+            color: var(--text-main);
             padding: 40px;
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.3);
-            transform: rotate(-1.2deg); /* The Napkin Tilt */
-            border-radius: 2px;
-            border-bottom: 4px solid #e3d5ca;
+            box-shadow: 15px 15px 35px rgba(0,0,0,0.4);
+            transform: rotate(-1deg);
+            border-radius: 4px;
         }
 
         .post-it-card { 
             background-color: var(--post-it); 
-            color: #5d4037;
-            padding: 30px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
-            transform: rotate(1.8deg); /* The Post-it Tilt */
-            border-bottom-right-radius: 40px 10px; /* Folded corner look */
-            border-left: 1px solid rgba(0,0,0,0.05);
+            color: #4E342E;
+            padding: 25px;
+            box-shadow: 8px 8px 20px rgba(0,0,0,0.2);
+            transform: rotate(1.5deg);
+            border-bottom-right-radius: 50px 15px;
         }
 
         .card-header-label {
             font-family: 'Caveat', cursive;
             font-size: 1.8rem;
-            color: #bc6c25;
-            margin-bottom: 15px;
+            color: #A0522D;
+            margin-bottom: 10px;
             display: block;
-            border-bottom: 1px dashed rgba(188, 108, 37, 0.3);
+            border-bottom: 2px solid rgba(160, 82, 45, 0.1);
         }
 
-        /* 3. BREWING ANIMATION */
         .cup-loader {
-            font-size: 70px;
-            animation: steam 1.8s infinite ease-in-out;
-            display: inline-block;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+            font-size: 80px;
+            animation: steam 1.5s infinite ease-in-out;
         }
 
         @keyframes steam {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
-        }
-
-        .template-list {
-            background: rgba(188, 108, 37, 0.08);
-            padding: 15px;
-            border-radius: 4px;
-            list-style: none;
-            font-family: 'Courier New', Courier, monospace;
-            border: 1px solid rgba(188, 108, 37, 0.1);
+            0%, 100% { transform: translateY(0); opacity: 0.8; }
+            50% { transform: translateY(-20px); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <header class="flex justify-between items-center px-10 py-6 sticky top-0 z-50 shadow-2xl" style="background-color: var(--espresso-dark); border-bottom: 3px solid var(--caramel);">
+    <header class="flex justify-between items-center px-10 py-5 sticky top-0 z-50 shadow-2xl" style="background-color: var(--espresso-dark); border-bottom: 3px solid var(--caramel);">
         <div class="flex items-center">
             <span class="text-3xl mr-3">☕</span>
-            <span class="text-2xl font-bold tracking-tighter text-white serif">THE STUDY <span style="color: var(--caramel);">CAFE</span></span>
+            <span class="text-2xl font-bold tracking-tighter serif">THE STUDY <span style="color: var(--caramel);">CAFE</span></span>
         </div>
-        <nav class="flex space-x-10">
-            <a href="index.html" class="text-gray-400 hover:text-white font-medium uppercase text-xs tracking-widest">Dashboard</a>
-            <a href="modules.html" class="text-white font-bold border-b-2 border-caramel uppercase text-xs tracking-widest" style="color: var(--caramel);">The Menu</a>
-            <a href="Quiz.html" class="text-gray-400 hover:text-white font-medium uppercase text-xs tracking-widest">Quiz</a>
-            <a href="community.html" class="text-gray-400 hover:text-white font-medium uppercase text-xs tracking-widest">Community</a>
+        <nav class="flex space-x-8 text-xs font-bold uppercase tracking-widest">
+            <a href="#" class="text-gray-400 hover:text-white">Dashboard</a>
+            <a href="#" class="text-white border-b-2 border-caramel">The Menu</a>
+            <a href="#" class="text-gray-400 hover:text-white">Quiz</a>
         </nav>
     </header>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
         <aside class="sidebar-panel">
-            <h2 class="text-4xl handwritten text-white mb-8 text-center" style="color: var(--caramel);">Daily Specials</h2>
-            <div id="module-list" class="flex flex-col">
-                </div>
-            
-            <div class="mt-20 p-6 border-2 border-dashed border-yellow-900/50 rounded-lg text-center">
-                <p class="handwritten text-xl text-gray-400 mb-4">Your Custom Order?</p>
-                <a href="Quiz.html" class="inline-block px-6 py-2 bg-yellow-900 text-caramel border border-caramel hover:bg-caramel hover:text-espresso-dark transition font-bold text-xs uppercase tracking-widest">
-                    Explore Mine
-                </a>
-            </div>
+            <h2 class="text-4xl handwritten text-center mb-10" style="color: var(--caramel);">Today's Specials</h2>
+            <div id="module-list" class="flex flex-col"></div>
         </aside>
 
-        <main class="flex-1 p-8 lg:p-20">
-            <div id="method-content-grid" class="min-h-full">
-                </div>
+        <main class="flex-1 p-10 lg:p-20">
+            <div id="content-area"></div>
         </main>
     </div>
 
     <script>
-        // YouTube Helpers
-        function getYouTubeVideoId(url) {
-            if (!url) return '';
-            const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
-            return match ? match[1] : '';
-        }
-        function getWatchUrl(embedUrl) {
-            const videoId = getYouTubeVideoId(embedUrl);
-            return `https://www.youtube.com/watch?v=${videoId}`;
-        }
-
-        // CONTENT DATABASE
         const methodsData = {
-            'pomodoro-technique': {
+            'pomodoro': {
                 name: "The Pomodoro Espresso",
-                category: 'time-management',
-                infoText: `The Pomodoro Technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks (5 minutes). This prevents mental fatigue and keeps the focus brewing perfectly.`,
-                keyTakeaway: "🔑 The Secret:Work for 25 mins, then take a 5-min sip. This rhythm is the core of consistent productivity.",
-                template: `<ul class="template-list"><li>- Brew 1: [Task A] (25m)</li><li>- Short Sip (5m)</li><li>- Repeat 4x &rarr; Long Break</li></ul>`,
-                videoTitle: "Mastering the Timer",
-                videoUrl: "https://www.youtube.com/embed/H0C55R5B7Gk"
+                category: 'time',
+                info: "Break your work into 25-minute 'brews' followed by a quick 5-minute 'sip'. This rhythm keeps your brain from burning out and maintains high energy.",
+                secret: "The Secret: Use a physical timer. Seeing the time tick down creates a healthy sense of urgency.",
+                recipe: "1. Pick one task<br>2. Set timer for 25m<br>3. Work until bell rings<br>4. Take 5m break",
+                video: "Mastering the Timer"
             },
-            'eat-the-frog': {
+            'frog': {
                 name: "The Morning Frog Shot",
-                category: 'focus-method',
-                infoText: `Tackle your biggest, most intimidating task first thing in the morning. Build incredible momentum by finishing the hardest job before your second cup of coffee.`,
-                keyTakeaway: "🔑 The Secret: Identify your 'Frog' the night before. Tackle it immediately upon starting work.",
-                template: `<ul class="template-list"><li>1. Identify the Frog</li><li>2. Deep Focus (90m)</li><li>3. Frog Eaten &rarr; Easy Tasks</li></ul>`,
-                videoTitle: "Frog Method Animation",
-                videoUrl: "https://www.youtube.com/embed/j7sT3J6U4S0"
+                category: 'focus',
+                info: "Tackle your biggest, scariest task first thing in the morning. Once the 'frog' is eaten, everything else in your day will feel light and easy.",
+                secret: "The Secret: Do not check your email or phone until the frog is finished. No distractions allowed!",
+                recipe: "1. Identify your hardest task<br>2. Block first 90m of day<br>3. Eat the frog!<br>4. Enjoy momentum",
+                video: "Frog Method Guide"
+            },
+            'active-recall': {
+                name: "The Recall Roast",
+                category: 'study',
+                info: "Instead of just re-reading notes, force your brain to pull information out. It’s like testing the strength of your coffee—Active Recall builds long-term memory.",
+                secret: "The Secret: Close the book. Try to explain the concept to an empty chair before looking at your notes again.",
+                recipe: "1. Read one section<br>2. Close the book<br>3. Write down everything you remember<br>4. Check & fill gaps",
+                video: "Active Recall Tutorial"
             }
         };
 
-        const modulesConfig = {
-            'time-management': { name: "Quick Shots", subMethods: ['pomodoro-technique'] },
-            'focus-method': { name: "Slow Brews", subMethods: ['eat-the-frog'] }
+        const modules = {
+            'time': { name: "Quick Shots", methods: ['pomodoro'] },
+            'focus': { name: "Slow Brews", methods: ['frog'] },
+            'study': { name: "Master Blends", methods: ['active-recall'] }
         };
 
-        function renderSidebar(activeCat = null) {
+        function render(mId) {
+            const data = methodsData[mId];
+            const area = document.getElementById('content-area');
+            
+            // Sidebar Update
             const list = document.getElementById('module-list');
             list.innerHTML = '';
-            Object.keys(modulesConfig).forEach(id => {
-                const btn = document.createElement('div');
-                btn.className = `module-category-button ${activeCat === id ? 'active' : ''}`;
-                btn.innerText = modulesConfig[id].name;
-                btn.onclick = () => renderCategoryContent(id);
-                list.appendChild(btn);
-
-                if (activeCat === id) {
-                    modulesConfig[id].subMethods.forEach(mId => {
-                        const mBtn = document.createElement('div');
-                        mBtn.className = `method-button ${window.location.hash === '#'+mId ? 'active' : ''}`;
-                        mBtn.innerText = methodsData[mId].name;
-                        mBtn.onclick = (e) => { e.stopPropagation(); renderMethodContent(mId); };
-                        list.appendChild(mBtn);
+            Object.keys(modules).forEach(cat => {
+                const isActive = modules[cat].methods.includes(mId);
+                list.innerHTML += `<div class="module-category-button ${isActive ? 'active' : ''}">${modules[cat].name}</div>`;
+                if(isActive) {
+                    modules[cat].methods.forEach(id => {
+                        list.innerHTML += `<div class="method-button ${id === mId ? 'active' : ''}" onclick="render('${id}')">${methodsData[id].name}</div>`;
                     });
                 }
             });
-        }
 
-        function renderMethodContent(methodId) {
-            const data = methodsData[methodId];
-            const container = document.getElementById('method-content-grid');
-
-            // ANIMATION STATE
-            container.innerHTML = `
-                <div class="flex flex-col items-center justify-center py-32">
-                    <div class="cup-loader">☕</div>
-                    <h2 class="handwritten text-4xl mt-8" style="color: var(--caramel)">Grinding your ${data.name}...</h2>
-                </div>`;
-
+            // Brewing Animation
+            area.innerHTML = `<div class="flex flex-col items-center justify-center py-20"><div class="cup-loader">☕</div><h2 class="handwritten text-3xl mt-5">Steaming your ${data.name}...</h2></div>`;
+            
             setTimeout(() => {
-                window.location.hash = methodId;
-                renderSidebar(data.category);
-
-                container.innerHTML = `
+                area.innerHTML = `
                     <h1 class="serif text-5xl text-center mb-16" style="color: var(--caramel)">${data.name}</h1>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                        
+                    <div class="grid lg:grid-cols-2 gap-12">
                         <div class="napkin-card">
                             <span class="card-header-label">The Secret Ingredient</span>
-                            <p class="text-xl leading-relaxed mb-8 serif italic">${data.infoText}</p>
-                            <div class="p-6 rounded border-2 border-dashed border-orange-200 bg-white/50 text-orange-900 font-bold">
-                                ${data.keyTakeaway}
-                            </div>
+                            <p class="text-xl leading-relaxed mb-6 font-medium">${data.info}</p>
+                            <div class="p-4 bg-orange-100 border-l-4 border-orange-500 font-bold italic text-orange-900">${data.secret}</div>
                         </div>
-
-                        <div class="space-y-12">
+                        <div class="space-y-10">
                             <div class="post-it-card">
-                                <span class="card-header-label" style="color: #8d6e63">The Recipe</span>
-                                ${data.template}
+                                <span class="card-header-label" style="color: #5D4037">The Recipe</span>
+                                <p class="font-mono text-sm leading-loose">${data.recipe}</p>
                             </div>
-
-                            <div class="bg-black/30 p-6 rounded-lg border-l-4 border-caramel">
-                                <p class="text-xs uppercase tracking-widest text-gray-500 mb-4 font-bold">Barista's Video Guide</p>
-                                <a href="${getWatchUrl(data.videoUrl)}" target="_blank" class="flex items-center justify-between text-caramel hover:text-white transition group">
-                                    <span class="text-lg font-bold serif underline underline-offset-4">${data.videoTitle}</span>
-                                    <span class="text-2xl group-hover:scale-125 transition">📽️</span>
-                                </a>
+                            <div class="bg-black/40 p-5 rounded-lg border-l-4 border-caramel flex justify-between items-center">
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-tighter text-gray-400">Barista's Guide</p>
+                                    <p class="font-bold text-caramel">${data.video}</p>
+                                </div>
+                                <span class="text-2xl">📽️</span>
                             </div>
                         </div>
-
                     </div>
                 `;
-            }, 800);
+            }, 700);
         }
 
-        function renderCategoryContent(id) {
-            renderMethodContent(modulesConfig[id].subMethods[0]);
-        }
-
-        // Init
-        renderSidebar('time-management');
-        renderMethodContent('pomodoro-technique');
+        render('pomodoro');
     </script>
 </body>
 </html>
