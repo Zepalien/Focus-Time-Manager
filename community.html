@@ -257,91 +257,74 @@
     </main>
 
     <script>
-        // Tab Logic
-        const tabs = document.querySelectorAll('.tab-button');
-        const contents = document.querySelectorAll('.tab-content');
+       <script>
+    // --- 1. Tab Logic ---
+    const tabs = document.querySelectorAll('.tab-button');
+    const contents = document.querySelectorAll('.tab-content');
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                contents.forEach(c => c.classList.add('hidden'));
-                
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab).classList.remove('hidden');
-            });
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active state from all tabs and hide all content
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.add('hidden'));
+            
+            // Activate clicked tab and show corresponding content
+            tab.classList.add('active');
+            const targetContent = document.getElementById(tab.dataset.tab);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
         });
+    });
 
-        // Accordion Logic
-        document.querySelectorAll('.faq-toggle').forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const content = toggle.nextElementSibling;
-                const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
-                
-                document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
-                if (!isOpen) content.style.maxHeight = content.scrollHeight + 'px';
-        
-
-
-            // --- 3. Contact Form Mailto Logic (NEW) ---
-
-            const contactForm = document.getElementById('contact-form');
-
-
-
-            if (contactForm) {
-
-                contactForm.addEventListener('submit', function(e) {
-
-                    e.preventDefault();
-
-                    
-
-                    // 1. Get user input
-
-                    const name = document.getElementById('name-mail').value;
-
-                    const email = document.getElementById('email-mail').value;
-
-                    const message = document.getElementById('message-mail').value;
-
-                    
-
-                    // 2. Define the recipient email
-
-                    const recipient = 'support@yourdomain.com';
-
-
-
-                    // 3. Construct the mailto link parameters
-
-                    // URL-encode all values
-
-                    const subject = encodeURIComponent(`Inquiry from ${name}`);
-
-                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-
-
-
-                    // 4. Construct the full mailto link
-
-                    const mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
-
-
-
-                    // 5. Open the mail client
-
-                    window.location.href = mailtoLink;
-
-                    
-
-                    // Optional: Reset the form after a short delay
-
-                    setTimeout(() => this.reset(), 100); 
-
-                });
+    // --- 2. Accordion Logic ---
+    document.querySelectorAll('.faq-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const content = toggle.nextElementSibling;
+            const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
+            
+            // Close all other accordions
+            document.querySelectorAll('.accordion-content').forEach(c => {
+                c.style.maxHeight = '0px';
             });
+
+            // If it wasn't open, open it now
+            if (!isOpen) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
         });
-    </script>
+    });
+
+    // --- 3. Contact Form Mailto Logic ---
+    const contactForm = document.getElementById('contact-form');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get user input
+            const name = document.getElementById('name-mail').value;
+            const email = document.getElementById('email-mail').value;
+            const message = document.getElementById('message-mail').value;
+            
+            // Recipient
+            const recipient = 'support@yourdomain.com';
+
+            // Construct link
+            const subject = encodeURIComponent(`Inquiry from ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+
+            const mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
+
+            // Open mail client
+            window.location.href = mailtoLink;
+            
+            // Reset form
+            setTimeout(() => this.reset(), 100); 
+        });
+    }
+</script> 
 </body>
 </html>
+
 
