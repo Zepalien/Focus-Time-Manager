@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus | Kawaii Pulse Edition</title>
+    <title>Focus | Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -59,6 +59,12 @@
         .animating-text { animation: tick-tock 1s ease-in-out infinite; }
 
         #progress-ring { transition: stroke-dashoffset 1s linear, stroke 0.3s ease; }
+
+        /* --- QUOTE FADE --- */
+        #quote-text {
+            transition: opacity 0.8s ease-in-out;
+        }
+        .fade-out { opacity: 0; }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -70,19 +76,24 @@
         <div class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">FOCUS ✨</div>
         <nav class="flex space-x-6 font-bold text-gray-400 text-sm">
             <a href="index.html" class="hover:text-pink-500">DASHBOARD</a>
-            <a href="#" class="text-pink-500 border-b-4 border-pink-400 pb-1">TOOLS</a>
+            <a href="tools.html" class="text-pink-500 border-b-4 border-pink-400 pb-1">TOOLS</a>
             <a href="modules.html" class="hover:text-pink-500">MODULE</a>
             <a href="Quiz.html" class="hover:text-pink-500">QUIZ</a>
+            <a href="community.html" class="hover:text-pink-500">COMMUNITY</a>
         </nav>
     </header>
 
     <main class="max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-6">
             <h1 class="text-5xl font-extrabold text-gray-800">My Tools</h1>
             <div class="bg-white/90 border-4 border-pink-200 px-8 py-2 rounded-full shadow-sm flex items-center gap-2">
                 <span class="text-xl">⭐</span>
                 <span class="font-bold text-pink-500 uppercase text-xs">Streak: <span id="streak-count" class="text-lg">0</span></span>
             </div>
+        </div>
+
+        <div class="mb-10 text-center md:text-left">
+            <p id="quote-text" class="text-lg font-semibold text-purple-400 italic">"Believe you can and you're halfway there."</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -136,6 +147,33 @@
     </main>
 
     <script>
+        // --- MOTIVATIONAL QUOTES LOGIC ---
+        const quotes = [
+            "Believe you can and you're halfway there. 🌟",
+            "Small progress is still progress. Keep going! 🐾",
+            "Focus on being productive, not being busy. 🍯",
+            "Your only limit is your mind. ✨",
+            "Do something today that your future self will thank you for. 🌸",
+            "Mistakes are proof that you are trying. 🎨",
+            "You don't have to be perfect to be amazing. ⭐",
+            "One step at a time, darling. You've got this! 🦢"
+        ];
+
+        let quoteIndex = 0;
+        const quoteElement = document.getElementById('quote-text');
+
+        function changeQuote() {
+            quoteElement.classList.add('fade-out');
+            setTimeout(() => {
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                quoteElement.textContent = `"${quotes[quoteIndex]}"`;
+                quoteElement.classList.remove('fade-out');
+            }, 800); // Wait for fade out to complete
+        }
+
+        setInterval(changeQuote, 30000); // Change every 30 seconds
+
+        // --- TIMER LOGIC ---
         const TIMER_MODES = { 'focus': 25 * 60, 'break': 5 * 60 };
         let currentMode = 'focus';
         let timeLeft = TIMER_MODES[currentMode];
