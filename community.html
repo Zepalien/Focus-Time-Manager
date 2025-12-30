@@ -3,428 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOCUS - Community Support & Help Center</title>
+    <title>The Cottage - Community & Support</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables */
         :root {
-            --primary: #4f46e5; /* Indigo-600 */
-            --primary-light: #6366f1; /* Indigo-500 */
-            --background: #f1f5f9; /* Slate-100 */
-            --card-bg: #ffffff;
-            --text-color: #1e293b; /* Slate-800 */
-            --dark-header-bg: #1e293b; /* Slate-800, for the top bar */
-            --hero-bg: #2c3e50; /* A darker blue tone for the main banner */
-            --teal-card-bg: #2dd4bf; /* A strong teal/cyan for the content box */
+            --sage: #84a59d;
+            --sage-dark: #6b8e85;
+            --cream: #f7ede2;
+            --paper: #fefae0;
+            --earth: #6d597a;
+            --wood: #432818;
         }
-        
-        /* Base styles */
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--text-color);
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--cream);
+            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            color: var(--wood);
             margin: 0;
-            padding: 0;
         }
 
-        /* Card styles */
-        .card {
-            background-color: var(--card-bg);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem; 
+        .serif-title { font-family: 'Playfair Display', serif; }
+        .handwritten { font-family: 'Dancing Script', cursive; }
+
+        /* --- COTTAGE HEADER --- */
+        .cottage-header {
+            background-color: white;
+            border-bottom: 3px dashed var(--sage);
+            padding: 1rem 2rem;
         }
 
-        /* Accordion content styles */
+        /* --- HERO SECTION --- */
+        .hero-section {
+            background-color: var(--sage);
+            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-bottom: 8px solid #f2cc8f; /* "Wooden" divider */
+        }
+
+        /* --- THE MAIN CONTENT CARD --- */
+        .content-container {
+            max-width: 1000px;
+            margin: -40px auto 4rem auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-card {
+            background-color: var(--paper);
+            border: 2px solid #e9edc9;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        /* --- TABS --- */
+        .tab-bar {
+            display: flex;
+            background-color: #e9edc9;
+            justify-content: center;
+            gap: 10px;
+            padding-top: 10px;
+        }
+
+        .tab-button {
+            background: #ccd5ae;
+            padding: 12px 24px;
+            border-radius: 15px 15px 0 0;
+            font-weight: 700;
+            color: var(--wood);
+            transition: 0.3s;
+            border: none;
+        }
+
+        .tab-button.active {
+            background-color: var(--paper);
+            color: var(--sage-dark);
+            transform: translateY(2px);
+        }
+
+        /* --- COTTAGE CARDS --- */
+        .cottage-card {
+            background: white;
+            border: 2px dashed #faedcd;
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+        .cottage-card:hover { transform: scale(1.02); }
+
+        /* --- ACCORDION --- */
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
+            background: #fefcf0;
         }
 
-        /* --- Custom styles to match the image layout --- */
-        .header {
-            background-color: var(--dark-header-bg);
+        input, textarea {
+            background-color: #fff !important;
+            border: 2px solid #faedcd !important;
+            border-radius: 12px !important;
+        }
+
+        .btn-green {
+            background-color: var(--sage);
             color: white;
-            padding: 0.75rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: 0.3s;
+            border-bottom: 4px solid var(--sage-dark);
         }
-        .logo-section {
-            display: flex;
-            align-items: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-        .logo-circle {
-            background-color: var(--teal-card-bg);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            margin-right: 0.5rem;
-        }
-        .nav-menu a {
-            color: white;
-            margin-left: 1.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 0;
-        }
-        .hero-section {
-            background-color: #2c3e50;
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-        .hero-title {
-            font-size: 2.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        .hero-subtitle {
-            font-size: 1.125rem;
-            font-weight: 400;
-        }
-        .content-container {
-            max-width: 1200px;
-            margin: -60px auto 2rem auto; /* Pull the box up over the hero section */
-            padding: 0 2rem;
-            position: relative;
-            z-index: 10;
-        }
-        .teal-box {
-            background-color: var(--teal-card-bg);
-            padding: 0;
-            min-height: 400px;
-            overflow: hidden; 
-            border-radius: 0.5rem;
-        }
-        
-        /* Styles for the tabs inside the teal box */
-        .teal-box-tabs {
-            display: flex;
-            justify-content: space-around;
-            padding: 0 2rem;
-        }
-        .teal-box-tabs .tab-button {
-            transition: all 0.2s;
-            border-bottom: none;
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: white; 
-            padding: 1.5rem 1rem;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .teal-box-tabs .tab-button.active {
-            color: white;
-            text-decoration: underline; 
-            text-underline-offset: 8px;
-            text-decoration-thickness: 3px;
-            text-decoration-color: white;
-            border-bottom: none;
-        }
-        
-        /* Utility styles */
-        .rotate-45 {
-            transform: rotate(45deg);
-        }
-        .contact-icon {
-            font-size: 1.5rem;
-            line-height: 1.5rem;
-        }
+        .btn-green:hover { background-color: var(--sage-dark); }
+        .btn-green:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+        .flower-icon { color: #e5989b; }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="logo-section">
-            <div class="logo-circle">F</div>
-            FOCUS
+    <header class="cottage-header flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-3xl">🌿</span>
+            <span class="serif-title text-2xl font-bold tracking-tight text-emerald-900">FOCUS <span class="handwritten text-3xl ml-1 text-sage">Cottage</span></span>
         </div>
-        <nav class="nav-menu">
-            <a href="index.html">DASHBOARD</a>
-            <a href="tools.html">TOOLS</a>
-            <a href="modules.html">MODULE</a>
-            <a href="Quiz.html">QUIZ</a>
-            <a href="community.html" style="font-weight: 700;">COMMUNITIY</a> 
+        <nav class="hidden md:flex space-x-6 text-sm font-bold uppercase text-stone-500">
+            <a href="index.html" class="hover:text-emerald-700">Dashboard</a>
+            <a href="tools.html" class="hover:text-emerald-700">Tools</a>
+            <a href="modules.html" class="hover:text-emerald-700">Module</a>
+            <a href="Quiz.html" class="hover:text-emerald-700">Quiz</a>
+            <a href="community.html" class="text-emerald-800 border-b-2 border-emerald-800 pb-1">Community</a>
         </nav>
     </header>
 
     <section class="hero-section">
-        <h1 class="hero-title">COMMUNITY SUPPORT & HELP CENTER</h1>
-        <p class="hero-subtitle">Find answers, connect with us, and learn about our mission.</p>
+        <h1 class="serif-title text-5xl mb-3 italic">Welcome to the Meadow</h1>
+        <p class="handwritten text-3xl">Rest, learn, and grow with us...</p>
     </section>
 
     <main class="content-container">
-
-        <div class="card teal-box shadow-xl">
-            
-            <div class="teal-box-tabs">
-                <button data-tab="about-us" class="tab-button active">About Us</button>
-                <button data-tab="help" class="tab-button">Help Center</button>
-                <button data-tab="contact-us" class="tab-button">Contact Us</button>
-                <button data-tab="faq" class="tab-button">Frequent Questions</button>
+        <div class="main-card">
+            <div class="tab-bar">
+                <button data-tab="about-us" class="tab-button active">Our Story</button>
+                <button data-tab="help" class="tab-button">Library</button>
+                <button data-tab="contact-us" class="tab-button">Post Box</button>
+                <button data-tab="faq" class="tab-button">Wisdom</button>
             </div>
 
-            <div id="content-container" class="bg-white p-4 sm:p-6 md:p-8">
-
+            <div id="content-area" class="p-8 md:p-12">
+                
                 <div id="about-us" class="tab-content space-y-8">
-                    <h2 class="text-3xl font-bold text-primary mb-4 border-b pb-2">Our Mission</h2>
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <p class="text-gray-700 leading-relaxed">
-                                We believe in the power of focused effort and clear goals. Our mission is to provide simple, integrated tools that help individuals conquer procrastination, manage information clutter, and dedicate their best energy to what truly matters. We are committed to building software that respects your time and supports your deepest ambitions.
-                            </p>
-                            <p class="mt-4 text-gray-700 leading-relaxed">
-                                Founded in 2024, our team started with a simple observation: productivity tools are often too complicated. We set out to create a hub that offers essential features—like Pomodoro timers and structured note-taking—without the overwhelming complexity.
-                            </p>
+                    <div class="text-center mb-10">
+                        <span class="text-4xl flower-icon">🌸</span>
+                        <h2 class="serif-title text-4xl text-emerald-900 mt-2">Our Mission</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-4 text-stone-700 leading-loose">
+                            <p>We believe productivity shouldn't feel like a factory. It should feel like a garden. Our mission is to provide quiet, simple tools that help you tend to your tasks with intention and peace.</p>
+                            <p>Founded in 2024, Focus Cottage was built for those who find the modern world a bit too loud.</p>
                         </div>
-                        <div class="card p-6 rounded-xl bg-indigo-50 border-indigo-200">
-                            <h3 class="text-xl font-semibold text-indigo-800 mb-3">Our Core Values</h3>
-                            <ul class="space-y-2 text-indigo-700 list-disc list-inside">
-                                <li>Simplicity: Tools should be easy to use, not a source of distraction.</li>
-                                <li>Focus:Encouraging deep, uninterrupted work sessions.</li>
-                                <li>Reliability: Providing stable, trustworthy platform features.</li>
-                                <li>Growth: Continuously evolving based on user needs and feedback.</li>
+                        <div class="bg-[#faedcd] p-8 rounded-[40px] border-2 border-dashed border-[#d4a373]">
+                            <h3 class="serif-title text-2xl mb-4 text-amber-900">Core Values</h3>
+                            <ul class="space-y-3">
+                                <li>🍃 <strong>Gentle Focus:</strong> No loud alarms, just soft progress.</li>
+                                <li>🏡 <strong>Simple Living:</strong> Tools that do one thing beautifully.</li>
+                                <li>🌻 <strong>Organic Growth:</strong> Learning at your own pace.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div id="help" class="tab-content hidden space-y-6">
-                    <h2 class="text-3xl font-bold text-primary mb-4 border-b pb-2">Getting Started & Guides</h2>
-                    <p class="text-gray-700">Find detailed instructions, video tutorials, and best practices for using all our productivity tools.</p>
-
+                <div id="help" class="tab-content hidden space-y-8">
+                    <h2 class="serif-title text-3xl text-emerald-900 border-b-2 border-stone-100 pb-4">Guidebooks</h2>
                     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="card p-5 rounded-lg border-l-4 border-indigo-400 hover:shadow-lg transition">
-                            <h3 class="font-bold text-lg text-indigo-700">Pomodoro Mastery</h3>
-                            <p class="text-sm text-gray-600 mt-1">Learn how to set up custom work/break intervals and integrate it into your day.</p>
-                            <a href="#" class="text-sm text-primary font-medium mt-2 inline-block hover:underline">Read Guide &rarr;</a>
+                        <div class="cottage-card">
+                            <h3 class="font-bold text-lg text-emerald-800">Mastering Focus 🍵</h3>
+                            <p class="text-sm text-stone-600 mt-2">How to use our timers to create a peaceful workflow.</p>
+                            <a href="#" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
                         </div>
-                        <div class="card p-5 rounded-lg border-l-4 border-indigo-400 hover:shadow-lg transition">
-                            <h3 class="font-bold text-lg text-indigo-700">Note-Taking Tips</h3>
-                            <p class="text-sm text-gray-600 mt-1">Discover how to use Markdown for efficient, structured note-taking.</p>
-                            <a href="#" class="text-sm text-primary font-medium mt-2 inline-block hover:underline">View Tips &rarr;</a>
+                        <div class="cottage-card">
+                            <h3 class="font-bold text-lg text-emerald-800">Journaling ✍️</h3>
+                            <p class="text-sm text-stone-600 mt-2">Tips for taking notes that clear your mind.</p>
+                            <a href="#" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
                         </div>
-                        <div class="card p-5 rounded-lg border-l-4 border-indigo-400 hover:shadow-lg transition">
-                            <h3 class="font-bold text-lg text-indigo-700">Troubleshooting</h3>
-                            <p class="text-sm text-gray-600 mt-1">Quick fixes for common issues like login errors or data sync problems.</p>
-                            <a href="#" class="text-sm text-primary font-medium mt-2 inline-block hover:underline">Visit Troubleshooting &rarr;</a>
+                        <div class="cottage-card">
+                            <h3 class="font-bold text-lg text-emerald-800">Patch Notes 🍄</h3>
+                            <p class="text-sm text-stone-600 mt-2">See what's new in our little cottage.</p>
+                            <a href="#" class="text-sage font-bold mt-4 inline-block hover:underline italic">Read more...</a>
                         </div>
                     </div>
                 </div>
 
-                <div id="contact-us" class="tab-content hidden space-y-6">
-                    <h2 class="text-3xl font-bold text-primary mb-4 border-b pb-2">Get In Touch</h2>
-                    <p class="text-gray-700 max-w-2xl">
-                        We're here to listen. Whether you have feedback, a bug report, or a partnership inquiry, please use the form below or reach out directly via email.
-                    </p>
-
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="card p-6 rounded-xl bg-gray-50 border-gray-200">
-                            <h3 class="text-xl font-semibold mb-4">Send a Message</h3>
-                            
-                           <form id="contact-form" class="space-y-4">
-    <div>
-        <label for="name-mail" class="block text-sm font-medium text-gray-700">Your Name</label>
-        <input type="text" id="name-mail" placeholder="AULYANABILA BINTI ANUAR" required class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:ring-primary-light focus:border-primary-light">
-    </div>
-    <div>
-        <label for="email-mail" class="block text-sm font-medium text-gray-700">Email Address</label>
-        <input type="email" id="email-mail" placeholder="aulyanabila.bella@gmail.com" required class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:ring-primary-light focus:border-primary-light">
-    </div>
-    <div>
-        <label for="message-mail" class="block text-sm font-medium text-gray-700">Message</label>
-        <textarea id="message-mail" rows="4" required class="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:ring-primary-light focus:border-primary-light"></textarea>
-    </div>
-    
-    <button type="submit" id="send-button" class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg hover:bg-indigo-500 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
-        <span>Send Message</span>
-        <span class="text-lg">📩</span>
-    </button>
-</form>
+                <div id="contact-us" class="tab-content hidden">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-6">
+                            <h2 class="serif-title text-4xl text-emerald-900">Send a Letter</h2>
+                            <p class="text-stone-600 italic">"Leave a message in our post box, and we'll get back to you soon."</p>
+                            <form id="contact-form" class="space-y-4">
+                                <input type="text" id="name-mail" placeholder="Your Name" required class="w-full p-4">
+                                <input type="email" id="email-mail" placeholder="Your Email" required class="w-full p-4">
+                                <textarea id="message-mail" rows="4" placeholder="Write your thoughts here..." class="w-full p-4"></textarea>
+                                <button type="submit" class="w-full btn-green">Send Letter 🕊️</button>
+                            </form>
                         </div>
-
-                        <div class="space-y-6 pt-4">
-                            <div class="flex items-start space-x-4">
-                                <span class="contact-icon text-primary">📧</span>
-                                <div>
-                                    <h4 class="font-semibold">Email Support</h4>
-                                    <p class="text-gray-600">For direct technical assistance or bug reports.</p>
-                                    <a href="mailto:support@yourdomain.com" class="text-primary hover:underline">support@yourdomain.com</a>
-                                </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-inner border border-stone-100 space-y-6">
+                            <h3 class="font-bold text-stone-400 uppercase tracking-widest text-xs">Direct Contact</h3>
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">📧</span>
+                                <p class="text-stone-700">hello@focuscottage.com</p>
                             </div>
-                            <div class="flex items-start space-x-4">
-                                <span class="contact-icon text-primary">💬</span>
-                                <div>
-                                    <h4 class="font-semibold">Live Chat</h4>
-                                    <p class="text-gray-600">Available Monday - Friday, 9am - 5pm EST.</p>
-                                    <span class="text-sm text-gray-500">Currently unavailable (placeholder)</span>
-                                </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🐦</span>
+                                <p class="text-stone-700">@focus_cottage</p>
                             </div>
-                            <div class="flex items-start space-x-4">
-                                <span class="contact-icon text-primary">📱</span>
-                                <div>
-                                    <h4 class="font-semibold">Social Media</h4>
-                                    <p class="text-gray-600">Follow us for updates and quick tips.</p>
-                                    <a href="#" class="text-primary hover:underline">@OurProductivityApp</a>
-                                </div>
+                            <div class="pt-10 opacity-30 text-center">
+                                <span class="text-6xl">🏡</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="faq" class="tab-content hidden space-y-6">
-                    <h2 class="text-3xl font-bold text-primary mb-4 border-b pb-2">Common Questions</h2>
-                    <p class="text-gray-700">Here are the answers to the questions we hear most often from our community members.</p>
-
-                    <div id="faq-accordion" class="space-y-4">
-                        <div class="border border-gray-200 rounded-lg">
-                            <button class="faq-toggle w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition-colors rounded-t-lg focus:outline-none">
-                                <span class="font-semibold text-gray-800">How do I save my notes?</span>
-                                <span class="faq-icon text-xl transform transition-transform duration-300">+</span>
+                    <h2 class="serif-title text-3xl text-emerald-900 mb-6">Common Curiosities</h2>
+                    <div class="space-y-4">
+                        <div class="border-b border-stone-100">
+                            <button class="faq-toggle w-full flex justify-between items-center py-4 text-left font-bold text-stone-700 hover:text-sage transition">
+                                <span>Are my notes safe in the cottage?</span>
+                                <span class="faq-icon">🌿</span>
                             </button>
                             <div class="accordion-content">
-                                <p class="p-4 text-gray-600 border-t border-gray-200">
-                                    Notes are saved automatically to your private user storage in our Firestore database as soon as you hit the "Save Note" button. They are tied to your unique user ID and are synchronized in real-time across any device where you are logged in.
-                                </p>
+                                <p class="pb-4 text-stone-500 italic">Yes, your notes are tucked away securely in our digital shed (Firebase), protected by the highest garden fences (Security Rules).</p>
                             </div>
                         </div>
-
-                        <div class="border border-gray-200 rounded-lg">
-                            <button class="faq-toggle w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none">
-                                <span class="font-semibold text-gray-800">What is the Pomodoro Technique?</span>
-                                <span class="faq-icon text-xl transform transition-transform duration-300">+</span>
+                        <div class="border-b border-stone-100">
+                            <button class="faq-toggle w-full flex justify-between items-center py-4 text-left font-bold text-stone-700 hover:text-sage transition">
+                                <span>What is a Pomodoro?</span>
+                                <span class="faq-icon">🌿</span>
                             </button>
                             <div class="accordion-content">
-                                <p class="p-4 text-gray-600 border-t border-gray-200">
-                                    The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s. It uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks. These intervals are known as "pomodoros." It encourages focused work and prevents burnout.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="border border-gray-200 rounded-lg">
-                            <button class="faq-toggle w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 transition-colors focus:outline-none">
-                                <span class="font-semibold text-gray-800">Is my data secure?</span>
-                                <span class="faq-icon text-xl transform transition-transform duration-300">+</span>
-                            </button>
-                            <div class="accordion-content">
-                                <p class="p-4 text-gray-600 border-t border-gray-200">
-                                    Yes. All user data, including notes and goals, is stored securely in Firebase Firestore. Data is siloed based on your authenticated user ID, ensuring that only you have read and write access to your private information, according to the strict security rules in place.
-                                </p>
+                                <p class="pb-4 text-stone-500 italic">Named after a tomato, but here we treat it like a planting cycle. 25 minutes of tending your garden, followed by a short rest in the shade.</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabs = document.querySelectorAll('.tab-button');
-            const contents = document.querySelectorAll('.tab-content');
-            const faqToggles = document.querySelectorAll('.faq-toggle');
+        // Tab Logic
+        const tabs = document.querySelectorAll('.tab-button');
+        const contents = document.querySelectorAll('.tab-content');
 
-            // --- 1. Tab Switching Logic ---
-            function switchTab(targetId) {
-                // Deactivate all tabs and hide all content
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(c => c.classList.add('hidden'));
-
-                // Activate the clicked tab and show target content
-                const activeTab = document.querySelector(`.tab-button[data-tab="${targetId}"]`);
-                const activeContent = document.getElementById(targetId);
-
-                if (activeTab && activeContent) {
-                    activeTab.classList.add('active');
-                    activeContent.classList.remove('hidden');
-                }
-            }
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    const targetId = e.currentTarget.getAttribute('data-tab');
-                    switchTab(targetId);
-                });
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.remove('hidden');
             });
+        });
 
-            // Start on the 'about-us' tab by default
-            switchTab('about-us');
-
-
-            // --- 2. FAQ Accordion Logic ---
-            faqToggles.forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const content = toggle.nextElementSibling;
-                    const icon = toggle.querySelector('.faq-icon');
-                    
-                    const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
-
-                    // Close all other accordions
-                    document.querySelectorAll('.accordion-content').forEach(c => {
-                        if (c !== content && c.style.maxHeight !== '0px') {
-                            c.style.maxHeight = '0px';
-                            c.previousElementSibling.querySelector('.faq-icon').classList.remove('rotate-45');
-                        }
-                    });
-
-                    // Toggle current accordion
-                    if (isOpen) {
-                        content.style.maxHeight = '0px';
-                        icon.classList.remove('rotate-45');
-                    } else {
-                        // Set max height based on scroll height for smooth transition
-                        content.style.maxHeight = content.scrollHeight + 'px';
-                        icon.classList.add('rotate-45');
-                    }
-                });
+        // Accordion Logic
+        document.querySelectorAll('.faq-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const isOpen = content.style.maxHeight !== '0px' && content.style.maxHeight !== '';
+                
+                document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = '0px');
+                if (!isOpen) content.style.maxHeight = content.scrollHeight + 'px';
             });
-
-            // --- 3. Contact Form Mailto Logic (NEW) ---
-            const contactForm = document.getElementById('contact-form');
-
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // 1. Get user input
-                    const name = document.getElementById('name-mail').value;
-                    const email = document.getElementById('email-mail').value;
-                    const message = document.getElementById('message-mail').value;
-                    
-                    // 2. Define the recipient email
-                    const recipient = 'support@yourdomain.com';
-
-                    // 3. Construct the mailto link parameters
-                    // URL-encode all values
-                    const subject = encodeURIComponent(`Inquiry from ${name}`);
-                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-
-                    // 4. Construct the full mailto link
-                    const mailtoLink = `mailto:${recipient}?subject=${subject}&body=${body}`;
-
-                    // 5. Open the mail client
-                    window.location.href = mailtoLink;
-                    
-                    // Optional: Reset the form after a short delay
-                    setTimeout(() => this.reset(), 100); 
-                });
-            }
         });
     </script>
 </body>
 </html>
-
-
-
-
