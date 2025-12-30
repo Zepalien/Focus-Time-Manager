@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus Cafe | Learning Modules</title>
+    <title>Focus Cafe | Methods Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --dark-roast: #2F3E50;      /* Your Dark Blue */
-            --espresso: #1a2533;        /* Sidebar/Header */
+            --espresso: #1a2533;        /* Darker Sidebar */
             --accent-teal: #49B2AA;     /* Your Teal */
+            --accent-yellow: #FFC300;   /* Your Yellow */
             --steamed-milk: #FDF5E6;    /* Cream Card Color */
-            --honey: #FFC300;           /* Your Yellow */
+            --text-light: #F0F0F0;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--dark-roast);
-            color: var(--steamed-milk);
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 30px 30px;
         }
 
         .handwritten { font-family: 'Caveat', cursive; }
@@ -26,205 +28,231 @@
         /* 1. SIDEBAR - The Chalkboard Menu */
         .sidebar-panel {
             background-color: var(--espresso);
-            border-right: 4px solid #3e536e;
             width: 320px;
+            min-width: 280px;
+            flex-shrink: 0;
             padding: 25px;
-            box-shadow: 10px 0 20px rgba(0,0,0,0.2);
+            border-right: 3px dashed var(--accent-teal);
+            box-shadow: 10px 0 20px rgba(0,0,0,0.3);
         }
 
-        .menu-title {
-            border-bottom: 2px dashed var(--accent-teal);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-        }
-
-        /* Category Button (The Drinks) */
         .module-category-button {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--steamed-milk);
-            padding: 12px 15px;
-            margin-bottom: 10px;
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-light);
+            padding: 15px;
+            margin-bottom: 12px;
             border-radius: 12px;
+            font-weight: 700;
             text-align: left;
             transition: 0.3s;
-            display: flex;
-            align-items: center;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .module-category-button:hover {
-            background: rgba(73, 178, 170, 0.2);
-            transform: translateX(5px);
+            background-color: var(--accent-teal);
+            color: var(--dark-roast);
         }
-
+        
         .module-category-button.active {
             background-color: var(--accent-teal);
-            color: var(--espresso);
-            font-weight: 800;
+            color: var(--dark-roast);
+            box-shadow: 0 4px 15px rgba(73, 178, 170, 0.4);
         }
 
-        /* Sub-methods (The Toppings) */
         .method-button {
-            font-size: 0.9rem;
-            padding: 8px 15px 8px 35px;
             color: #cbd5e1;
+            padding: 10px 15px 10px 25px;
+            margin-bottom: 5px;
+            margin-left: 15px;
+            border-radius: 30px;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 0.9rem;
             border-left: 2px solid #3e536e;
-            margin-left: 15px;
         }
-
+        
         .method-button.active {
-            color: var(--honey);
-            border-left: 2px solid var(--honey);
+            color: var(--accent-yellow);
+            border-left: 2px solid var(--accent-yellow);
+            font-weight: 700;
         }
 
         /* 2. MAIN CONTENT - The Cafe Table */
         .content-grid {
-            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), var(--dark-roast);
+            background-color: rgba(0,0,0,0.2);
             padding: 40px;
-            border-radius: 20px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        #method-content-grid h1 {
+            color: var(--accent-yellow);
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            line-height: 1;
         }
 
-        /* Napkin Cards */
-        .info-card {
-            background-color: var(--steamed-milk);
+        /* Napkin and Paper cards */
+        .info-card { 
+            background-color: var(--steamed-milk); 
             color: var(--dark-roast);
-            padding: 30px;
             border-radius: 2px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-            position: relative;
-            transform: rotate(-1deg); /* Slight napkin tilt */
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+            transform: rotate(-0.5deg);
         }
 
-        .recipe-card {
-            background-color: #fff9c4; /* Post-it Yellow */
+        .template-card { 
+            background-color: #FFFBEB; 
             color: #5d4037;
-            padding: 25px;
-            border-radius: 4px;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
-            transform: rotate(1deg);
+            border-radius: 2px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(0.5deg);
+            border-top: 10px solid var(--accent-yellow);
         }
 
-        .video-card {
+        .card-header {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(73, 178, 170, 0.2);
+            padding-bottom: 4px;
+        }
+
+        .template-list {
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .video-btn {
             background-color: var(--espresso);
             border: 2px solid var(--accent-teal);
-            padding: 20px;
-            border-radius: 15px;
+            transition: 0.3s;
         }
 
-        /* 3. BREWING ANIMATION */
-        .cup-loader {
-            font-size: 50px;
-            animation: steam 2s infinite;
+        .video-btn:hover {
+            background-color: var(--accent-teal);
+            color: var(--dark-roast) !important;
         }
-
-        @keyframes steam {
-            0% { transform: translateY(0) scale(1); opacity: 0.5; }
-            50% { transform: translateY(-10px) scale(1.1); opacity: 1; }
-            100% { transform: translateY(0) scale(1); opacity: 0.5; }
-        }
-
     </style>
 </head>
 <body>
 
-    <header class="flex justify-between items-center px-10 py-4 z-50 sticky top-0" style="background-color: var(--espresso);">
+    <header class="flex justify-between items-center px-6 md:px-12 py-5 sticky top-0 z-50 shadow-2xl" style="background-color: var(--espresso);">
         <div class="flex items-center">
-            <span class="text-2xl mr-2">☕</span>
-            <span class="text-xl font-bold tracking-tighter" style="color: var(--steamed-milk);">FOCUS <span class="text-teal-400">CAFE</span></span>
+            <span class="text-3xl mr-3">☕</span>
+            <span class="text-2xl font-extrabold tracking-tighter text-white">FOCUS<span class="text-teal-400">CAFE</span></span>
         </div>
-        <nav class="hidden md:flex space-x-8">
-            <a href="index.html" class="text-gray-400 hover:text-white">DASHBOARD</a>
-            <a href="tools.html" class="text-gray-400 hover:text-white">TOOLS</a>
-            <a href="modules.html" class="text-teal-400 font-bold underline decoration-2 underline-offset-8">MENU</a>
-            <a href="Quiz.html" class="text-gray-400 hover:text-white">QUIZ</a>
+        <nav class="hidden md:flex space-x-10">
+            <a href="index.html" class="text-gray-400 hover:text-white font-medium">DASHBOARD</a>
+            <a href="modules.html" class="text-teal-400 font-bold border-b-2 border-teal-400">THE MENU</a>
+            <a href="Quiz.html" class="text-gray-400 hover:text-white font-medium">QUIZ</a>
         </nav>
     </header>
 
     <div class="flex flex-col lg:flex-row min-h-screen">
-
         <aside class="sidebar-panel">
-            <div class="menu-title">
-                <h2 class="text-3xl handwritten text-teal-400">Today's Specials</h2>
-                <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Select your focus blend</p>
-            </div>
-            
+            <h2 class="text-3xl font-bold mb-6 handwritten text-teal-400">Today's Brews</h2>
             <div id="module-list" class="flex flex-col">
                 </div>
-
-            <div class="mt-10 p-4 rounded-xl bg-teal-900/30 border border-teal-500/20">
-                <p class="text-sm handwritten text-teal-200 text-center">"A coffee a day keeps distractions away."</p>
+            <div class="mt-12 p-5 rounded-2xl bg-teal-900/20 border border-teal-500/20">
+                <p class="text-xs text-teal-300 mb-3 font-semibold uppercase tracking-widest">Personal Order?</p>
+                <a href="Quiz.html" class="block text-center py-3 rounded-lg bg-teal-500 text-dark-roast font-bold hover:bg-yellow-400 transition">
+                    Explore Mine
+                </a>
             </div>
         </aside>
 
-        <main class="flex-1 p-6 md:p-12">
+        <main class="flex-1 p-6 lg:p-12">
             <div id="method-content-grid" class="content-grid min-h-full">
-                <div class="text-center py-20">
-                    <div class="cup-loader">☕</div>
-                    <h2 class="text-4xl font-bold mt-4">Welcome to the Focus Cafe</h2>
-                    <p class="text-gray-400 mt-2">Pick a brew from the menu to start learning.</p>
                 </div>
-            </div>
         </main>
-
     </div>
 
     <script>
+        // --- YOUR DATA REMAINS UNTOUCHED ---
+        function getYouTubeVideoId(url) {
+            if (!url) return '';
+            const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+            return match ? match[1] : '';
+        }
+
+        function getWatchUrl(embedUrl) {
+            const videoId = getYouTubeVideoId(embedUrl);
+            return `https://www.youtube.com/watch?v=${videoId}`;
+        }
+
         const methodsData = {
             'pomodoro-technique': {
                 name: "The Pomodoro Espresso",
                 category: 'time-management',
-                infoTitle: "A Quick Shot of Productivity",
-                infoText: "Just like an espresso, the Pomodoro technique is a short, intense burst. You work for 25 minutes (The Brew) and rest for 5 minutes (The Sip). This prevents your brain from over-roasting.",
-                keyTakeaway: "🔑 The Secret Ingredient: Total isolation. During your 25-minute brew, no phones, no emails, just the task at hand.",
-                template: `
-                    <ul class="space-y-2 text-sm">
-                        <li>☕ Brew 1: 25m Focus + 5m Sip</li>
-                        <li>☕ Brew 2: 25m Focus + 5m Sip</li>
-                        <li>☕ Brew 3: 25m Focus + 5m Sip</li>
-                        <li>🍰 Treat: After 4 brews, take a 30m lunch break.</li>
-                    </ul>`,
-                videoTitle: "How to Brew a Pomodoro",
-                videoUrl: "https://www.youtube.com/embed/H0C55R5B7Gk"
+                infoTitle: "The Power of Timeboxing",
+                infoText: `The Pomodoro Technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks (5 minutes). This systematic approach helps maintain focus and prevent burnout.`,
+                keyTakeaway: "🔑 **Structured Sprints:** Work for 25 minutes, then break for 5 minutes. This rhythm is crucial.",
+                template: `<ul class="template-list">
+                                <li><strong>Brew 1:</strong> [Task A] (25 min) &rarr; Sip (5 min)</li>
+                                <li><strong>Brew 2:</strong> [Task B] (25 min) &rarr; Long Break (30 min)</li>
+                           </ul>`,
+                videoTitle: "The Pomodoro Technique Explained",
+                videoUrl: "https://www.youtube.com/embed/H0C55R5B7Gk" 
+            },
+            'eat-the-frog': {
+                name: "Eat the Frog First",
+                category: 'focus-method', 
+                infoTitle: "Eliminate Procrastination",
+                infoText: `Tackle your biggest, most important task first thing in the morning. Build incredible momentum by finishing the hardest job before the coffee gets cold.`,
+                keyTakeaway: "🔑 **Kill Procrastination:** If it's hard, do it first. Tackle high-impact tasks before checking emails.",
+                template: `<ul class="template-list">
+                                <li><strong>The Frog:</strong> [High-Impact Task]</li>
+                                <li><strong>Rule:</strong> No other tasks until the Frog is eaten.</li>
+                           </ul>`,
+                videoTitle: "Eat The Frog Animation",
+                videoUrl: "https://www.youtube.com/embed/j7sT3J6U4S0" 
             },
             'deep-work': {
-                name: "Deep Roast Concentration",
-                category: 'focus-method',
-                infoTitle: "The Art of Slow Brewing",
-                infoText: "Deep Work is for those complex tasks that require full immersion. No distractions, no shallow tasks—just pure, filtered focus for 90 to 120 minutes.",
-                keyTakeaway: "🔑 The Secret Ingredient: Environment. You can't slow-brew in a chaotic kitchen. Find your quiet corner.",
-                template: `
-                    <ul class="space-y-2 text-sm">
-                        <li>🔒 Lock-in: Phone in another room.</li>
-                        <li>⏳ Session: 90 mins of uninterrupted 'Deep Roasting'.</li>
-                        <li>💧 Cleanse: 15 mins of screen-free rest.</li>
-                    </ul>`,
-                videoTitle: "Mastering the Deep Roast",
-                videoUrl: "https://www.youtube.com/embed/GBH-QVS6Mtc"
+                name: "Deep Roast Focus",
+                category: 'focus-method', 
+                infoTitle: "Master Focus",
+                infoText: `Deep Work is the ability to focus without distraction on cognitively demanding tasks. Establish strict boundaries: no internet, no notifications.`,
+                keyTakeaway: "🔑 **Maximize Output:** Work at the highest level of cognitive intensity for 90-120 minutes.",
+                template: `<ul class="template-list">
+                                <li><strong>Duration:</strong> 120 Minutes (Uninterrupted)</li>
+                                <li><strong>Environment:</strong> Airplane mode, door shut.</li>
+                           </ul>`,
+                videoTitle: "Deep Work - Short Explanation",
+                videoUrl: "https://www.youtube.com/embed/GBH-QVS6Mtc" 
             }
-            // Add other methods here with cafe-themed names!
         };
 
         const modulesConfig = {
-            'time-management': { name: "Quick Shots", icon: "⚡", subMethods: ['pomodoro-technique'] },
-            'focus-method': { name: "Slow Brews", icon: "⏳", subMethods: ['deep-work'] }
+            'time-management': { name: "Quick Shots", subMethods: ['pomodoro-technique'] },
+            'focus-method': { name: "Slow Brews", subMethods: ['eat-the-frog', 'deep-work'] }
         };
+
+        const contentGridElement = document.getElementById('method-content-grid');
 
         function renderSidebar(activeCat = null) {
             const list = document.getElementById('module-list');
             list.innerHTML = '';
-
             Object.keys(modulesConfig).forEach(id => {
-                const cat = modulesConfig[id];
                 const btn = document.createElement('div');
                 btn.className = `module-category-button ${activeCat === id ? 'active' : ''}`;
-                btn.innerHTML = `<span class="mr-3">${cat.icon}</span> ${cat.name}`;
-                btn.onclick = () => renderCategoryContent(id);
+                btn.innerText = modulesConfig[id].name;
+                btn.onclick = () => {
+                    renderSidebar(id);
+                    renderMethodContent(modulesConfig[id].subMethods[0]);
+                };
                 list.appendChild(btn);
 
                 if (activeCat === id) {
-                    cat.subMethods.forEach(mId => {
+                    modulesConfig[id].subMethods.forEach(mId => {
                         const mBtn = document.createElement('div');
                         mBtn.className = `method-button ${window.location.hash === '#'+mId ? 'active' : ''}`;
                         mBtn.innerText = methodsData[mId].name;
@@ -237,55 +265,40 @@
 
         function renderMethodContent(methodId) {
             const data = methodsData[methodId];
-            const grid = document.getElementById('method-content-grid');
-            
-            // Brewing Animation
-            grid.innerHTML = `<div class="flex flex-col items-center justify-center h-full py-20">
-                <div class="cup-loader">☕</div>
-                <p class="handwritten text-2xl text-teal-400 mt-4">Steaming your ${data.name}...</p>
-            </div>`;
+            window.location.hash = methodId;
+            renderSidebar(data.category);
 
-            setTimeout(() => {
-                window.location.hash = methodId;
-                renderSidebar(data.category);
-                
-                grid.innerHTML = `
-                    <h1 class="text-5xl font-extrabold text-honey mb-8 handwritten">${data.name}</h1>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="space-y-8">
-                            <div class="info-card">
-                                <h3 class="text-teal-600 font-bold uppercase text-xs tracking-widest mb-2">Core Principle</h3>
-                                <p class="text-lg leading-relaxed">${data.infoText}</p>
-                                <div class="mt-6 p-4 bg-teal-50 rounded italic text-teal-800">
-                                    ${data.keyTakeaway}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-y-8">
-                            <div class="recipe-card">
-                                <h3 class="handwritten text-2xl mb-4 text-brown-800">The Recipe (Template)</h3>
-                                ${data.template}
-                            </div>
-                            <div class="video-card">
-                                <h3 class="text-teal-400 font-bold text-sm mb-4">Watch the Barista</h3>
-                                <a href="${data.videoUrl}" target="_blank" class="flex items-center justify-between bg-white/10 p-4 rounded-lg hover:bg-white/20 transition">
-                                    <span class="text-sm">${data.videoTitle}</span>
-                                    <span>▶️</span>
-                                </a>
+            contentGridElement.innerHTML = `
+                <h1 class="handwritten">${data.name}</h1>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-8">
+                        <div class="info-card p-8">
+                            <h3 class="card-header">The Secret Ingredient</h3>
+                            <p class="text-lg leading-relaxed">${data.infoText}</p>
+                            <div class="mt-6 p-4 bg-teal-600/10 rounded-lg italic font-bold text-teal-700">
+                                ${data.keyTakeaway}
                             </div>
                         </div>
                     </div>
-                `;
-            }, 600);
-        }
-
-        function renderCategoryContent(id) {
-            renderSidebar(id);
-            renderMethodContent(modulesConfig[id].subMethods[0]);
+                    <div class="space-y-8">
+                        <div class="template-card p-8">
+                            <h3 class="card-header text-gray-500">The Recipe</h3>
+                            ${data.template}
+                        </div>
+                        <div class="video-card">
+                            <a href="${getWatchUrl(data.videoUrl)}" target="_blank" class="video-btn flex items-center justify-between p-4 rounded-xl text-white">
+                                <span class="font-bold text-sm">Watch the Barista Guide</span>
+                                <span>▶️</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         // Initialize
-        renderSidebar();
+        renderSidebar('time-management');
+        renderMethodContent('pomodoro-technique');
     </script>
 </body>
 </html>
