@@ -92,7 +92,8 @@ body{
     border-radius:14px;
     font-weight:600;
     margin-right:15px;
-    margin-bottom: 15px;
+    margin-bottom:15px;
+    transition: all 0.3s ease;
 }
 
 .btn-dashboard{
@@ -106,19 +107,13 @@ body{
     color:var(--dark-blue);
 }
 
-/* ========= BUTTON HOVER EFFECT ========= */
-.actions a{
-    transition: all 0.3s ease;
-}
-
-/* Dashboard button */
+/* Hover */
 .btn-dashboard:hover{
     background:#ffb305;
     transform: translateY(-3px);
     box-shadow:0 25px 25px rgba(0,0,0,0.15);
 }
 
-/* Video button */
 .btn-video:hover{
     background:#f5f8ff;
     border-color:#c9d6ff;
@@ -126,26 +121,45 @@ body{
     box-shadow:0 10px 20px rgba(0,0,0,0.12);
 }
 
-
-/* ========= RIGHT ========= */
-.illustration{
-    background:linear-gradient(135deg,#f2f6ff,#ffffff);
-    border-radius:24px;
-    padding:40px;
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+/* ========= RIGHT (VIDEO) ========= */
+.video-wrapper a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
 }
 
-.illustration span{
-    font-size:110px;
+.video-wrapper img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+    border-radius: 18px;
 }
 
-.illustration p{
-    margin-top:20px;
-    color:#6a7a99;
+/* Play icon overlay */
+.play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
+
+/* Hover effects */
+.video-wrapper a:hover img {
+    transform: scale(1.05);
+}
+
+.video-wrapper a:hover .play-overlay {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
 
 /* ========= FOOTER ========= */
 footer{
@@ -188,24 +202,33 @@ footer{
         </p>
 
         <div class="actions">
-            <!-- LINK KE DASHBOARD -->
             <a href="dashboard.html" class="btn-dashboard">
                 Enter Our Website →
             </a>
 
-            <!-- LINK YOUTUBE -->
-            <a href="https://youtu.be/QQLCzqqPWuw" 
-               target="_blank" 
-               class="btn-video">
+            <a href="https://youtu.be/QQLCzqqPWuw" target="_blank" class="btn-video">
                 Watch Demo 🎬
             </a>
         </div>
     </div>
 
-    <!-- RIGHT -->
-    <div class="illustration">
-        <span>🧑‍💻📚</span>
-        <p>Plan • Focus • Achieve</p>
+    <!-- RIGHT (YOUTUBE PREVIEW) -->
+    <!-- RIGHT (YOUTUBE PREVIEW) -->
+<div class="illustration">
+    <div class="video-wrapper">
+        <a href="https://youtu.be/QQLCzqqPWuw" target="_blank" class="video-link">
+            <img src="IML513/gambar_coding/preview.png" alt="Video Preview">
+            <div class="play-overlay">▶</div>
+        </a>
+    </div>
+    <p>Watch how FOCUS works</p>
+</div>
+
+
+
+
+        </div>
+        <p>Watch how FOCUS works</p>
     </div>
 
 </div>
