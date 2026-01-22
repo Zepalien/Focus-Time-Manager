@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOCUS | Welcome</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* ========= COLOR THEME ========= */
+:root{
+    --dark-blue:#2F3E50;
+    --accent-yellow:#FFC300;
+    --accent-teal:#49B2AA;
+    --bg:#e8daf0;
+    --white:#ffffff;
+    --text:#1f2a44;
+}
+
+body{
+    background:var(--bg);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ========= MAIN CARD ========= */
+.welcome-box{
+    background:var(--white);
+    max-width:900px;
+    width:90%;
+    border-radius:28px;
+    padding:60px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:40px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.12);
+}
+
+/* ========= LEFT ========= */
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+    background:var(--dark-blue);
+    color:var(--accent-yellow);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    font-size:22px;
+    font-weight:800;
+}
+
+.brand h1{
+    font-size:2rem;
+    font-weight:800;
+}
+
+.tagline{
+    font-size:1.15rem;
+    color:#5c6f91;
+    margin-bottom:30px;
+}
+
+.desc{
+    color:#6a7a99;
+    margin-bottom:35px;
+    max-width:420px;
+}
+
+/* ========= BUTTONS ========= */
+.actions a{
+    display:inline-block;
+    text-decoration:none;
+    padding:15px 22px;
+    border-radius:14px;
+    font-weight:600;
+    margin-right:15px;
+    margin-bottom: 15px;
+}
+
+.btn-dashboard{
+    background:var(--accent-yellow);
+    color:#1a1a1a;
+}
+
+.btn-video{
+    background:white;
+    border:2px solid #e0e7ff;
+    color:var(--dark-blue);
+}
+
+/* ========= BUTTON HOVER EFFECT ========= */
+.actions a{
+    transition: all 0.3s ease;
+}
+
+/* Dashboard button */
+.btn-dashboard:hover{
+    background:#ffb305;
+    transform: translateY(-3px);
+    box-shadow:0 25px 25px rgba(0,0,0,0.15);
+}
+
+/* Video button */
+.btn-video:hover{
+    background:#f5f8ff;
+    border-color:#c9d6ff;
+    transform: translateY(-3px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.12);
+}
+
+
+/* ========= RIGHT ========= */
+.illustration{
+    background:linear-gradient(135deg,#f2f6ff,#ffffff);
+    border-radius:24px;
+    padding:40px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.illustration span{
+    font-size:110px;
+}
+
+.illustration p{
+    margin-top:20px;
+    color:#6a7a99;
+}
+
+/* ========= FOOTER ========= */
+footer{
+    position:absolute;
+    bottom:20px;
+    font-size:0.9rem;
+    color:#6a7a99;
+}
+
+/* ========= RESPONSIVE ========= */
+@media(max-width:900px){
+    .welcome-box{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+    .desc{
+        margin:0 auto 35px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="welcome-box">
+
+    <!-- LEFT -->
+    <div>
+        <div class="brand">
+            <div class="logo">🎯</div>
+            <h1>FOCUS</h1>
+        </div>
+
+        <p class="tagline">
+            Study Smart. Stay Focused.
+        </p>
+
+        <p class="desc">
+            FOCUS helps students manage their time, improve concentration, and identify their learning styles more effectively.
+        </p>
+
+        <div class="actions">
+            <!-- LINK KE DASHBOARD -->
+            <a href="dashboard.html" class="btn-dashboard">
+                Enter Our Website →
+            </a>
+
+            <!-- LINK YOUTUBE -->
+            <a href="https://youtu.be/QQLCzqqPWuw" 
+               target="_blank" 
+               class="btn-video">
+                Watch Demo 🎬
+            </a>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="illustration">
+        <span>🧑‍💻📚</span>
+        <p>Plan • Focus • Achieve</p>
+    </div>
+
+</div>
+
+<footer>
+    © 2025 FOCUS. All rights reserved.
+</footer>
+
+</body>
+</html>
